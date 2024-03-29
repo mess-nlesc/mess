@@ -1,0 +1,1420 @@
+;;;this is for GC variation
+to FarmersHarvestEvaluation
+  ask patches with [LandType = 3]                                          ;; ask the storage patch
+  [
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;for the primary canal;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    set FarmersHarvestFieldsList (list NumberofHarvestFieldsF1 NumberofHarvestFieldsF2 NumberofHarvestFieldsF3 NumberofHarvestFieldsF4 NumberofHarvestFieldsF5 NumberofHarvestFieldsF6 NumberofHarvestFieldsF7 NumberofHarvestFieldsF8 NumberofHarvestFieldsF9 NumberofHarvestFieldsF10)
+    set UpstreamfarmersHarvestFieldsList (list NumberofHarvestFieldsF1 NumberofHarvestFieldsF2 NumberofHarvestFieldsF3)
+    set MiddlestreamfarmersHarvestFieldsList (list NumberofHarvestFieldsF4 NumberofHarvestFieldsF5 NumberofHarvestFieldsF6 NumberofHarvestFieldsF7 )
+    set DownstreamfarmersHarvestFieldsList (list NumberofHarvestFieldsF8 NumberofHarvestFieldsF9 NumberofHarvestFieldsF10)
+    set FarmersBarleyYieldList (list BarleyYieldPerYearF1 BarleyYieldPerYearF2 BarleyYieldPerYearF3 BarleyYieldPerYearF4 BarleyYieldPerYearF5 BarleyYieldPerYearF6 BarleyYieldPerYearF7 BarleyYieldPerYearF8 BarleyYieldPerYearF9 BarleyYieldPerYearF10 )                                   ;; the list for F1-10's yields
+    set UpstreamFarmersBarleyYieldList (list BarleyYieldPerYearF1 BarleyYieldPerYearF2 BarleyYieldPerYearF3 )                                                ;; the yields list for upstream farmers: F1 F2 F3
+    set MiddlestreamFarmersBarleyYieldList (list BarleyYieldPerYearF4 BarleyYieldPerYearF5 BarleyYieldPerYearF6 BarleyYieldPerYearF7 )                       ;; the yields list for middle stream farmers: F4 F5 F6 F7
+    set DownstreamFarmersBarleyYieldList (list BarleyYieldPerYearF8 BarleyYieldPerYearF9 BarleyYieldPerYearF10 )                                             ;; the yields list for downstream farmers: F8 F9 F10
+    ifelse CompareOnceAYear = true
+    [
+;; the primary canal, harvest situation comparison
+      if pxcor > 25 and pycor > 17
+      [
+        if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+        [
+          ;;farmers have the same number of harvested fields;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+          if NumberofHarvestFieldsF1 = NumberofHarvestFieldsF2
+          [
+            if NumberofHarvestFieldsF2 = NumberofHarvestFieldsF3
+            [
+              if NumberofHarvestFieldsF3 = NumberofHarvestFieldsF4
+              [
+                if NumberofHarvestFieldsF4 = NumberofHarvestFieldsF5
+                [
+                  if NumberofHarvestFieldsF5 = NumberofHarvestFieldsF6
+                  [
+                    if NumberofHarvestFieldsF6 = NumberofHarvestFieldsF7
+                    [
+                      if NumberofHarvestFieldsF7 = NumberofHarvestFieldsF8
+                      [
+                        if NumberofHarvestFieldsF8 = NumberofHarvestFieldsF9
+                        [
+                          if NumberofHarvestFieldsF9 = NumberofHarvestFieldsF10
+                          [
+                            ;; compare the yields of each farmer;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            if BarleyYieldPerYearF1 = BarleyYieldPerYearF2
+                            [
+                              if BarleyYieldPerYearF2 = BarleyYieldPerYearF3
+                              [
+                                if BarleyYieldPerYearF3 = BarleyYieldPerYearF4
+                                [
+                                  if BarleyYieldPerYearF4 = BarleyYieldPerYearF5
+                                  [
+                                    if BarleyYieldPerYearF5 = BarleyYieldPerYearF6
+                                    [
+                                      if BarleyYieldPerYearF6 = BarleyYieldPerYearF7
+                                      [
+                                        if BarleyYieldPerYearF7 = BarleyYieldPerYearF8
+                                        [
+                                          if BarleyYieldPerYearF8 = BarleyYieldPerYearF9
+                                          [
+                                            if BarleyYieldPerYearF9 = BarleyYieldPerYearF10
+                                            [
+                                              ;;nothing to change;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                              set CompareOnceAYear true
+                                              set ContinuousPoorYearNumberPrimary 0
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                            if one-of UpstreamFarmersBarleyYieldList > one-of MiddlestreamfarmersBarleyYieldList or one-of UpstreamfarmersBarleyYieldList > one-of DownstreamfarmersBarleyYieldList or one-of MiddlestreamfarmersBarleyYieldList > one-of DownstreamfarmersBarleyYieldList
+                            [
+                              set CompareOnceAYear false
+                              set CompareEveryTwoYearsPrimary true                            ;; the procedure of comparing the harvest every two years
+                              set ContinuousPoorYearNumberPrimary (ContinuousPoorYearNumberPrimary + 1)                                        ;; record the number of times when poor year appears
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      if pxcor > 25 and pycor < 17 and pycor > 14                                                                    ;; lower side of the primary canal
+      [
+        if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+        [
+          ;;farmers have the same number of harvested fields;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+          if NumberofHarvestFieldsF1 = NumberofHarvestFieldsF2
+          [
+            if NumberofHarvestFieldsF2 = NumberofHarvestFieldsF3
+            [
+              if NumberofHarvestFieldsF3 = NumberofHarvestFieldsF4
+              [
+                if NumberofHarvestFieldsF4 = NumberofHarvestFieldsF5
+                [
+                  if NumberofHarvestFieldsF5 = NumberofHarvestFieldsF6
+                  [
+                    if NumberofHarvestFieldsF6 = NumberofHarvestFieldsF7
+                    [
+                      if NumberofHarvestFieldsF7 = NumberofHarvestFieldsF8
+                      [
+                        if NumberofHarvestFieldsF8 = NumberofHarvestFieldsF9
+                        [
+                          if NumberofHarvestFieldsF9 = NumberofHarvestFieldsF10
+                          [
+                            ;; compare the yields of each farmer;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            if BarleyYieldPerYearF1 = BarleyYieldPerYearF2
+                            [
+                              if BarleyYieldPerYearF2 = BarleyYieldPerYearF3
+                              [
+                                if BarleyYieldPerYearF3 = BarleyYieldPerYearF4
+                                [
+                                  if BarleyYieldPerYearF4 = BarleyYieldPerYearF5
+                                  [
+                                    if BarleyYieldPerYearF5 = BarleyYieldPerYearF6
+                                    [
+                                      if BarleyYieldPerYearF6 = BarleyYieldPerYearF7
+                                      [
+                                        if BarleyYieldPerYearF7 = BarleyYieldPerYearF8
+                                        [
+                                          if BarleyYieldPerYearF8 = BarleyYieldPerYearF9
+                                          [
+                                            if BarleyYieldPerYearF9 = BarleyYieldPerYearF10
+                                            [
+                                              ;;nothing to change;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                              set CompareOnceAYear true
+                                              set ContinuousPoorYearNumberPrimary 0
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                            if one-of UpstreamFarmersBarleyYieldList > one-of MiddlestreamfarmersBarleyYieldList or one-of UpstreamfarmersBarleyYieldList > one-of DownstreamfarmersBarleyYieldList or one-of MiddlestreamfarmersBarleyYieldList > one-of DownstreamfarmersBarleyYieldList
+                            [
+                              set CompareOnceAYear false
+                              set CompareEveryTwoYearsPrimary true                            ;; the procedure of comparing the harvest every two years
+                              set ContinuousPoorYearNumberPrimary (ContinuousPoorYearNumberPrimary + 1)                                        ;; record the number of times when poor year appears
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      ;;farmers have the different number of harvested fieds;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      if pxcor > 25 and pycor > 14
+      [
+        if one-of UpstreamfarmersHarvestFieldsList > one-of MiddlestreamfarmersHarvestFieldsList or one-of UpstreamfarmersHarvestFieldsList > one-of DownstreamfarmersHarvestFieldsList or one-of MiddlestreamfarmersHarvestFieldsList > one-of DownstreamfarmersHarvestFieldsList
+        [
+          set CompareOnceAYear false                                       ;; record the number of times when poor year appears
+          set CompareEveryTwoYearsPrimary true                            ;; the procedure of comparing the harvest every two years
+          set ContinuousPoorYearNumberPrimary (ContinuousPoorYearNumberPrimary + 1)                                        ;; record the number of times when poor year appears
+        ]
+      ]
+
+;;for the secondary canal, F11-13
+      if pxcor > 25 and pycor < 15                                                                  
+      [
+        if [pcolor] of patch 38 9 = red + 2 and [pcolor] of patch 38 7 != red + 2
+        [
+          ;; left side of the secondary canal
+          if pxcor < 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                  [
+                    if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                    [
+                      set CompareOnceAYear true
+                      set ContinuousPoorYearNumberSecondary 0
+                    ]
+                  ]
+                  if BarleyYieldPerYearF11 > BarleyYieldPerYearF12 or BarleyYieldPerYearF12 > BarleyYieldPerYearF13 or BarleyYieldPerYearF11 > BarleyYieldPerYearF13
+                  [
+                    set CompareOnceAYear false
+                    set CompareEveryTwoYearsSecondary true                            ;; the procedure of comparing the harvest every two years
+                    set ContinuousPoorYearNumberSecondary (ContinuousPoorYearNumberSecondary + 1)                                        ;; record the number of times when poor year appears
+                  ]
+                ]
+              ]
+            ]
+          ]
+          ;; left side of the secondary canal
+          if pxcor > 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                  [
+                    if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                    [
+                      set CompareOnceAYear true
+                      set ContinuousPoorYearNumberSecondary 0
+                    ]
+                  ]
+                  if BarleyYieldPerYearF11 > BarleyYieldPerYearF12 or BarleyYieldPerYearF12 > BarleyYieldPerYearF13 or BarleyYieldPerYearF11 > BarleyYieldPerYearF13
+                  [
+                    set CompareOnceAYear false
+                    set CompareEveryTwoYearsSecondary true                            ;; the procedure of comparing the harvest every two years
+                    set ContinuousPoorYearNumberSecondary (ContinuousPoorYearNumberSecondary + 1)                                        ;; record the number of times when poor year appears
+                  ]
+                ]
+              ]
+            ]
+          ]
+          ;;farmers have the different number of harvested fieds
+          if NumberofHarvestFieldsF11 > NumberofHarvestFieldsF12 or NumberofHarvestFieldsF12 > NumberofHarvestFieldsF13 or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF12       ;; compare the yields of each farmer
+          [
+            set CompareOnceAYear false
+            set CompareEveryTwoYearsSecondary true                            ;; the procedure of comparing the harvest every two years
+            set ContinuousPoorYearNumberSecondary (ContinuousPoorYearNumberSecondary + 1)                                        ;; record the number of times when poor year appears
+          ]
+        ]
+      ]
+    ]
+    [
+      if CompareEveryTwoYearsPrimary = true
+      [
+        set ComparisonCountDownPrimary (ComparisonCountDownPrimary - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+        SystemsReaction_PrimaryCanal
+      ]
+      if CompareEveryTwoYearsSecondary = true
+      [
+        set ComparisonCountDownSecondary (ComparisonCountDownSecondary - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+        SystemsReaction_SecondaryCanal
+      ]
+    ]
+
+    if ComparisonCountDownPrimary = 0
+    [
+      set ComparisonCountDownPrimary (ComparisonTime + 1)
+      ;; for primary canal
+      if pxcor > 25 and pycor > 17
+      [
+        if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+        [
+          ;;farmers have the same number of harvested fields;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+          if NumberofHarvestFieldsF1 = NumberofHarvestFieldsF2
+          [
+            if NumberofHarvestFieldsF2 = NumberofHarvestFieldsF3
+            [
+              if NumberofHarvestFieldsF3 = NumberofHarvestFieldsF4
+              [
+                if NumberofHarvestFieldsF4 = NumberofHarvestFieldsF5
+                [
+                  if NumberofHarvestFieldsF5 = NumberofHarvestFieldsF6
+                  [
+                    if NumberofHarvestFieldsF6 = NumberofHarvestFieldsF7
+                    [
+                      if NumberofHarvestFieldsF7 = NumberofHarvestFieldsF8
+                      [
+                        if NumberofHarvestFieldsF8 = NumberofHarvestFieldsF9
+                        [
+                          if NumberofHarvestFieldsF9 = NumberofHarvestFieldsF10
+                          [
+                            ;; compare the yields of each farmer;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            if BarleyYieldPerYearF1 = BarleyYieldPerYearF2
+                            [
+                              if BarleyYieldPerYearF2 = BarleyYieldPerYearF3
+                              [
+                                if BarleyYieldPerYearF3 = BarleyYieldPerYearF4
+                                [
+                                  if BarleyYieldPerYearF4 = BarleyYieldPerYearF5
+                                  [
+                                    if BarleyYieldPerYearF5 = BarleyYieldPerYearF6
+                                    [
+                                      if BarleyYieldPerYearF6 = BarleyYieldPerYearF7
+                                      [
+                                        if BarleyYieldPerYearF7 = BarleyYieldPerYearF8
+                                        [
+                                          if BarleyYieldPerYearF8 = BarleyYieldPerYearF9
+                                          [
+                                            if BarleyYieldPerYearF9 = BarleyYieldPerYearF10
+                                            [
+                                              ;;nothing to change;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                              set CompareOnceAYear true
+                                              set ContinuousPoorYearNumberPrimary 0
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                            if one-of UpstreamFarmersBarleyYieldList > one-of MiddlestreamfarmersBarleyYieldList or one-of UpstreamfarmersBarleyYieldList > one-of DownstreamfarmersBarleyYieldList or one-of MiddlestreamfarmersBarleyYieldList > one-of DownstreamfarmersBarleyYieldList
+                            [
+                              set CompareOnceAYear false
+                              set CompareEveryTwoYearsPrimary true                            ;; the procedure of comparing the harvest every two years
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      if pxcor > 25 and pycor < 17 and pycor > 14                                                                    ;; lower side of the primary canal
+      [
+        if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+        [
+          ;;farmers have the same number of harvested fields;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+          if NumberofHarvestFieldsF1 = NumberofHarvestFieldsF2
+          [
+            if NumberofHarvestFieldsF2 = NumberofHarvestFieldsF3
+            [
+              if NumberofHarvestFieldsF3 = NumberofHarvestFieldsF4
+              [
+                if NumberofHarvestFieldsF4 = NumberofHarvestFieldsF5
+                [
+                  if NumberofHarvestFieldsF5 = NumberofHarvestFieldsF6
+                  [
+                    if NumberofHarvestFieldsF6 = NumberofHarvestFieldsF7
+                    [
+                      if NumberofHarvestFieldsF7 = NumberofHarvestFieldsF8
+                      [
+                        if NumberofHarvestFieldsF8 = NumberofHarvestFieldsF9
+                        [
+                          if NumberofHarvestFieldsF9 = NumberofHarvestFieldsF10
+                          [
+                            ;; compare the yields of each farmer;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                            if BarleyYieldPerYearF1 = BarleyYieldPerYearF2
+                            [
+                              if BarleyYieldPerYearF2 = BarleyYieldPerYearF3
+                              [
+                                if BarleyYieldPerYearF3 = BarleyYieldPerYearF4
+                                [
+                                  if BarleyYieldPerYearF4 = BarleyYieldPerYearF5
+                                  [
+                                    if BarleyYieldPerYearF5 = BarleyYieldPerYearF6
+                                    [
+                                      if BarleyYieldPerYearF6 = BarleyYieldPerYearF7
+                                      [
+                                        if BarleyYieldPerYearF7 = BarleyYieldPerYearF8
+                                        [
+                                          if BarleyYieldPerYearF8 = BarleyYieldPerYearF9
+                                          [
+                                            if BarleyYieldPerYearF9 = BarleyYieldPerYearF10
+                                            [
+                                              ;;nothing to change;;;;;;;;;;;;;;;;;;;;;;;;;;
+                                              set CompareOnceAYear true
+                                              set ContinuousPoorYearNumberPrimary 0
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
+                            ]
+                            if one-of UpstreamFarmersBarleyYieldList > one-of MiddlestreamfarmersBarleyYieldList or one-of UpstreamfarmersBarleyYieldList > one-of DownstreamfarmersBarleyYieldList or one-of MiddlestreamfarmersBarleyYieldList > one-of DownstreamfarmersBarleyYieldList
+                            [
+                              set CompareOnceAYear false
+                              set CompareEveryTwoYearsPrimary true                            ;; the procedure of comparing the harvest every two years
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      if pxcor > 25 and pycor > 14
+      [
+        ;;farmers have the different number of harvested fieds;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        if one-of UpstreamfarmersHarvestFieldsList > one-of MiddlestreamfarmersHarvestFieldsList or one-of UpstreamfarmersHarvestFieldsList > one-of DownstreamfarmersHarvestFieldsList or one-of MiddlestreamfarmersHarvestFieldsList > one-of DownstreamfarmersHarvestFieldsList
+        [
+          ;; compare the yields of each farmer
+          set CompareOnceAYear false
+          set CompareEveryTwoYearsPrimary true                            ;; the procedure of comparing the harvest every two years
+        ] 
+      ]     
+      if CompareEveryTwoYearsPrimary = true                            ;; the procedure of comparing the harvest every two years
+      [
+        set ComparisonCountDownPrimary (ComparisonCountDownPrimary - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+        set ContinuousPoorYearNumberPrimary (ContinuousPoorYearNumberPrimary + 1)                                        ;; record the number of times when poor year appears
+        SystemsReaction_PrimaryCanal
+      ]
+    ]
+
+    if ComparisonCountDownSecondary = 0
+    [
+      set ComparisonCountDownSecondary (ComparisonTime + 1)
+;;for the secondary canal, F11-13
+      if pxcor > 25 and pycor < 15                                                                  ;; left side of the secondary canal
+      [
+        if [pcolor] of patch 38 9 = red + 2 and [pcolor] of patch 38 7 != red + 2
+        [          
+          ;; left side of the canal
+          if pxcor < 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                  [
+                    if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                    [
+                      set CompareOnceAYear true
+                      set ContinuousPoorYearNumberSecondary 0
+                    ]
+                  ]
+                  if BarleyYieldPerYearF11 > BarleyYieldPerYearF12 or BarleyYieldPerYearF12 > BarleyYieldPerYearF13 or BarleyYieldPerYearF11 > BarleyYieldPerYearF13
+                  [
+                    set CompareOnceAYear false
+                    set CompareEveryTwoYearsSecondary true                            ;; the procedure of comparing the harvest every two years
+                  ]
+                ]
+              ]
+            ]
+          ]
+          ;; right side of the secondary canal
+          if pxcor > 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                  [
+                    if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                    [
+                      set CompareOnceAYear true
+                      set ContinuousPoorYearNumberSecondary 0
+                    ]
+                  ]
+                  if BarleyYieldPerYearF11 > BarleyYieldPerYearF12 or BarleyYieldPerYearF12 > BarleyYieldPerYearF13 or BarleyYieldPerYearF11 > BarleyYieldPerYearF13
+                  [
+                    set CompareOnceAYear false
+                    set CompareEveryTwoYearsSecondary true                            ;; the procedure of comparing the harvest every two years
+                  ]
+                ]
+              ]
+            ]
+          ]
+          ;;farmers have the different number of harvested fieds
+          if NumberofHarvestFieldsF11 > NumberofHarvestFieldsF12 or NumberofHarvestFieldsF12 > NumberofHarvestFieldsF13 or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF12       ;; compare the yields of each farmer
+          [
+            set CompareOnceAYear false
+            set CompareEveryTwoYearsSecondary true                            ;; the procedure of comparing the harvest every two years
+          ]
+  
+          if CompareEveryTwoYearsSecondary = true                            ;; the procedure of comparing the harvest every two years
+          [
+            set ComparisonCountDownSecondary (ComparisonCountDownSecondary - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            set ContinuousPoorYearNumberSecondary (ContinuousPoorYearNumberSecondary + 1)                                        ;; record the number of times when poor year appears
+            SystemsReaction_SecondaryCanal
+          ]
+        ]
+      ]
+    ]
+  ]
+end
+
+to FarmersHarvestEvaluationF17-19                                      ;; for GC variation
+  ask patches with [LandType = 3]                                      ;;ask the storage patch
+  [
+    ifelse CompareOnceAYearF17-19 = true
+    [
+      if pxcor < 25 and pycor > 17
+      [
+        if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+        [
+          ;;farmers have the same number of harvested fields
+          if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+          [
+            if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+            [
+              ;; compare the yields of each farmer
+              if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+              [
+                if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                [
+                  ;;nothing to change
+                  set CompareOnceAYearF17-19 true
+                  set ContinuousPoorYearNumberF17-19 0
+                ]
+              ]
+              if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF19
+              [
+                set CompareOnceAYearF17-19 false
+                set CompareEveryTwoYearsF17-19 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                set ContinuousPoorYearNumberF17-19 (ContinuousPoorYearNumberF17-19 + 1)                                        ;; record the number of times when poor year appears
+              ]              
+            ]
+          ]
+        ]
+      ]
+      if pxcor < 25 and pycor < 17
+      [
+        if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+        [
+          ;;farmers have the same number of harvested fields
+          if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+          [
+            if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+            [
+              ;; compare the yields of each farmer
+              if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+              [
+                if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                [
+                  ;;nothing to change
+                  set CompareOnceAYearF17-19 true
+                  set ContinuousPoorYearNumberF17-19 0
+                ]
+              ]
+              if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF19
+              [
+                set CompareOnceAYearF17-19 false
+                set CompareEveryTwoYearsF17-19 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                set ContinuousPoorYearNumberF17-19 (ContinuousPoorYearNumberF17-19 + 1)                                        ;; record the number of times when poor year appears
+              ]              
+            ]
+          ]
+        ]
+      ]
+      ;;farmers have the different number of harvested fieds
+      if pxcor < 25 and pycor > 14
+      [
+        if NumberofHarvestFieldsF17 > NumberofHarvestFieldsF18 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF19
+        [
+          set CompareOnceAYearF17-19 false                                       ;; record the number of times when poor year appears
+          set CompareEveryTwoYearsF17-19 true                            ;; the procedure of comparing the harvest every two years
+          set ContinuousPoorYearNumberF17-19 (ContinuousPoorYearNumberF17-19 + 1)                                        ;; record the number of times when poor year appears
+        ]
+      ]
+    ]
+    [
+      if CompareEveryTwoYearsF17-19 = true
+      [
+        set ComparisonCountDownF17-19 (ComparisonCountDownF17-19 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+        SystemsReactionF17-19
+      ]
+    ]
+
+    if ComparisonCountDownF17-19 = 0
+    [
+      set ComparisonCountDownF17-19 (ComparisonTime + 1)
+      ;; for F17-19
+      if pxcor < 25 and pycor > 17
+      [
+        if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+        [
+          ;;farmers have the same number of harvested fields
+          if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+          [
+            if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+            [
+              ;; compare the yields of each farmer
+              if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+              [
+                if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                [
+                  ;;nothing to change
+                  set CompareOnceAYearF17-19 true
+                  set ContinuousPoorYearNumberF17-19 0
+                ]
+              ]
+              if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF19
+              [
+                set CompareOnceAYearF17-19 false
+                set CompareEveryTwoYearsF17-19 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                ;set ContinuousPoorYearNumberF17-19 (ContinuousPoorYearNumberF17-19 + 1)                                        ;; record the number of times when poor year appears
+              ]              
+            ]
+          ]
+        ]
+      ]
+      if pxcor < 25 and pycor < 17
+      [
+        if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+        [
+          ;;farmers have the same number of harvested fields
+          if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+          [
+            if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+            [
+              ;; compare the yields of each farmer
+              if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+              [
+                if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                [
+                  ;;nothing to change
+                  set CompareOnceAYearF17-19 true
+                  set ContinuousPoorYearNumberF17-19 0
+                ]
+              ]
+              if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF19
+              [
+                set CompareOnceAYearF17-19 false
+                set CompareEveryTwoYearsF17-19 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                ;set ContinuousPoorYearNumberF17-19 (ContinuousPoorYearNumberF17-19 + 1)                                        ;; record the number of times when poor year appears
+              ]              
+            ]
+          ]
+        ]
+      ]
+      ;;farmers have the different number of harvested fieds
+      if pxcor < 25 and pycor > 14
+      [
+        if NumberofHarvestFieldsF17 > NumberofHarvestFieldsF18 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF19
+        [
+          set CompareOnceAYearF17-19 false                                       ;; record the number of times when poor year appears
+          set CompareEveryTwoYearsF17-19 true                            ;; the procedure of comparing the harvest every two years
+          ;set ContinuousPoorYearNumberF17-19 (ContinuousPoorYearNumberF17-19 + 1)                                        ;; record the number of times when poor year appears
+        ]
+      ]      
+      if CompareEveryTwoYearsF17-19 = true                            ;; the procedure of comparing the harvest every two years
+      [
+        set ComparisonCountDownF17-19 (ComparisonCountDownF17-19 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+        set ContinuousPoorYearNumberF17-19 (ContinuousPoorYearNumberF17-19 + 1)                                        ;; record the number of times when poor year appears
+        SystemsReactionF17-19
+      ]
+    ]
+  ]
+end
+
+to SystemsReactionF17-19
+  if pxcor < 25
+  [
+    if any? neighbors with [pcolor = red]
+    [
+      ask neighbors with [pcolor = red]
+      [
+        set ReadyforGCDecisionF17-19 true
+      ]
+    ]    
+  ]
+  
+end
+
+to FarmersHarvestEvaluationF17-22                                      ;; for GC variation
+  ask patches with [LandType = 3]                                      ;;ask the storage patch
+  [
+    if pxcor < 25
+    [
+      ;;if there are F17-20
+      if [pcolor] of patch 16 17 = red and [pcolor] of patch 14 17 != red
+      [     
+      ;;F17-UP; F18,19-MIDDLE; F20-DOWN
+        set MiddlestreamF18-19HarvestFieldsList (list NumberofHarvestFieldsF18 NumberofHarvestFieldsF19)
+        set MiddlestreamF18-19BarleyYieldList (list BarleyYieldPerYearF18 BarleyYieldPerYearF19)        
+        ifelse CompareOnceAYearF17-20 = true
+        [
+          if pycor > 17
+          [
+            if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+            [
+              ;;farmers have the same number of harvested fields
+              if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+              [
+                if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+                [
+                  if NumberofHarvestFieldsF19 = NumberofHarvestFieldsF20
+                  [
+                    ;; compare the yields of each farmer
+                    if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+                    [
+                      if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                      [
+                        if BarleyYieldPerYearF19 = BarleyYieldPerYearF20
+                        [
+                          ;;nothing to change
+                          set CompareOnceAYearF17-20 true
+                          set ContinuousPoorYearNumberF17-20 0
+                        ]
+                      ]
+                    ]
+                    ;if BarleyYieldPerYearF17 > one-of MiddlestreamF18-19BarleyYieldList or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or one-of MiddlestreamF18-19BarleyYieldList > BarleyYieldPerYearF20
+                    if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or
+                       BarleyYieldPerYearF18 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF20 or
+                       BarleyYieldPerYearF19 > BarleyYieldPerYearF20
+                    [
+                      set CompareOnceAYearF17-20 false
+                      set CompareEveryTwoYearsF17-20 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                      set ContinuousPoorYearNumberF17-20 (ContinuousPoorYearNumberF17-20 + 1)                                        ;; record the number of times when poor year appears
+                    ]                    
+                  ]
+                ]
+              ]
+            ]
+          ]
+          if pycor < 17
+          [
+            if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+            [
+              ;;farmers have the same number of harvested fields
+              if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+              [
+                if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+                [
+                  if NumberofHarvestFieldsF19 = NumberofHarvestFieldsF20
+                  [
+                    ;; compare the yields of each farmer
+                    if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+                    [
+                      if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                      [
+                        if BarleyYieldPerYearF19 = BarleyYieldPerYearF20
+                        [
+                          ;;nothing to change
+                          set CompareOnceAYearF17-20 true
+                          set ContinuousPoorYearNumberF17-20 0
+                        ]
+                      ]
+                    ]
+                    ;if BarleyYieldPerYearF17 > one-of MiddlestreamF18-19BarleyYieldList or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or one-of MiddlestreamF18-19BarleyYieldList > BarleyYieldPerYearF20
+                    if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or
+                       BarleyYieldPerYearF18 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF20 or
+                       BarleyYieldPerYearF19 > BarleyYieldPerYearF20
+                    [
+                      set CompareOnceAYearF17-20 false
+                      set CompareEveryTwoYearsF17-20 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                      set ContinuousPoorYearNumberF17-20 (ContinuousPoorYearNumberF17-20 + 1)                                        ;; record the number of times when poor year appears
+                    ]                    
+                  ]
+                ]
+              ]
+            ]
+          ]
+          ;;farmers have the different number of harvested fieds
+          ;if NumberofHarvestFieldsF17 > one-of MiddlestreamF18-19HarvestFieldsList or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF20 or one-of MiddlestreamF18-19HarvestFieldsList > NumberofHarvestFieldsF20
+          if NumberofHarvestFieldsF17 > NumberofHarvestFieldsF18 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF20 or
+             NumberofHarvestFieldsF18 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF20 or 
+             NumberofHarvestFieldsF19 > NumberofHarvestFieldsF20
+          [
+            set CompareOnceAYearF17-20 false                                       ;; record the number of times when poor year appears
+            set CompareEveryTwoYearsF17-20 true                            ;; the procedure of comparing the harvest every two years
+            set ContinuousPoorYearNumberF17-20 (ContinuousPoorYearNumberF17-20 + 1)                                        ;; record the number of times when poor year appears
+          ]  
+        ]
+        [
+          if CompareEveryTwoYearsF17-20 = true
+          [
+            set ComparisonCountDownF17-20 (ComparisonCountDownF17-20 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            SystemsReactionF17-20
+          ]
+        ]
+
+        if ComparisonCountDownF17-20 = 0
+        [
+          set ComparisonCountDownF17-20 (ComparisonTime + 1)          
+          ;; for F17-20
+          if pycor > 17
+          [
+            if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+            [
+              ;;farmers have the same number of harvested fields
+              if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+              [
+                if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+                [
+                  if NumberofHarvestFieldsF19 = NumberofHarvestFieldsF20
+                  [
+                    ;; compare the yields of each farmer
+                    if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+                    [
+                      if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                      [
+                        if BarleyYieldPerYearF19 = BarleyYieldPerYearF20
+                        [
+                          ;;nothing to change
+                          set CompareOnceAYearF17-20 true
+                          set ContinuousPoorYearNumberF17-20 0
+                        ]
+                      ]
+                    ]
+                    ;if BarleyYieldPerYearF17 > one-of MiddlestreamF18-19BarleyYieldList or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or one-of MiddlestreamF18-19BarleyYieldList > BarleyYieldPerYearF20
+                    if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or
+                       BarleyYieldPerYearF18 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF20 or
+                       BarleyYieldPerYearF19 > BarleyYieldPerYearF20
+                    [
+                      set CompareOnceAYearF17-20 false
+                      set CompareEveryTwoYearsF17-20 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                      ;set ContinuousPoorYearNumberF17-20 (ContinuousPoorYearNumberF17-20 + 1)                                        ;; record the number of times when poor year appears
+                    ]                    
+                  ]
+                ]
+              ]
+            ]
+          ]
+          if pycor < 17
+          [
+            if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+            [
+              ;;farmers have the same number of harvested fields
+              if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+              [
+                if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+                [
+                  if NumberofHarvestFieldsF19 = NumberofHarvestFieldsF20
+                  [
+                    ;; compare the yields of each farmer
+                    if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+                    [
+                      if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                      [
+                        if BarleyYieldPerYearF19 = BarleyYieldPerYearF20
+                        [
+                          ;;nothing to change
+                          set CompareOnceAYearF17-20 true
+                          set ContinuousPoorYearNumberF17-20 0
+                        ]
+                      ]
+                    ]
+                    ;if BarleyYieldPerYearF17 > one-of MiddlestreamF18-19BarleyYieldList or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or one-of MiddlestreamF18-19BarleyYieldList > BarleyYieldPerYearF20
+                    if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or
+                       BarleyYieldPerYearF18 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF20 or
+                       BarleyYieldPerYearF19 > BarleyYieldPerYearF20
+                    [
+                      set CompareOnceAYearF17-20 false
+                      set CompareEveryTwoYearsF17-20 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                      ;set ContinuousPoorYearNumberF17-20 (ContinuousPoorYearNumberF17-20 + 1)                                        ;; record the number of times when poor year appears
+                    ]                    
+                  ]
+                ]
+              ]
+            ]
+          ]
+          ;;farmers have the different number of harvested fieds
+          ;if NumberofHarvestFieldsF17 > one-of MiddlestreamF18-19HarvestFieldsList or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF20 or one-of MiddlestreamF18-19HarvestFieldsList > NumberofHarvestFieldsF20
+          if NumberofHarvestFieldsF17 > NumberofHarvestFieldsF18 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF20 or
+             NumberofHarvestFieldsF18 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF20 or 
+             NumberofHarvestFieldsF19 > NumberofHarvestFieldsF20            
+          [
+            set CompareOnceAYearF17-20 false                                       ;; record the number of times when poor year appears
+            set CompareEveryTwoYearsF17-20 true                            ;; the procedure of comparing the harvest every two years
+            ;set ContinuousPoorYearNumberF17-20 (ContinuousPoorYearNumberF17-20 + 1)                                        ;; record the number of times when poor year appears
+          ]       
+          if CompareEveryTwoYearsF17-20 = true                            ;; the procedure of comparing the harvest every two years
+          [
+            set ComparisonCountDownF17-20 (ComparisonCountDownF17-20 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            set ContinuousPoorYearNumberF17-20 (ContinuousPoorYearNumberF17-20 + 1)                                        ;; record the number of times when poor year appears
+            SystemsReactionF17-20
+          ]
+        ]     
+      ]
+      ;;if there are F17-21
+      ;;if there are F17-21
+      ;;if there are F17-21
+      if [pcolor] of patch 14 17 = red and [pcolor] of patch 12 17 != red
+      [     
+      ;;F17-UP; F18,19, 20-MIDDLE; F21-DOWN        
+        set MiddlestreamF18-20BarleyYieldList (list BarleyYieldPerYearF18 BarleyYieldPerYearF19 BarleyYieldPerYearF20)
+        set MiddlestreamF18-20HarvestFieldsList (list NumberofHarvestFieldsF18 NumberofHarvestFieldsF19 NumberofHarvestFieldsF20)                
+        ifelse CompareOnceAYearF17-21 = true
+        [
+          if pycor > 17
+          [
+            if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+            [
+              ;;farmers have the same number of harvested fields
+              if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+              [
+                if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+                [
+                  if NumberofHarvestFieldsF19 = NumberofHarvestFieldsF20
+                  [
+                    if NumberofHarvestFieldsF20 = NumberofHarvestFieldsF21
+                    [
+                      ;; compare the yields of each farmer
+                      if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+                      [
+                        if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                        [
+                          if BarleyYieldPerYearF19 = BarleyYieldPerYearF20
+                          [
+                            if BarleyYieldPerYearF20 = BarleyYieldPerYearF21
+                            [
+                              ;;nothing to change
+                              set CompareOnceAYearF17-21 true
+                              set ContinuousPoorYearNumberF17-21 0
+                            ]
+                          ]
+                        ]
+                      ]
+                      ;if BarleyYieldPerYearF17 > one-of MiddlestreamF18-20BarleyYieldList or BarleyYieldPerYearF17 > BarleyYieldPerYearF21 or one-of MiddlestreamF18-20BarleyYieldList > BarleyYieldPerYearF21
+                      if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or BarleyYieldPerYearF17 > BarleyYieldPerYearF21 or                       
+                         BarleyYieldPerYearF18 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF20 or BarleyYieldPerYearF18 > BarleyYieldPerYearF21 or
+                         BarleyYieldPerYearF19 > BarleyYieldPerYearF20 or BarleyYieldPerYearF19 > BarleyYieldPerYearF21 or
+                         BarleyYieldPerYearF20 > BarleyYieldPerYearF21                        
+                      [
+                        set CompareOnceAYearF17-21 false
+                        set CompareEveryTwoYearsF17-21 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                        set ContinuousPoorYearNumberF17-21 (ContinuousPoorYearNumberF17-21 + 1)                                        ;; record the number of times when poor year appears
+                      ]                      
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+          if pycor < 17
+          [
+            if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+            [
+              ;;farmers have the same number of harvested fields
+              if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+              [
+                if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+                [
+                  if NumberofHarvestFieldsF19 = NumberofHarvestFieldsF20
+                  [
+                    if NumberofHarvestFieldsF20 = NumberofHarvestFieldsF21
+                    [
+                      ;; compare the yields of each farmer
+                      if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+                      [
+                        if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                        [
+                          if BarleyYieldPerYearF19 = BarleyYieldPerYearF20
+                          [
+                            if BarleyYieldPerYearF20 = BarleyYieldPerYearF21
+                            [
+                              ;;nothing to change
+                              set CompareOnceAYearF17-21 true
+                              set ContinuousPoorYearNumberF17-21 0
+                            ]
+                          ]
+                        ]
+                      ]
+                      ;if BarleyYieldPerYearF17 > one-of MiddlestreamF18-20BarleyYieldList or BarleyYieldPerYearF17 > BarleyYieldPerYearF21 or one-of MiddlestreamF18-20BarleyYieldList > BarleyYieldPerYearF21
+                      if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or BarleyYieldPerYearF17 > BarleyYieldPerYearF21 or                       
+                         BarleyYieldPerYearF18 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF20 or BarleyYieldPerYearF18 > BarleyYieldPerYearF21 or
+                         BarleyYieldPerYearF19 > BarleyYieldPerYearF20 or BarleyYieldPerYearF19 > BarleyYieldPerYearF21 or
+                         BarleyYieldPerYearF20 > BarleyYieldPerYearF21                        
+                      [
+                        set CompareOnceAYearF17-21 false
+                        set CompareEveryTwoYearsF17-21 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                        set ContinuousPoorYearNumberF17-21 (ContinuousPoorYearNumberF17-21 + 1)                                        ;; record the number of times when poor year appears
+                      ]                      
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+          ;;farmers have the different number of harvested fieds
+          if pycor > 14
+          [
+            ;if NumberofHarvestFieldsF17 > one-of MiddlestreamF18-20HarvestFieldsList or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF21 or one-of MiddlestreamF18-20HarvestFieldsList > NumberofHarvestFieldsF21
+            if NumberofHarvestFieldsF17 > NumberofHarvestFieldsF18 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF20 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF21 or 
+               NumberofHarvestFieldsF18 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF20 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF21 or
+               NumberofHarvestFieldsF19 > NumberofHarvestFieldsF20 or NumberofHarvestFieldsF19 > NumberofHarvestFieldsF21 or
+               NumberofHarvestFieldsF20 > NumberofHarvestFieldsF21           
+            [
+              set CompareOnceAYearF17-21 false                                       ;; record the number of times when poor year appears
+              set CompareEveryTwoYearsF17-21 true                            ;; the procedure of comparing the harvest every two years
+              set ContinuousPoorYearNumberF17-21 (ContinuousPoorYearNumberF17-21 + 1)                                        ;; record the number of times when poor year appears
+            ]
+          ]  
+        ]
+        [
+          if CompareEveryTwoYearsF17-21 = true
+          [
+            set ComparisonCountDownF17-21 (ComparisonCountDownF17-21 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            SystemsReactionF17-21
+          ]
+        ]
+
+        if ComparisonCountDownF17-21 = 0
+        [
+          set ComparisonCountDownF17-21 (ComparisonTime + 1)
+          ;; for F17-21
+          if pycor > 17
+          [
+            if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+            [
+              ;;farmers have the same number of harvested fields
+              if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+              [
+                if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+                [
+                  if NumberofHarvestFieldsF19 = NumberofHarvestFieldsF20
+                  [
+                    if NumberofHarvestFieldsF20 = NumberofHarvestFieldsF21
+                    [
+                      ;; compare the yields of each farmer
+                      if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+                      [
+                        if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                        [
+                          if BarleyYieldPerYearF19 = BarleyYieldPerYearF20
+                          [
+                            if BarleyYieldPerYearF20 = BarleyYieldPerYearF21
+                            [
+                              ;;nothing to change
+                              set CompareOnceAYearF17-21 true
+                              set ContinuousPoorYearNumberF17-21 0
+                            ]
+                          ]
+                        ]
+                      ]
+                      ;if BarleyYieldPerYearF17 > one-of MiddlestreamF18-20BarleyYieldList or BarleyYieldPerYearF17 > BarleyYieldPerYearF21 or one-of MiddlestreamF18-20BarleyYieldList > BarleyYieldPerYearF21
+                      if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or BarleyYieldPerYearF17 > BarleyYieldPerYearF21 or                       
+                         BarleyYieldPerYearF18 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF20 or BarleyYieldPerYearF18 > BarleyYieldPerYearF21 or
+                         BarleyYieldPerYearF19 > BarleyYieldPerYearF20 or BarleyYieldPerYearF19 > BarleyYieldPerYearF21 or
+                         BarleyYieldPerYearF20 > BarleyYieldPerYearF21                        
+                      [
+                        set CompareOnceAYearF17-21 false
+                        set CompareEveryTwoYearsF17-21 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                        ;set ContinuousPoorYearNumberF17-21 (ContinuousPoorYearNumberF17-21 + 1)                                        ;; record the number of times when poor year appears
+                      ]                      
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+          if pycor < 17
+          [
+            if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+            [
+              ;;farmers have the same number of harvested fields
+              if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+              [
+                if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+                [
+                  if NumberofHarvestFieldsF19 = NumberofHarvestFieldsF20
+                  [
+                    if NumberofHarvestFieldsF20 = NumberofHarvestFieldsF21
+                    [
+                      ;; compare the yields of each farmer
+                      if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+                      [
+                        if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                        [
+                          if BarleyYieldPerYearF19 = BarleyYieldPerYearF20
+                          [
+                            if BarleyYieldPerYearF20 = BarleyYieldPerYearF21
+                            [
+                              ;;nothing to change
+                              set CompareOnceAYearF17-21 true
+                              set ContinuousPoorYearNumberF17-21 0
+                            ]
+                          ]
+                        ]
+                      ]
+                      ;if BarleyYieldPerYearF17 > one-of MiddlestreamF18-20BarleyYieldList or BarleyYieldPerYearF17 > BarleyYieldPerYearF21 or one-of MiddlestreamF18-20BarleyYieldList > BarleyYieldPerYearF21
+                      if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or BarleyYieldPerYearF17 > BarleyYieldPerYearF21 or                       
+                         BarleyYieldPerYearF18 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF20 or BarleyYieldPerYearF18 > BarleyYieldPerYearF21 or
+                         BarleyYieldPerYearF19 > BarleyYieldPerYearF20 or BarleyYieldPerYearF19 > BarleyYieldPerYearF21 or
+                         BarleyYieldPerYearF20 > BarleyYieldPerYearF21                        
+                      [
+                        set CompareOnceAYearF17-21 false
+                        set CompareEveryTwoYearsF17-21 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                        ;set ContinuousPoorYearNumberF17-21 (ContinuousPoorYearNumberF17-21 + 1)                                        ;; record the number of times when poor year appears
+                      ]                      
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+          ;;farmers have the different number of harvested fieds
+          if pycor > 14
+          [
+            ;if NumberofHarvestFieldsF17 > one-of MiddlestreamF18-20HarvestFieldsList or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF21 or one-of MiddlestreamF18-20HarvestFieldsList > NumberofHarvestFieldsF21
+            if NumberofHarvestFieldsF17 > NumberofHarvestFieldsF18 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF20 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF21 or 
+               NumberofHarvestFieldsF18 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF20 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF21 or
+               NumberofHarvestFieldsF19 > NumberofHarvestFieldsF20 or NumberofHarvestFieldsF19 > NumberofHarvestFieldsF21 or
+               NumberofHarvestFieldsF20 > NumberofHarvestFieldsF21             
+            [
+              set CompareOnceAYearF17-21 false                                       ;; record the number of times when poor year appears
+              set CompareEveryTwoYearsF17-21 true                            ;; the procedure of comparing the harvest every two years
+              ;set ContinuousPoorYearNumberF17-21 (ContinuousPoorYearNumberF17-21 + 1)                                        ;; record the number of times when poor year appears
+            ]
+          ]        
+          if CompareEveryTwoYearsF17-21 = true                            ;; the procedure of comparing the harvest every two years
+          [
+            set ComparisonCountDownF17-21 (ComparisonCountDownF17-21 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            set ContinuousPoorYearNumberF17-21 (ContinuousPoorYearNumberF17-21 + 1)                                        ;; record the number of times when poor year appears
+            SystemsReactionF17-21
+          ]
+        ]        
+      ]
+      ;;if there are F17-22
+      ;;if there are F17-22
+      if [pcolor] of patch 12 17 = red and [pcolor] of patch 10 17 != red
+      [     
+      ;;F17,18-UP; F19,20-MIDDLE; F21,22-DOWN
+        set UpstreamF17-18BarleyYieldList (list BarleyYieldPerYearF17 BarleyYieldPerYearF18)
+        set UpstreamF17-18HarvestFieldsList (list NumberofHarvestFieldsF17 NumberofHarvestFieldsF18)        
+        set MiddlestreamF19-20BarleyYieldList (list BarleyYieldPerYearF19 BarleyYieldPerYearF20)
+        set MiddlestreamF19-20HarvestFieldsList (list NumberofHarvestFieldsF19 NumberofHarvestFieldsF20)
+        set DownstreamF21-22BarleyYieldList (list BarleyYieldPerYearF21 BarleyYieldPerYearF22)
+        set DownstreamF21-22HarvestFieldsList (list NumberofHarvestFieldsF21 NumberofHarvestFieldsF22)                  
+        ifelse CompareOnceAYearF17-22 = true
+        [
+          if pycor > 17
+          [
+            if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+            [
+              ;;farmers have the same number of harvested fields
+              if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+              [
+                if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+                [
+                  if NumberofHarvestFieldsF19 = NumberofHarvestFieldsF20
+                  [
+                    if NumberofHarvestFieldsF20 = NumberofHarvestFieldsF21
+                    [
+                      if NumberofHarvestFieldsF21 = NumberofHarvestFieldsF22
+                      [
+                        ;; compare the yields of each farmer
+                        if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+                        [
+                          if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                          [
+                            if BarleyYieldPerYearF19 = BarleyYieldPerYearF20
+                            [
+                              if BarleyYieldPerYearF20 = BarleyYieldPerYearF21
+                              [
+                                if BarleyYieldPerYearF21 = BarleyYieldPerYearF22
+                                [
+                                  ;;nothing to change
+                                  set CompareOnceAYearF17-22 true
+                                  set ContinuousPoorYearNumberF17-22 0
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                        ;if one-of UpstreamF17-18BarleyYieldList > one-of MiddlestreamF19-20BarleyYieldList or one-of UpstreamF17-18BarleyYieldList > one-of DownstreamF21-22BarleyYieldList or one-of MiddlestreamF19-20BarleyYieldList > one-of DownstreamF21-22BarleyYieldList
+                        if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or BarleyYieldPerYearF17 > BarleyYieldPerYearF21 or BarleyYieldPerYearF17 > BarleyYieldPerYearF22 or                       
+                           BarleyYieldPerYearF18 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF20 or BarleyYieldPerYearF18 > BarleyYieldPerYearF21 or BarleyYieldPerYearF18 > BarleyYieldPerYearF22 or
+                           BarleyYieldPerYearF19 > BarleyYieldPerYearF20 or BarleyYieldPerYearF19 > BarleyYieldPerYearF21 or BarleyYieldPerYearF19 > BarleyYieldPerYearF22 or
+                           BarleyYieldPerYearF20 > BarleyYieldPerYearF21 or BarleyYieldPerYearF20 > BarleyYieldPerYearF22 or 
+                           BarleyYieldPerYearF21 > BarleyYieldPerYearF22                         
+                        [
+                          set CompareOnceAYearF17-22 false
+                          set CompareEveryTwoYearsF17-22 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                          set ContinuousPoorYearNumberF17-22 (ContinuousPoorYearNumberF17-22 + 1)                                        ;; record the number of times when poor year appears
+                        ]                        
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+          if pycor < 17
+          [
+            if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+            [
+              ;;farmers have the same number of harvested fields
+              if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+              [
+                if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+                [
+                  if NumberofHarvestFieldsF19 = NumberofHarvestFieldsF20
+                  [
+                    if NumberofHarvestFieldsF20 = NumberofHarvestFieldsF21
+                    [
+                      if NumberofHarvestFieldsF21 = NumberofHarvestFieldsF22
+                      [
+                        ;; compare the yields of each farmer
+                        if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+                        [
+                          if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                          [
+                            if BarleyYieldPerYearF19 = BarleyYieldPerYearF20
+                            [
+                              if BarleyYieldPerYearF20 = BarleyYieldPerYearF21
+                              [
+                                if BarleyYieldPerYearF21 = BarleyYieldPerYearF22
+                                [
+                                  ;;nothing to change
+                                  set CompareOnceAYearF17-22 true
+                                  set ContinuousPoorYearNumberF17-22 0
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                        ;if one-of UpstreamF17-18BarleyYieldList > one-of MiddlestreamF19-20BarleyYieldList or one-of UpstreamF17-18BarleyYieldList > one-of DownstreamF21-22BarleyYieldList or one-of MiddlestreamF19-20BarleyYieldList > one-of DownstreamF21-22BarleyYieldList
+                        if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or BarleyYieldPerYearF17 > BarleyYieldPerYearF21 or BarleyYieldPerYearF17 > BarleyYieldPerYearF22 or                       
+                           BarleyYieldPerYearF18 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF20 or BarleyYieldPerYearF18 > BarleyYieldPerYearF21 or BarleyYieldPerYearF18 > BarleyYieldPerYearF22 or
+                           BarleyYieldPerYearF19 > BarleyYieldPerYearF20 or BarleyYieldPerYearF19 > BarleyYieldPerYearF21 or BarleyYieldPerYearF19 > BarleyYieldPerYearF22 or
+                           BarleyYieldPerYearF20 > BarleyYieldPerYearF21 or BarleyYieldPerYearF20 > BarleyYieldPerYearF22 or 
+                           BarleyYieldPerYearF21 > BarleyYieldPerYearF22                         
+                        [
+                          set CompareOnceAYearF17-22 false
+                          set CompareEveryTwoYearsF17-22 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                          set ContinuousPoorYearNumberF17-22 (ContinuousPoorYearNumberF17-22 + 1)                                        ;; record the number of times when poor year appears
+                        ]                         
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+          ;;farmers have the different number of harvested fieds
+          if pycor > 14
+          [
+            ;if one-of UpstreamF17-18HarvestFieldsList > one-of MiddlestreamF19-20HarvestFieldsList or one-of UpstreamF17-18HarvestFieldsList > one-of DownstreamF21-22HarvestFieldsList or one-of MiddlestreamF19-20HarvestFieldsList > one-of DownstreamF21-22HarvestFieldsList
+            if NumberofHarvestFieldsF17 > NumberofHarvestFieldsF18 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF20 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF21 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF22 or
+               NumberofHarvestFieldsF18 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF20 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF21 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF22 or
+               NumberofHarvestFieldsF19 > NumberofHarvestFieldsF20 or NumberofHarvestFieldsF19 > NumberofHarvestFieldsF21 or NumberofHarvestFieldsF19 > NumberofHarvestFieldsF22 or
+               NumberofHarvestFieldsF20 > NumberofHarvestFieldsF21 or NumberofHarvestFieldsF20 > NumberofHarvestFieldsF22 or
+               NumberofHarvestFieldsF21 > NumberofHarvestFieldsF22
+            [
+              set CompareOnceAYearF17-22 false                                       ;; record the number of times when poor year appears
+              set CompareEveryTwoYearsF17-22 true                            ;; the procedure of comparing the harvest every two years
+              set ContinuousPoorYearNumberF17-22 (ContinuousPoorYearNumberF17-22 + 1)                                        ;; record the number of times when poor year appears
+            ]
+          ]  
+        ]
+        [
+          if CompareEveryTwoYearsF17-22 = true
+          [
+            set ComparisonCountDownF17-22 (ComparisonCountDownF17-22 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            SystemsReactionF17-22
+          ]
+        ]
+
+        if ComparisonCountDownF17-22 = 0
+        [
+          set ComparisonCountDownF17-22 (ComparisonTime + 1)
+          ;; for F17-22
+          if pycor > 17
+          [
+            if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+            [
+              ;;farmers have the same number of harvested fields
+              if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+              [
+                if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+                [
+                  if NumberofHarvestFieldsF19 = NumberofHarvestFieldsF20
+                  [
+                    if NumberofHarvestFieldsF20 = NumberofHarvestFieldsF21
+                    [
+                      if NumberofHarvestFieldsF21 = NumberofHarvestFieldsF22
+                      [
+                        ;; compare the yields of each farmer
+                        if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+                        [
+                          if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                          [
+                            if BarleyYieldPerYearF19 = BarleyYieldPerYearF20
+                            [
+                              if BarleyYieldPerYearF20 = BarleyYieldPerYearF21
+                              [
+                                if BarleyYieldPerYearF21 = BarleyYieldPerYearF22
+                                [
+                                  ;;nothing to change
+                                  set CompareOnceAYearF17-22 true
+                                  set ContinuousPoorYearNumberF17-22 0
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                        ;if one-of UpstreamF17-18BarleyYieldList > one-of MiddlestreamF19-20BarleyYieldList or one-of UpstreamF17-18BarleyYieldList > one-of DownstreamF21-22BarleyYieldList or one-of MiddlestreamF19-20BarleyYieldList > one-of DownstreamF21-22BarleyYieldList
+                        if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or BarleyYieldPerYearF17 > BarleyYieldPerYearF21 or BarleyYieldPerYearF17 > BarleyYieldPerYearF22 or                       
+                           BarleyYieldPerYearF18 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF20 or BarleyYieldPerYearF18 > BarleyYieldPerYearF21 or BarleyYieldPerYearF18 > BarleyYieldPerYearF22 or
+                           BarleyYieldPerYearF19 > BarleyYieldPerYearF20 or BarleyYieldPerYearF19 > BarleyYieldPerYearF21 or BarleyYieldPerYearF19 > BarleyYieldPerYearF22 or
+                           BarleyYieldPerYearF20 > BarleyYieldPerYearF21 or BarleyYieldPerYearF20 > BarleyYieldPerYearF22 or 
+                           BarleyYieldPerYearF21 > BarleyYieldPerYearF22                         
+                        [
+                          set CompareOnceAYearF17-22 false
+                          set CompareEveryTwoYearsF17-22 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                          ;set ContinuousPoorYearNumberF17-22 (ContinuousPoorYearNumberF17-22 + 1)                                        ;; record the number of times when poor year appears
+                        ]                         
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+          if pycor < 17
+          [
+            if ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true
+            [
+              ;;farmers have the same number of harvested fields
+              if NumberofHarvestFieldsF17 = NumberofHarvestFieldsF18
+              [
+                if NumberofHarvestFieldsF18 = NumberofHarvestFieldsF19
+                [
+                  if NumberofHarvestFieldsF19 = NumberofHarvestFieldsF20
+                  [
+                    if NumberofHarvestFieldsF20 = NumberofHarvestFieldsF21
+                    [
+                      if NumberofHarvestFieldsF21 = NumberofHarvestFieldsF22
+                      [
+                        ;; compare the yields of each farmer
+                        if BarleyYieldPerYearF17 = BarleyYieldPerYearF18
+                        [
+                          if BarleyYieldPerYearF18 = BarleyYieldPerYearF19
+                          [
+                            if BarleyYieldPerYearF19 = BarleyYieldPerYearF20
+                            [
+                              if BarleyYieldPerYearF20 = BarleyYieldPerYearF21
+                              [
+                                if BarleyYieldPerYearF21 = BarleyYieldPerYearF22
+                                [
+                                  ;;nothing to change
+                                  set CompareOnceAYearF17-22 true
+                                  set ContinuousPoorYearNumberF17-22 0
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                        ;if one-of UpstreamF17-18BarleyYieldList > one-of MiddlestreamF19-20BarleyYieldList or one-of UpstreamF17-18BarleyYieldList > one-of DownstreamF21-22BarleyYieldList or one-of MiddlestreamF19-20BarleyYieldList > one-of DownstreamF21-22BarleyYieldList
+                        if BarleyYieldPerYearF17 > BarleyYieldPerYearF18 or BarleyYieldPerYearF17 > BarleyYieldPerYearF19 or BarleyYieldPerYearF17 > BarleyYieldPerYearF20 or BarleyYieldPerYearF17 > BarleyYieldPerYearF21 or BarleyYieldPerYearF17 > BarleyYieldPerYearF22 or                       
+                           BarleyYieldPerYearF18 > BarleyYieldPerYearF19 or BarleyYieldPerYearF18 > BarleyYieldPerYearF20 or BarleyYieldPerYearF18 > BarleyYieldPerYearF21 or BarleyYieldPerYearF18 > BarleyYieldPerYearF22 or
+                           BarleyYieldPerYearF19 > BarleyYieldPerYearF20 or BarleyYieldPerYearF19 > BarleyYieldPerYearF21 or BarleyYieldPerYearF19 > BarleyYieldPerYearF22 or
+                           BarleyYieldPerYearF20 > BarleyYieldPerYearF21 or BarleyYieldPerYearF20 > BarleyYieldPerYearF22 or 
+                           BarleyYieldPerYearF21 > BarleyYieldPerYearF22                         
+                        [
+                          set CompareOnceAYearF17-22 false
+                          set CompareEveryTwoYearsF17-22 true                                                                             ;; the procedure of comparing the harvest every 2/3/4... years
+                          ;set ContinuousPoorYearNumberF17-22 (ContinuousPoorYearNumberF17-22 + 1)                                        ;; record the number of times when poor year appears
+                        ]                         
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+          ;;farmers have the different number of harvested fieds
+          if pycor > 14
+          [
+            ;if one-of UpstreamF17-18HarvestFieldsList > one-of MiddlestreamF19-20HarvestFieldsList or one-of UpstreamF17-18HarvestFieldsList > one-of DownstreamF21-22HarvestFieldsList or one-of MiddlestreamF19-20HarvestFieldsList > one-of DownstreamF21-22HarvestFieldsList
+            if NumberofHarvestFieldsF17 > NumberofHarvestFieldsF18 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF20 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF21 or NumberofHarvestFieldsF17 > NumberofHarvestFieldsF22 or
+               NumberofHarvestFieldsF18 > NumberofHarvestFieldsF19 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF20 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF21 or NumberofHarvestFieldsF18 > NumberofHarvestFieldsF22 or
+               NumberofHarvestFieldsF19 > NumberofHarvestFieldsF20 or NumberofHarvestFieldsF19 > NumberofHarvestFieldsF21 or NumberofHarvestFieldsF19 > NumberofHarvestFieldsF22 or
+               NumberofHarvestFieldsF20 > NumberofHarvestFieldsF21 or NumberofHarvestFieldsF20 > NumberofHarvestFieldsF22 or
+               NumberofHarvestFieldsF21 > NumberofHarvestFieldsF22            
+            [
+              set CompareOnceAYearF17-22 false                                       ;; record the number of times when poor year appears
+              set CompareEveryTwoYearsF17-22 true                            ;; the procedure of comparing the harvest every two years
+              ;set ContinuousPoorYearNumberF17-22 (ContinuousPoorYearNumberF17-22 + 1)                                        ;; record the number of times when poor year appears
+            ]
+          ]        
+          if CompareEveryTwoYearsF17-22 = true                            ;; the procedure of comparing the harvest every two years
+          [
+            set ComparisonCountDownF17-22 (ComparisonCountDownF17-22 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            set ContinuousPoorYearNumberF17-22 (ContinuousPoorYearNumberF17-22 + 1)                                        ;; record the number of times when poor year appears
+            SystemsReactionF17-22
+          ]
+        ]
+      ]      
+    ]
+  ]
+end
+
+to SystemsReactionF17-20
+  if any? neighbors with [pcolor = red]
+  [
+    ask neighbors with [pcolor = red]
+    [
+      set ReadyforGCDecisionF17-20 true      
+    ]   
+  ]  
+end
+
+to SystemsReactionF17-21
+  if any? neighbors with [pcolor = red]
+  [
+    ask neighbors with [pcolor = red]
+    [
+      set ReadyforGCDecisionF17-21 true      
+    ]   
+  ]  
+end
+
+to SystemsReactionF17-22
+  if any? neighbors with [pcolor = red]
+  [
+    ask neighbors with [pcolor = red]
+    [
+      set ReadyforGCDecisionF17-22 true      
+    ]   
+  ]   
+end

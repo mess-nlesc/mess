@@ -1,0 +1,93 @@
+to FieldStorage
+  ask patches with [pcolor = grey]                                     ;; ask the storage fields at the right side of the river
+  [
+    set CurrentStorage (CurrentStorage + count RiverVolumes-here)
+    sprout-StorageVolumes (count RiverVolumes-here)
+    ask StorageVolumes-here
+    [
+      set color blue
+      set size 0.5
+      set heading 0
+    ]
+    if ticks > 365 * (Year - 1) and ticks < 365 * Year
+    [
+      set Landed (Landed + count RiverVolumes-here)  
+      set Landed_Year Landed    
+    ]
+
+    ask RiverVolumes-here [die]                                                                          ;; ask the river volumes on the storage patch to die, since they have been replaced by storage volumes
+  ]
+
+  ask patches with [pcolor = red]                                                                        ;; set the current storage value of the gated canal stretch to the value of the storage patch, so that it can check in a new round if the gate should let water through in case the storage patch is not full
+  [
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;for gates along the primary canal;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    if pxcor = 28
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch pxcor (pycor + 1)))
+    ]
+    if pxcor = 32
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch pxcor (pycor + 1)))
+    ]
+    if pxcor = 36
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch pxcor (pycor + 1)))
+    ]
+    if pxcor = 41
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch pxcor (pycor + 1)))
+    ]
+    if pxcor = 45
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch pxcor (pycor + 1)))
+    ]
+    if pxcor = 49
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch pxcor (pycor + 1)))
+    ]
+    if pxcor = 30
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch pxcor (pycor - 1)))
+    ]
+    if pxcor = 34
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch pxcor (pycor - 1)))
+    ]
+    if pxcor = 43
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch pxcor (pycor - 1)))
+    ]
+    if pxcor = 47
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch pxcor (pycor - 1)))
+    ]
+  ]
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;for gates along the secondary canal;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ask patches with [pcolor = red + 2]                                                                        ;; set the current storage value of the gated canal stretch to the value of the storage patch, so that it can check in a new round if the gate should let water through in case the storage patch is not full
+  [
+    if pycor = 13
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch (pxcor - 1) pycor))
+    ]
+    if pycor = 11
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch (pxcor + 1) pycor))
+    ]
+    if pycor = 9
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch (pxcor - 1) pycor))
+    ]
+    if pycor = 7
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch (pxcor + 1) pycor))
+    ]
+    if pycor = 5
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch (pxcor - 1) pycor))
+    ]
+    if pycor = 3
+    [
+      set CurrentStorage ([count StorageVolumes-here] of (patch (pxcor + 1) pycor))
+    ]
+  ]
+end

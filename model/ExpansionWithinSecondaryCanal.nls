@@ -1,0 +1,2676 @@
+
+to FarmersExpansionEvaluation_SecondayCanal                                    ;; evaluate farmers' harvest situation and then decide to expand more farmers along the secondary canal or not
+  ask patches with [LandType = 3]                                              ;; ask storage patch  
+  [
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;there are F11-13 and expand to F14
+    if [pcolor] of patch 38 9 = red + 2 and [pcolor] of patch 38 7 != red + 2
+    [
+;;the 1st year      
+      if F11-13WithGoodHarvestYearsProcedure_1year? = False
+      [      
+        if NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 >= 3 and NumberofHarvestFieldsF13 >= 3
+        [
+          set F11-13WithGoodHarvestYearsProcedure_1year? True
+        ]
+      ]
+;; the 2nd year
+      if F11-13WithGoodHarvestYearsProcedure_1year? = True
+      [
+        set F11-13WithGoodHarvestYears 1
+        set F11-13CountDownExpansion_1year (F11-13CountDownExpansion_1year - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-13CountDownExpansion_1year = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 >= 3 and NumberofHarvestFieldsF13 >= 3
+          [
+            set F11-13WithGoodHarvestYearsProcedure_2years? True
+          ]
+          [
+            set F11-13WithGoodHarvestYearsProcedure_1year? False
+            if F11-13WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+          ]
+        ]
+      ]
+;; the 3rd year
+      if F11-13WithGoodHarvestYearsProcedure_2years? = True
+      [
+        set F11-13WithGoodHarvestYears 2
+        set F11-13CountDownExpansion_2years (F11-13CountDownExpansion_2years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-13CountDownExpansion_2years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 >= 3 and NumberofHarvestFieldsF13 >= 3
+          [
+            set F11-13WithGoodHarvestYearsProcedure_3years? True
+          ]
+          [
+            set F11-13WithGoodHarvestYearsProcedure_1year? False
+            if F11-13WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-13WithGoodHarvestYearsProcedure_2years? False
+            if F11-13WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+          ]        
+        ]      
+      ] 
+;; the 4th year
+      if F11-13WithGoodHarvestYearsProcedure_3years? = True
+      [
+        set F11-13WithGoodHarvestYears 3
+        set F11-13CountDownExpansion_3years (F11-13CountDownExpansion_3years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-13CountDownExpansion_3years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 >= 3 and NumberofHarvestFieldsF13 >= 3
+          [
+            set F11-13WithGoodHarvestYearsProcedure_4years? True
+          ]
+          [
+            set F11-13WithGoodHarvestYearsProcedure_1year? False
+            if F11-13WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-13WithGoodHarvestYearsProcedure_2years? False
+            if F11-13WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-13WithGoodHarvestYearsProcedure_3years? False
+            if F11-13WithGoodHarvestYearsProcedure_3years? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]          
+          ]        
+        ]      
+      ] 
+;;the 5th year
+      if F11-13WithGoodHarvestYearsProcedure_4years? = True
+      [
+        set F11-13WithGoodHarvestYears 4
+        set F11-13CountDownExpansion_4years (F11-13CountDownExpansion_4years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-13CountDownExpansion_4years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 >= 3 and NumberofHarvestFieldsF13 >= 3
+          [
+            set F11-13WithGoodHarvestYearsProcedure_5years? True
+          ]
+          [
+            set F11-13WithGoodHarvestYearsProcedure_1year? False
+            if F11-13WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set  F11-13CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-13WithGoodHarvestYearsProcedure_2years? False
+            if F11-13WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-13WithGoodHarvestYearsProcedure_3years? False
+            if F11-13WithGoodHarvestYearsProcedure_3years? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+            ] 
+            set F11-13WithGoodHarvestYearsProcedure_4years? False
+            if F11-13WithGoodHarvestYearsProcedure_4years? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]          
+          ]        
+        ]      
+      ]
+;;the 6th year
+      if F11-13WithGoodHarvestYearsProcedure_5years? = True
+      [
+        set F11-13WithGoodHarvestYears 5
+        set F11-13CountDownExpansion_5years (F11-13CountDownExpansion_5years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-13CountDownExpansion_5years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 >= 3 and NumberofHarvestFieldsF13 >= 3
+          [
+            set F11-13WithGoodHarvestYearsProcedure_6years? True
+          ]
+          [
+            set F11-13WithGoodHarvestYearsProcedure_1year? False
+            if F11-13WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set  F11-13CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-13WithGoodHarvestYearsProcedure_2years? False
+            if F11-13WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-13WithGoodHarvestYearsProcedure_3years? False
+            if F11-13WithGoodHarvestYearsProcedure_3years? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+            ] 
+            set F11-13WithGoodHarvestYearsProcedure_4years? False
+            if F11-13WithGoodHarvestYearsProcedure_4years? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-13WithGoodHarvestYearsProcedure_5years? False
+            if F11-13WithGoodHarvestYearsProcedure_5years? = False
+            [
+              set F11-13WithGoodHarvestYears 0
+              set F11-13CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]           
+          ]        
+        ]      
+      ]
+      if F11-13WithGoodHarvestYears = 5
+      [
+        SecondaryCanal_F14Expansion
+      ]
+    ]
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;there are F11-14 and expand to F15
+    if [pcolor] of patch 38 7 = red + 2 and [pcolor] of patch 38 5 != red + 2
+    [
+      if F11-14WithGoodHarvestYearsProcedure_1year? = False
+      [
+;;the 1st year      
+        if NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 3 and NumberofHarvestFieldsF14 >= 3
+        [
+          set F11-14WithGoodHarvestYearsProcedure_1year? True
+        ]
+      ]
+;; the 2nd year
+      if F11-14WithGoodHarvestYearsProcedure_1year? = True
+      [
+        set F11-14WithGoodHarvestYears 1
+        set F11-14CountDownExpansion_1year (F11-14CountDownExpansion_1year - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-14CountDownExpansion_1year = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 3 and NumberofHarvestFieldsF14 >= 3
+          [
+            set F11-14WithGoodHarvestYearsProcedure_2years? True
+          ]
+          [
+            set F11-14WithGoodHarvestYearsProcedure_1year? False
+            if F11-14WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+          ]
+        ]
+      ]
+;; the 3rd year
+      if F11-14WithGoodHarvestYearsProcedure_2years? = True
+      [
+        set F11-14WithGoodHarvestYears 2
+        set F11-14CountDownExpansion_2years (F11-14CountDownExpansion_2years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-14CountDownExpansion_2years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 3 and NumberofHarvestFieldsF14 >= 3
+          [
+            set F11-14WithGoodHarvestYearsProcedure_3years? True
+          ]
+          [
+            set F11-14WithGoodHarvestYearsProcedure_1year? False
+            if F11-14WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-14WithGoodHarvestYearsProcedure_2years? False
+            if F11-14WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+          ]        
+        ]      
+      ] 
+;; the 4th year
+      if F11-14WithGoodHarvestYearsProcedure_3years? = True
+      [
+        set F11-14WithGoodHarvestYears 3
+        set F11-14CountDownExpansion_3years (F11-14CountDownExpansion_3years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-14CountDownExpansion_3years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 3 and NumberofHarvestFieldsF14 >= 3
+          [
+            set F11-14WithGoodHarvestYearsProcedure_4years? True
+          ]
+          [
+            set F11-14WithGoodHarvestYearsProcedure_1year? False
+            if F11-14WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-14WithGoodHarvestYearsProcedure_2years? False
+            if F11-14WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-14WithGoodHarvestYearsProcedure_3years? False
+            if F11-14WithGoodHarvestYearsProcedure_3years? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]          
+          ]        
+        ]      
+      ] 
+;;the 5th year
+      if F11-14WithGoodHarvestYearsProcedure_4years? = True
+      [
+        set F11-14WithGoodHarvestYears 4
+        set F11-14CountDownExpansion_4years (F11-14CountDownExpansion_4years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-14CountDownExpansion_4years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 3 and NumberofHarvestFieldsF14 >= 3
+          [
+            set F11-14WithGoodHarvestYearsProcedure_5years? True
+          ]
+          [
+            set F11-14WithGoodHarvestYearsProcedure_1year? False
+            if F11-14WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set  F11-14CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-14WithGoodHarvestYearsProcedure_2years? False
+            if F11-14WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-14WithGoodHarvestYearsProcedure_3years? False
+            if F11-14WithGoodHarvestYearsProcedure_3years? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+            ] 
+            set F11-14WithGoodHarvestYearsProcedure_4years? False
+            if F11-14WithGoodHarvestYearsProcedure_4years? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]          
+          ]        
+        ]      
+      ]
+;;the 6th year
+      if F11-14WithGoodHarvestYearsProcedure_5years? = True
+      [
+        set F11-14WithGoodHarvestYears 5
+        set F11-14CountDownExpansion_5years (F11-14CountDownExpansion_5years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-14CountDownExpansion_5years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 3 and NumberofHarvestFieldsF14 >= 3
+          [
+            set F11-14WithGoodHarvestYearsProcedure_6years? True
+          ]
+          [
+            set F11-14WithGoodHarvestYearsProcedure_1year? False
+            if F11-14WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set  F11-14CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-14WithGoodHarvestYearsProcedure_2years? False
+            if F11-14WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-14WithGoodHarvestYearsProcedure_3years? False
+            if F11-14WithGoodHarvestYearsProcedure_3years? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+            ] 
+            set F11-14WithGoodHarvestYearsProcedure_4years? False
+            if F11-14WithGoodHarvestYearsProcedure_4years? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-14WithGoodHarvestYearsProcedure_5years? False
+            if F11-14WithGoodHarvestYearsProcedure_5years? = False
+            [
+              set F11-14WithGoodHarvestYears 0
+              set F11-14CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]           
+          ]        
+        ]      
+      ]
+      if F11-14WithGoodHarvestYears = 5
+      [
+        SecondaryCanal_F15Expansion
+      ]      
+    ]
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;there are F11-15 and expand to F16
+    if [pcolor] of patch 38 5 = red + 2 and [pcolor] of patch 38 3 != red + 2
+    [
+      if F11-15WithGoodHarvestYearsProcedure_1year? = False
+      [
+;;the 1st year      
+        if NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 3 and NumberofHarvestFieldsF14 >= 3 and NumberofHarvestFieldsF15 >= 3
+        [
+          set F11-15WithGoodHarvestYearsProcedure_1year? True
+        ]
+      ]
+;; the 2nd year
+      if F11-15WithGoodHarvestYearsProcedure_1year? = True
+      [
+        set F11-15WithGoodHarvestYears 1
+        set F11-15CountDownExpansion_1year (F11-15CountDownExpansion_1year - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-15CountDownExpansion_1year = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 3 and NumberofHarvestFieldsF14 >= 3 and NumberofHarvestFieldsF15 >= 3
+          [
+            set F11-15WithGoodHarvestYearsProcedure_2years? True
+          ]
+          [
+            set F11-15WithGoodHarvestYearsProcedure_1year? False
+            if F11-15WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+          ] 
+        ]
+      ]
+;; the 3rd year
+      if F11-15WithGoodHarvestYearsProcedure_2years? = True
+      [
+        set F11-15WithGoodHarvestYears 2
+        set F11-15CountDownExpansion_2years (F11-15CountDownExpansion_2years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-15CountDownExpansion_2years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 3 and NumberofHarvestFieldsF14 >= 3 and NumberofHarvestFieldsF15 >= 3
+          [
+            set F11-15WithGoodHarvestYearsProcedure_3years? True
+          ]
+          [
+            set F11-15WithGoodHarvestYearsProcedure_1year? False
+            if F11-15WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-15WithGoodHarvestYearsProcedure_2years? False
+            if F11-15WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+          ]        
+        ]      
+      ] 
+;; the 4th year
+      if F11-15WithGoodHarvestYearsProcedure_3years? = True
+      [
+        set F11-15WithGoodHarvestYears 3
+        set F11-15CountDownExpansion_3years (F11-15CountDownExpansion_3years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-15CountDownExpansion_3years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 3 and NumberofHarvestFieldsF14 >= 3 and NumberofHarvestFieldsF15 >= 3
+          [
+            set F11-15WithGoodHarvestYearsProcedure_4years? True
+          ]
+          [
+            set F11-15WithGoodHarvestYearsProcedure_1year? False
+            if F11-15WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-15WithGoodHarvestYearsProcedure_2years? False
+            if F11-15WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-15WithGoodHarvestYearsProcedure_3years? False
+            if F11-15WithGoodHarvestYearsProcedure_3years? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]          
+          ]        
+        ]      
+      ] 
+;;the 5th year
+      if F11-15WithGoodHarvestYearsProcedure_4years? = True
+      [
+        set F11-15WithGoodHarvestYears 4
+        set F11-15CountDownExpansion_4years (F11-15CountDownExpansion_4years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-15CountDownExpansion_4years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 3 and NumberofHarvestFieldsF14 >= 3 and NumberofHarvestFieldsF15 >= 3
+          [
+            set F11-15WithGoodHarvestYearsProcedure_5years? True
+          ]  
+          [
+            set F11-15WithGoodHarvestYearsProcedure_1year? False
+            if F11-15WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set  F11-15CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-15WithGoodHarvestYearsProcedure_2years? False
+            if F11-15WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-15WithGoodHarvestYearsProcedure_3years? False
+            if F11-15WithGoodHarvestYearsProcedure_3years? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+            ] 
+            set F11-15WithGoodHarvestYearsProcedure_4years? False
+            if F11-15WithGoodHarvestYearsProcedure_4years? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]          
+          ]        
+        ]      
+      ]
+;;the 6th year
+      if F11-15WithGoodHarvestYearsProcedure_5years? = True
+      [
+        set F11-15WithGoodHarvestYears 5
+        set F11-15CountDownExpansion_5years (F11-15CountDownExpansion_5years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-15CountDownExpansion_5years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 3 and NumberofHarvestFieldsF14 >= 3 and NumberofHarvestFieldsF15 >= 3
+          [
+            set F11-15WithGoodHarvestYearsProcedure_6years? True
+          ]
+          [
+            set F11-15WithGoodHarvestYearsProcedure_1year? False
+            if F11-15WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set  F11-15CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-15WithGoodHarvestYearsProcedure_2years? False
+            if F11-15WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-15WithGoodHarvestYearsProcedure_3years? False
+            if F11-15WithGoodHarvestYearsProcedure_3years? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+            ] 
+            set F11-15WithGoodHarvestYearsProcedure_4years? False
+            if F11-15WithGoodHarvestYearsProcedure_4years? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-15WithGoodHarvestYearsProcedure_5years? False
+            if F11-15WithGoodHarvestYearsProcedure_5years? = False
+            [
+              set F11-15WithGoodHarvestYears 0
+              set F11-15CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]            
+          ]        
+        ]      
+      ]
+      if F11-15WithGoodHarvestYears = 5
+      [
+        SecondaryCanal_F16Expansion
+        ;PrimaryCanal_ExpansionF17-19
+        set F11-15WithGoodHarvestYearsProcedure_5years? False
+      ]
+      if F11-15WithGoodHarvestYearsProcedure_5years? = False
+      [
+        set F11-15WithGoodHarvestYears 0
+      ]     
+    ]   
+  ]
+end
+
+to SecondaryCanal_F14Expansion
+;; canals
+  ask patch 38 6
+  [
+    set LandType  -3                                                        ;; setup secondary canal patch
+    set pcolor blue + 2
+  ] 
+  ask patch 38 5
+  [
+    set LandType  -3                                                        ;; setup secondary canal patch
+    set pcolor blue + 2
+  ]
+  ask patch 38 4
+  [
+    set LandType  5                                                       ;; setup edge of the world patch, without function
+    set pcolor black
+  ]
+;; gates 
+;F14
+  ask patch 38 7                                                           
+  [
+    set LandType  7                                                        ;; setup secondary canal patch
+    set pcolor red + 2
+    set ReadyforGCDecision_SecondaryCanalF11-14 false
+  ]
+;F11
+  ask patch 38 13
+  [
+    set ReadyforGCDecision_SecondaryCanalF11-14 false  
+  ]
+;F12
+  ask patch 38 11
+  [
+    set ReadyforGCDecision_SecondaryCanalF11-14 false    
+  ]
+;F13
+  ask patch 38 9
+  [
+    set ReadyforGCDecision_SecondaryCanalF11-14 false  
+  ]  
+;;storage
+  ask patch 39 7
+  [
+    set LandType 3                                                          ;; setup storage patch
+    set pcolor grey
+    set CompareOnceAYearF11-14 true                                         ;; the procedure of comparing the harvest every year
+    set CompareEveryTwoYearsSecondaryF11-14 false                                 ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-14 ComparisonTime    
+    set F11-14WithGoodHarvestYearsProcedure_1year? False
+    set F11-14WithGoodHarvestYearsProcedure_2years? False
+    set F11-14WithGoodHarvestYearsProcedure_3years? False
+    set F11-14WithGoodHarvestYearsProcedure_4years? False
+    set F11-14WithGoodHarvestYearsProcedure_5years? False
+    set F11-14WithGoodHarvestYearsProcedure_6years? False
+    set F11-14CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)     
+  ]
+  ask patch 37 13                                                            ;; storage-F11
+  [
+    set CompareOnceAYear false
+    set CompareOnceAYearF11-14 true
+    set CompareEveryTwoYearsSecondaryF11-14 false                                 ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-14 ComparisonTime    
+    set F11-14WithGoodHarvestYearsProcedure_1year? False
+    set F11-14WithGoodHarvestYearsProcedure_2years? False
+    set F11-14WithGoodHarvestYearsProcedure_3years? False
+    set F11-14WithGoodHarvestYearsProcedure_4years? False
+    set F11-14WithGoodHarvestYearsProcedure_5years? False
+    set F11-14WithGoodHarvestYearsProcedure_6years? False
+    set F11-14CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)     
+  ]
+  ask patch 39 11                                                            ;; storage-F12 
+  [
+    set CompareOnceAYear false
+    set CompareOnceAYearF11-14 true
+    set CompareEveryTwoYearsSecondaryF11-14 false                                 ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-14 ComparisonTime    
+    set F11-14WithGoodHarvestYearsProcedure_1year? False
+    set F11-14WithGoodHarvestYearsProcedure_2years? False
+    set F11-14WithGoodHarvestYearsProcedure_3years? False
+    set F11-14WithGoodHarvestYearsProcedure_4years? False
+    set F11-14WithGoodHarvestYearsProcedure_5years? False
+    set F11-14WithGoodHarvestYearsProcedure_6years? False
+    set F11-14CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)     
+  ]
+  ask patch 37 9                                                             ;; storage-F13
+  [
+    set CompareOnceAYear false
+    set CompareOnceAYearF11-14 true
+    set CompareEveryTwoYearsSecondaryF11-14 false                                 ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-14 ComparisonTime    
+    set F11-14WithGoodHarvestYearsProcedure_1year? False
+    set F11-14WithGoodHarvestYearsProcedure_2years? False
+    set F11-14WithGoodHarvestYearsProcedure_3years? False
+    set F11-14WithGoodHarvestYearsProcedure_4years? False
+    set F11-14WithGoodHarvestYearsProcedure_5years? False
+    set F11-14WithGoodHarvestYearsProcedure_6years? False
+    set F11-14CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-14CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)     
+  ]  
+;;farmlands
+;; F14
+  ask patch 39 8
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 40 8
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 40 7
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 40 6
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 39 6
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]  
+end
+
+to SecondaryCanal_F15Expansion
+;; canals
+  ask patch 38 4
+  [
+    set LandType  -3                                                        
+    set pcolor blue + 2
+  ] 
+  ask patch 38 3
+  [
+    set LandType  5                                                       ;; setup edge of the world patch, without function
+    set pcolor black
+  ]
+;; gates 
+  ask patch 38 5
+  [
+    set LandType  7                                                        ;; setup secondary canal patch
+    set pcolor red + 2
+    set ReadyforGCDecision_SecondaryCanalF11-15 false
+  ]
+  ask patch 38 13
+  [
+    set ReadyforGCDecision_SecondaryCanalF11-15 false
+  ]
+  ask patch 38 11
+  [
+    set ReadyforGCDecision_SecondaryCanalF11-15 false
+  ]
+  ask patch 38 9
+  [
+    set ReadyforGCDecision_SecondaryCanalF11-15 false
+  ]
+  ask patch 38 7
+  [
+    set ReadyforGCDecision_SecondaryCanalF11-15 false
+  ]   
+;;storage
+  ask patch 37 5
+  [
+    set LandType 3                                                          ;; setup storage patch
+    set pcolor grey
+    set CompareOnceAYearF11-14 false
+    set CompareOnceAYearF11-15 true                                ;; the procedure of comparing the harvest every year
+    set CompareEveryTwoYearsSecondaryF11-15 false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-15 ComparisonTime     
+    set F11-15WithGoodHarvestYearsProcedure_1year? False
+    set F11-15WithGoodHarvestYearsProcedure_2years? False
+    set F11-15WithGoodHarvestYearsProcedure_3years? False
+    set F11-15WithGoodHarvestYearsProcedure_4years? False
+    set F11-15WithGoodHarvestYearsProcedure_5years? False
+    set F11-15WithGoodHarvestYearsProcedure_6years? False
+    set F11-15CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)     
+  ]
+      
+  ask patch 37 13                                                            ;; storage-F11
+  [
+    set CompareOnceAYearF11-14 false
+    set CompareOnceAYearF11-15 true
+    set CompareEveryTwoYearsSecondaryF11-15 false                                 ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-15 ComparisonTime    
+    set F11-15WithGoodHarvestYearsProcedure_1year? False
+    set F11-15WithGoodHarvestYearsProcedure_2years? False
+    set F11-15WithGoodHarvestYearsProcedure_3years? False
+    set F11-15WithGoodHarvestYearsProcedure_4years? False
+    set F11-15WithGoodHarvestYearsProcedure_5years? False
+    set F11-15WithGoodHarvestYearsProcedure_6years? False
+    set F11-15CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)     
+  ]  
+  ask patch 39 11                                                            ;; storage-F12 
+  [
+    set CompareOnceAYearF11-14 false
+    set CompareOnceAYearF11-15 true
+    set CompareEveryTwoYearsSecondaryF11-15 false                                 ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-15 ComparisonTime    
+    set F11-15WithGoodHarvestYearsProcedure_1year? False
+    set F11-15WithGoodHarvestYearsProcedure_2years? False
+    set F11-15WithGoodHarvestYearsProcedure_3years? False
+    set F11-15WithGoodHarvestYearsProcedure_4years? False
+    set F11-15WithGoodHarvestYearsProcedure_5years? False
+    set F11-15WithGoodHarvestYearsProcedure_6years? False
+    set F11-15CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)    
+  ]
+  ask patch 37 9                                                             ;; storage-F13
+  [
+    set CompareOnceAYearF11-14 false
+    set CompareOnceAYearF11-15 true
+    set CompareEveryTwoYearsSecondaryF11-15 false                                 ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-15 ComparisonTime    
+    set F11-15WithGoodHarvestYearsProcedure_1year? False
+    set F11-15WithGoodHarvestYearsProcedure_2years? False
+    set F11-15WithGoodHarvestYearsProcedure_3years? False
+    set F11-15WithGoodHarvestYearsProcedure_4years? False
+    set F11-15WithGoodHarvestYearsProcedure_5years? False
+    set F11-15WithGoodHarvestYearsProcedure_6years? False
+    set F11-15CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)     
+  ] 
+  ask patch 39 7                                                            ;; storage-F13
+  [
+    set CompareOnceAYearF11-14 false
+    set CompareOnceAYearF11-15 true 
+    set CompareEveryTwoYearsSecondaryF11-15 false                                 ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-15 ComparisonTime    
+    set F11-15WithGoodHarvestYearsProcedure_1year? False
+    set F11-15WithGoodHarvestYearsProcedure_2years? False
+    set F11-15WithGoodHarvestYearsProcedure_3years? False
+    set F11-15WithGoodHarvestYearsProcedure_4years? False
+    set F11-15WithGoodHarvestYearsProcedure_5years? False
+    set F11-15WithGoodHarvestYearsProcedure_6years? False
+    set F11-15CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-15CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)     
+  ]   
+;;farmlands
+;; F15
+  ask patch 37 6
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 36 6
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 36 5
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 36 4
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 37 4
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]    
+end
+
+to SecondaryCanal_F16Expansion
+;; canals
+  ask patch 38 2
+  [
+    set LandType  -3                                                        ;; setup secondary canal patch
+    set pcolor blue + 2
+  ] 
+  ask patch 38 1
+  [
+    set LandType  -3                                                        ;; setup secondary canal patch
+    set pcolor blue + 2
+  ]   
+  ask patch 38 0
+  [
+    set LandType  5                                                       ;; setup edge of the world patch, without function
+    set pcolor black
+  ]
+;; gates 
+  ask patch 38 3
+  [
+    set LandType  7                                                        ;; setup secondary canal patch
+    set pcolor red + 2
+    set ReadyforGCDecision_SecondaryCanalF11-16 false
+  ]
+  ask patch 38 13
+  [
+    set ReadyforGCDecision_SecondaryCanalF11-16 false
+  ]
+  ask patch 38 11
+  [
+    set ReadyforGCDecision_SecondaryCanalF11-16 false
+  ]
+  ask patch 38 9
+  [
+    set ReadyforGCDecision_SecondaryCanalF11-16 false
+  ]
+  ask patch 38 7
+  [
+    set ReadyforGCDecision_SecondaryCanalF11-16 false
+  ] 
+  ask patch 38 5
+  [
+    set ReadyforGCDecision_SecondaryCanalF11-16 false
+  ]      
+;;storage
+  ask patch 39 3
+  [
+    set LandType 3                                                          ;; setup storage patch
+    set pcolor grey
+    set CompareOnceAYearF11-15 false
+    set CompareOnceAYearF11-16 true                                ;; the procedure of comparing the harvest every year
+    set CompareEveryTwoYearsSecondaryF11-16 false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-16 ComparisonTime     
+    set F11-16WithGoodHarvestYearsProcedure_1year? False
+    set F11-16WithGoodHarvestYearsProcedure_2years? False
+    set F11-16WithGoodHarvestYearsProcedure_3years? False
+    set F11-16WithGoodHarvestYearsProcedure_4years? False
+    set F11-16WithGoodHarvestYearsProcedure_5years? False
+    set F11-16WithGoodHarvestYearsProcedure_6years? False
+    set F11-16CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)     
+  ]
+  ask patch 37 13                                                            ;; storage-F11
+  [
+    set CompareOnceAYearF11-15 false
+    set CompareOnceAYearF11-16 true
+    set CompareEveryTwoYearsSecondaryF11-16 false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-16 ComparisonTime     
+    set F11-16WithGoodHarvestYearsProcedure_1year? False
+    set F11-16WithGoodHarvestYearsProcedure_2years? False
+    set F11-16WithGoodHarvestYearsProcedure_3years? False
+    set F11-16WithGoodHarvestYearsProcedure_4years? False
+    set F11-16WithGoodHarvestYearsProcedure_5years? False
+    set F11-16WithGoodHarvestYearsProcedure_6years? False
+    set F11-16CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)    
+  ]
+  ask patch 39 11                                                            ;; storage-F12 
+  [
+    set CompareOnceAYearF11-15 false
+    set CompareOnceAYearF11-16 true
+    set CompareEveryTwoYearsSecondaryF11-16 false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-16 ComparisonTime     
+    set F11-16WithGoodHarvestYearsProcedure_1year? False
+    set F11-16WithGoodHarvestYearsProcedure_2years? False
+    set F11-16WithGoodHarvestYearsProcedure_3years? False
+    set F11-16WithGoodHarvestYearsProcedure_4years? False
+    set F11-16WithGoodHarvestYearsProcedure_5years? False
+    set F11-16WithGoodHarvestYearsProcedure_6years? False
+    set F11-16CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)    
+  ]
+  ask patch 37 9                                                             ;; storage-F13
+  [
+    set CompareOnceAYearF11-15 false
+    set CompareOnceAYearF11-16 true
+    set CompareEveryTwoYearsSecondaryF11-16 false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-16 ComparisonTime     
+    set F11-16WithGoodHarvestYearsProcedure_1year? False
+    set F11-16WithGoodHarvestYearsProcedure_2years? False
+    set F11-16WithGoodHarvestYearsProcedure_3years? False
+    set F11-16WithGoodHarvestYearsProcedure_4years? False
+    set F11-16WithGoodHarvestYearsProcedure_5years? False
+    set F11-16WithGoodHarvestYearsProcedure_6years? False
+    set F11-16CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)    
+  ] 
+  ask patch 39 7                                                            ;; storage-F13
+  [
+    set CompareOnceAYearF11-15 false
+    set CompareOnceAYearF11-16 true
+    set CompareEveryTwoYearsSecondaryF11-16 false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-16 ComparisonTime     
+    set F11-16WithGoodHarvestYearsProcedure_1year? False
+    set F11-16WithGoodHarvestYearsProcedure_2years? False
+    set F11-16WithGoodHarvestYearsProcedure_3years? False
+    set F11-16WithGoodHarvestYearsProcedure_4years? False
+    set F11-16WithGoodHarvestYearsProcedure_5years? False
+    set F11-16WithGoodHarvestYearsProcedure_6years? False
+    set F11-16CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)    
+  ]
+  ask patch 37 5                                                            ;; storage-F13
+  [
+    set CompareOnceAYearF11-15 false
+    set CompareOnceAYearF11-16 true
+     set CompareEveryTwoYearsSecondaryF11-16 false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondaryF11-16 ComparisonTime     
+    set F11-16WithGoodHarvestYearsProcedure_1year? False
+    set F11-16WithGoodHarvestYearsProcedure_2years? False
+    set F11-16WithGoodHarvestYearsProcedure_3years? False
+    set F11-16WithGoodHarvestYearsProcedure_4years? False
+    set F11-16WithGoodHarvestYearsProcedure_5years? False
+    set F11-16WithGoodHarvestYearsProcedure_6years? False
+    set F11-16CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-16CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)   
+  ]  
+;;farmlands
+;; F16
+  ask patch 39 4
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 40 4
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 40 3
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 40 2
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 39 2
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]  
+end
+
+to FarmersHarvestEvaluation_SecondayCanal                                  ;; after farmers' expansion within the secondary canal, for GC variation when there is poor harvest
+  ask patches with [LandType = 3]                                          ;; ask the storage patch
+  [    
+    if pycor < 15
+    [
+      ;there are farmer11-14
+      if [pcolor] of patch 38 7 = red + 2 and [pcolor] of patch 38 5 != red + 2
+      [      
+;;;;;;there are farmer11, 12, 13, 14: UP-F11 Middle-F12, 13 Down-14
+        set MiddlestreamF12-13HarvestFieldsList (list NumberofHarvestFieldsF12 NumberofHarvestFieldsF13)
+        set MiddlestreamF12-13BarleyYieldList (list BarleyYieldPerYearF12 BarleyYieldPerYearF13)                       ;; the yields list for middle stream farmers: F12 13        
+        ifelse CompareOnceAYearF11-14 = true              ;;there are farmer11-14
+        [
+          if pxcor < 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if NumberofHarvestFieldsF13 = NumberofHarvestFieldsF14
+                  [
+                    if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                    [
+                      if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                      [
+                        if BarleyYieldPerYearF13 = BarleyYieldPerYearF14
+                        [
+                          set CompareOnceAYearF11-14 true
+                          set ContinuousPoorYearNumberSecondaryF11-14 0
+                        ]
+                      ]
+                    ]
+                    ;if BarleyYieldPerYearF11 > one-of MiddlestreamF12-13BarleyYieldList or BarleyYieldPerYearF11 > BarleyYieldPerYearF14 or one-of MiddlestreamF12-13BarleyYieldList > BarleyYieldPerYearF14
+                    if BarleyYieldPerYearF11 > BarleyYieldPerYearF12 or BarleyYieldPerYearF11 > BarleyYieldPerYearF13 or BarleyYieldPerYearF11 > BarleyYieldPerYearF14 or 
+                       BarleyYieldPerYearF12 > BarleyYieldPerYearF13 or BarleyYieldPerYearF12 > BarleyYieldPerYearF14 or
+                       BarleyYieldPerYearF13 > BarleyYieldPerYearF14
+                    [
+                      set CompareOnceAYearF11-14 false
+                      set CompareEveryTwoYearsSecondaryF11-14 true                            ;; the procedure of comparing the harvest every two years
+                      set ContinuousPoorYearNumberSecondaryF11-14 (ContinuousPoorYearNumberSecondaryF11-14 + 1)                                        ;; record the number of times when poor year appears
+                    ]
+                  ]
+                ]
+              ]            
+            ]
+          ]
+          if pxcor > 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if NumberofHarvestFieldsF13 = NumberofHarvestFieldsF14
+                  [
+                    if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                    [
+                      if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                      [
+                        if BarleyYieldPerYearF13 = BarleyYieldPerYearF14
+                        [
+                          set CompareOnceAYearF11-14 true
+                          set ContinuousPoorYearNumberSecondaryF11-14 0
+                        ]
+                      ]
+                    ]
+                    ;if BarleyYieldPerYearF11 > one-of MiddlestreamF12-13BarleyYieldList or BarleyYieldPerYearF11 > BarleyYieldPerYearF14 or one-of MiddlestreamF12-13BarleyYieldList > BarleyYieldPerYearF14
+                    if BarleyYieldPerYearF11 > BarleyYieldPerYearF12 or BarleyYieldPerYearF11 > BarleyYieldPerYearF13 or BarleyYieldPerYearF11 > BarleyYieldPerYearF14 or 
+                       BarleyYieldPerYearF12 > BarleyYieldPerYearF13 or BarleyYieldPerYearF12 > BarleyYieldPerYearF14 or
+                       BarleyYieldPerYearF13 > BarleyYieldPerYearF14                    
+                    [
+                      set CompareOnceAYearF11-14 false
+                      set CompareEveryTwoYearsSecondaryF11-14 true                            ;; the procedure of comparing the harvest every two years
+                      set ContinuousPoorYearNumberSecondaryF11-14 (ContinuousPoorYearNumberSecondaryF11-14 + 1)                                        ;; record the number of times when poor year appears
+                    ]
+                  ]
+                ]
+              ]            
+            ]
+          ]
+          ;;farmers have the different number of harvested fieds
+          ;if NumberofHarvestFieldsF11 > one-of MiddlestreamF12-13HarvestFieldsList or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF14 or one-of MiddlestreamF12-13HarvestFieldsList > NumberofHarvestFieldsF14
+                    if NumberofHarvestFieldsF11 > NumberofHarvestFieldsF12 or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF13 or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF14 or 
+                       NumberofHarvestFieldsF12 > NumberofHarvestFieldsF13 or NumberofHarvestFieldsF12 > NumberofHarvestFieldsF14 or
+                       NumberofHarvestFieldsF13 > NumberofHarvestFieldsF14          
+          [
+            set CompareOnceAYearF11-14 false
+            set CompareEveryTwoYearsSecondaryF11-14 true                            ;; the procedure of comparing the harvest every two years
+            set ContinuousPoorYearNumberSecondaryF11-14 (ContinuousPoorYearNumberSecondaryF11-14 + 1)                                        ;; record the number of times when poor year appears
+          ]        
+        ]
+        [
+          if CompareEveryTwoYearsSecondaryF11-14 = true
+          [
+            set ComparisonCountDownSecondaryF11-14 (ComparisonCountDownSecondaryF11-14 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            SystemsReaction_SecondaryCanalF11-14
+          ]        
+        ]
+      
+        if ComparisonCountDownSecondaryF11-14 = 0
+        [
+          set ComparisonCountDownSecondaryF11-14 (ComparisonTime + 1)
+          if pxcor < 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if NumberofHarvestFieldsF13 = NumberofHarvestFieldsF14
+                  [                  
+                    if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                    [
+                      if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                      [
+                        if BarleyYieldPerYearF13 = BarleyYieldPerYearF14
+                        [
+                          set CompareOnceAYearF11-14 true
+                          set ContinuousPoorYearNumberSecondaryF11-14 0
+                        ]
+                      ]
+                    ]
+                    ;if BarleyYieldPerYearF11 > one-of MiddlestreamF12-13BarleyYieldList or BarleyYieldPerYearF11 > BarleyYieldPerYearF14 or one-of MiddlestreamF12-13BarleyYieldList > BarleyYieldPerYearF14
+                    if BarleyYieldPerYearF11 > BarleyYieldPerYearF12 or BarleyYieldPerYearF11 > BarleyYieldPerYearF13 or BarleyYieldPerYearF11 > BarleyYieldPerYearF14 or 
+                       BarleyYieldPerYearF12 > BarleyYieldPerYearF13 or BarleyYieldPerYearF12 > BarleyYieldPerYearF14 or
+                       BarleyYieldPerYearF13 > BarleyYieldPerYearF14                    
+                    [
+                      set CompareOnceAYearF11-14 false
+                      set CompareEveryTwoYearsSecondaryF11-14 true                            ;; the procedure of comparing the harvest every two years
+                    ]
+                  ]                  
+               ]
+              ]              
+            ]
+          ]
+          if pxcor > 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if NumberofHarvestFieldsF13 = NumberofHarvestFieldsF14
+                  [
+                    if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                    [
+                      if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                      [
+                        if BarleyYieldPerYearF13 = BarleyYieldPerYearF14
+                        [
+                          set CompareOnceAYearF11-14 true
+                          set ContinuousPoorYearNumberSecondaryF11-14 0
+                        ]
+                      ]
+                    ]
+                    ;if BarleyYieldPerYearF11 > one-of MiddlestreamF12-13BarleyYieldList or BarleyYieldPerYearF11 > BarleyYieldPerYearF14 or one-of MiddlestreamF12-13BarleyYieldList > BarleyYieldPerYearF14
+                    if BarleyYieldPerYearF11 > BarleyYieldPerYearF12 or BarleyYieldPerYearF11 > BarleyYieldPerYearF13 or BarleyYieldPerYearF11 > BarleyYieldPerYearF14 or 
+                       BarleyYieldPerYearF12 > BarleyYieldPerYearF13 or BarleyYieldPerYearF12 > BarleyYieldPerYearF14 or
+                       BarleyYieldPerYearF13 > BarleyYieldPerYearF14                    
+                    [
+                      set CompareOnceAYearF11-14 false
+                      set CompareEveryTwoYearsSecondaryF11-14 true                            ;; the procedure of comparing the harvest every two years
+                    ]
+                  ]
+                ]
+              ]
+            ]            
+          ]
+          ;;farmers have the different number of harvested fieds
+          ;if NumberofHarvestFieldsF11 > one-of MiddlestreamF12-13HarvestFieldsList or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF14 or one-of MiddlestreamF12-13HarvestFieldsList > NumberofHarvestFieldsF14
+                    if NumberofHarvestFieldsF11 > NumberofHarvestFieldsF12 or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF13 or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF14 or 
+                       NumberofHarvestFieldsF12 > NumberofHarvestFieldsF13 or NumberofHarvestFieldsF12 > NumberofHarvestFieldsF14 or
+                       NumberofHarvestFieldsF13 > NumberofHarvestFieldsF14                  
+          [
+            set CompareOnceAYearF11-14 false
+            set CompareEveryTwoYearsSecondaryF11-14 true
+          ]
+          if CompareEveryTwoYearsSecondaryF11-14 = true
+          [
+            set ComparisonCountDownSecondaryF11-14 (ComparisonCountDownSecondaryF11-14 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            set ContinuousPoorYearNumberSecondaryF11-14 (ContinuousPoorYearNumberSecondaryF11-14 + 1)
+            SystemsReaction_SecondaryCanalF11-14            
+          ]
+        ]
+      ]      
+;;there are farmer11-15      
+      if [pcolor] of patch 38 5 = red + 2 and [pcolor] of patch 38 3 != red + 2
+      [
+        ;;there are farmer11, 12, 13, 14, 15: UP-F11 Middle-F12,13,14 Down-15
+        set MiddlestreamF12-14HarvestFieldsList (list NumberofHarvestFieldsF12 NumberofHarvestFieldsF13 NumberofHarvestFieldsF14)
+        set MiddlestreamF12-14BarleyYieldList (list BarleyYieldPerYearF12 BarleyYieldPerYearF13 BarleyYieldPerYearF14)                       ;; the yields list for middle stream farmers: F12 13 14        
+        ifelse CompareOnceAYearF11-15 = true              
+        [
+          if pxcor < 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if NumberofHarvestFieldsF13 = NumberofHarvestFieldsF14
+                  [
+                    if NumberofHarvestFieldsF14 = NumberofHarvestFieldsF15
+                    [
+                      if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                      [
+                        if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                        [
+                          if BarleyYieldPerYearF13 = BarleyYieldPerYearF14
+                          [
+                            if BarleyYieldPerYearF14 = BarleyYieldPerYearF15
+                            [
+                              set CompareOnceAYearF11-15 true
+                              set ContinuousPoorYearNumberSecondaryF11-15 0
+                            ]
+                          ]
+                        ]
+                      ]
+                      ;if BarleyYieldPerYearF11 > one-of MiddlestreamF12-14BarleyYieldList or BarleyYieldPerYearF11 > BarleyYieldPerYearF15 or one-of MiddlestreamF12-14BarleyYieldList > BarleyYieldPerYearF15
+                      if BarleyYieldPerYearF11 > BarleyYieldPerYearF12 or BarleyYieldPerYearF11 > BarleyYieldPerYearF13 or BarleyYieldPerYearF11 > BarleyYieldPerYearF14 or BarleyYieldPerYearF11 > BarleyYieldPerYearF15 or 
+                         BarleyYieldPerYearF12 > BarleyYieldPerYearF13 or BarleyYieldPerYearF12 > BarleyYieldPerYearF14 or BarleyYieldPerYearF12 > BarleyYieldPerYearF15 or
+                         BarleyYieldPerYearF13 > BarleyYieldPerYearF14 or BarleyYieldPerYearF13 > BarleyYieldPerYearF15 or 
+                         BarleyYieldPerYearF14 > BarleyYieldPerYearF15 
+                      [
+                        set CompareOnceAYearF11-15 false
+                        set CompareEveryTwoYearsSecondaryF11-15 true                            ;; the procedure of comparing the harvest every two years
+                        set ContinuousPoorYearNumberSecondaryF11-15 (ContinuousPoorYearNumberSecondaryF11-15 + 1)                                        ;; record the number of times when poor year appears
+                      ]
+                    ]
+                  ]
+                ]
+              ]            
+            ]            
+          ]
+          if pxcor > 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if NumberofHarvestFieldsF13 = NumberofHarvestFieldsF14
+                  [
+                    if NumberofHarvestFieldsF14 = NumberofHarvestFieldsF15
+                    [
+                      if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                      [
+                        if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                        [
+                          if BarleyYieldPerYearF13 = BarleyYieldPerYearF14
+                          [
+                            if BarleyYieldPerYearF14 = BarleyYieldPerYearF15
+                            [
+                              set CompareOnceAYearF11-15 true
+                              set ContinuousPoorYearNumberSecondaryF11-15 0
+                            ]
+                          ]
+                        ]
+                      ]
+                      ;if BarleyYieldPerYearF11 > one-of MiddlestreamF12-14BarleyYieldList or BarleyYieldPerYearF11 > BarleyYieldPerYearF15 or one-of MiddlestreamF12-14BarleyYieldList > BarleyYieldPerYearF15
+                      if BarleyYieldPerYearF11 > BarleyYieldPerYearF12 or BarleyYieldPerYearF11 > BarleyYieldPerYearF13 or BarleyYieldPerYearF11 > BarleyYieldPerYearF14 or BarleyYieldPerYearF11 > BarleyYieldPerYearF15 or 
+                         BarleyYieldPerYearF12 > BarleyYieldPerYearF13 or BarleyYieldPerYearF12 > BarleyYieldPerYearF14 or BarleyYieldPerYearF12 > BarleyYieldPerYearF15 or
+                         BarleyYieldPerYearF13 > BarleyYieldPerYearF14 or BarleyYieldPerYearF13 > BarleyYieldPerYearF15 or 
+                         BarleyYieldPerYearF14 > BarleyYieldPerYearF15                       
+                      [
+                        set CompareOnceAYearF11-15 false
+                        set CompareEveryTwoYearsSecondaryF11-15 true                            ;; the procedure of comparing the harvest every two years
+                        set ContinuousPoorYearNumberSecondaryF11-15 (ContinuousPoorYearNumberSecondaryF11-15 + 1)                                        ;; record the number of times when poor year appears
+                      ]
+                    ]
+                  ]
+                ]
+              ]            
+            ]            
+          ]
+          ;;farmers have the different number of harvested fieds
+          ;if NumberofHarvestFieldsF11 > one-of MiddlestreamF12-14HarvestFieldsList or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF15 or one-of MiddlestreamF12-14HarvestFieldsList > NumberofHarvestFieldsF15
+                      if NumberofHarvestFieldsF11 > NumberofHarvestFieldsF12 or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF13 or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF14 or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF15 or 
+                         NumberofHarvestFieldsF12 > NumberofHarvestFieldsF13 or NumberofHarvestFieldsF12 > NumberofHarvestFieldsF14 or NumberofHarvestFieldsF12 > NumberofHarvestFieldsF15 or
+                         NumberofHarvestFieldsF13 > NumberofHarvestFieldsF14 or NumberofHarvestFieldsF13 > NumberofHarvestFieldsF15 or 
+                         NumberofHarvestFieldsF14 > NumberofHarvestFieldsF15            
+          [
+            set CompareOnceAYearF11-15 false
+            set CompareEveryTwoYearsSecondaryF11-15 true                            ;; the procedure of comparing the harvest every two years
+            set ContinuousPoorYearNumberSecondaryF11-15 (ContinuousPoorYearNumberSecondaryF11-15 + 1)                                        ;; record the number of times when poor year appears
+          ]          
+        ]
+        [
+          if CompareEveryTwoYearsSecondaryF11-15 = true
+          [
+            set ComparisonCountDownSecondaryF11-15 (ComparisonCountDownSecondaryF11-15 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            SystemsReaction_SecondaryCanalF11-15
+          ]      
+        ]
+        if ComparisonCountDownSecondaryF11-15 = 0
+        [
+          set ComparisonCountDownSecondaryF11-15 (ComparisonTime + 1)
+          if pxcor < 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if NumberofHarvestFieldsF13 = NumberofHarvestFieldsF14
+                  [
+                    if NumberofHarvestFieldsF14 = NumberofHarvestFieldsF15
+                    [
+                      if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                      [
+                        if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                        [
+                          if BarleyYieldPerYearF13 = BarleyYieldPerYearF14
+                          [
+                            if BarleyYieldPerYearF14 = BarleyYieldPerYearF15
+                            [
+                              set CompareOnceAYearF11-15 true
+                              set ContinuousPoorYearNumberSecondaryF11-15 0
+                            ]
+                          ]
+                        ]
+                      ]
+                      ;if BarleyYieldPerYearF11 > one-of MiddlestreamF12-14BarleyYieldList or BarleyYieldPerYearF11 > BarleyYieldPerYearF15 or one-of MiddlestreamF12-14BarleyYieldList > BarleyYieldPerYearF15
+                      if BarleyYieldPerYearF11 > BarleyYieldPerYearF12 or BarleyYieldPerYearF11 > BarleyYieldPerYearF13 or BarleyYieldPerYearF11 > BarleyYieldPerYearF14 or BarleyYieldPerYearF11 > BarleyYieldPerYearF15 or 
+                         BarleyYieldPerYearF12 > BarleyYieldPerYearF13 or BarleyYieldPerYearF12 > BarleyYieldPerYearF14 or BarleyYieldPerYearF12 > BarleyYieldPerYearF15 or
+                         BarleyYieldPerYearF13 > BarleyYieldPerYearF14 or BarleyYieldPerYearF13 > BarleyYieldPerYearF15 or 
+                         BarleyYieldPerYearF14 > BarleyYieldPerYearF15                       
+                      [
+                        set CompareOnceAYearF11-15 false
+                        set CompareEveryTwoYearsSecondaryF11-15 true                            ;; the procedure of comparing the harvest every two years
+                      ]
+                    ]
+                  ]                  
+                ]
+              ]              
+            ]
+          ]
+          if pxcor > 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if NumberofHarvestFieldsF13 = NumberofHarvestFieldsF14
+                  [
+                    if NumberofHarvestFieldsF14 = NumberofHarvestFieldsF15
+                    [
+                      if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                      [
+                        if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                        [
+                          if BarleyYieldPerYearF13 = BarleyYieldPerYearF14
+                          [
+                            if BarleyYieldPerYearF14 = BarleyYieldPerYearF15
+                            [
+                              set CompareOnceAYearF11-15 true
+                              set ContinuousPoorYearNumberSecondaryF11-15 0
+                            ]
+                          ]
+                        ]
+                      ]
+                      ;if BarleyYieldPerYearF11 > one-of MiddlestreamF12-14BarleyYieldList or BarleyYieldPerYearF11 > BarleyYieldPerYearF15 or one-of MiddlestreamF12-14BarleyYieldList > BarleyYieldPerYearF15
+                      if BarleyYieldPerYearF11 > BarleyYieldPerYearF12 or BarleyYieldPerYearF11 > BarleyYieldPerYearF13 or BarleyYieldPerYearF11 > BarleyYieldPerYearF14 or BarleyYieldPerYearF11 > BarleyYieldPerYearF15 or 
+                         BarleyYieldPerYearF12 > BarleyYieldPerYearF13 or BarleyYieldPerYearF12 > BarleyYieldPerYearF14 or BarleyYieldPerYearF12 > BarleyYieldPerYearF15 or
+                         BarleyYieldPerYearF13 > BarleyYieldPerYearF14 or BarleyYieldPerYearF13 > BarleyYieldPerYearF15 or 
+                         BarleyYieldPerYearF14 > BarleyYieldPerYearF15                       
+                      [
+                        set CompareOnceAYearF11-15 false
+                        set CompareEveryTwoYearsSecondaryF11-15 true                            ;; the procedure of comparing the harvest every two years
+                      ]
+                    ]
+                  ]                  
+                ]
+              ] 
+            ]            
+          ]
+          ;;farmers have the different number of harvested fieds
+          ;if NumberofHarvestFieldsF11 > one-of MiddlestreamF12-14HarvestFieldsList or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF15 or MiddlestreamF12-14HarvestFieldsList > NumberofHarvestFieldsF15
+                      if NumberofHarvestFieldsF11 > NumberofHarvestFieldsF12 or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF13 or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF14 or NumberofHarvestFieldsF11 > NumberofHarvestFieldsF15 or 
+                         NumberofHarvestFieldsF12 > NumberofHarvestFieldsF13 or NumberofHarvestFieldsF12 > NumberofHarvestFieldsF14 or NumberofHarvestFieldsF12 > NumberofHarvestFieldsF15 or
+                         NumberofHarvestFieldsF13 > NumberofHarvestFieldsF14 or NumberofHarvestFieldsF13 > NumberofHarvestFieldsF15 or 
+                         NumberofHarvestFieldsF14 > NumberofHarvestFieldsF15           
+          [
+            set CompareOnceAYearF11-15 false
+            set CompareEveryTwoYearsSecondaryF11-15 true                                        
+          ]
+          
+          if CompareEveryTwoYearsSecondaryF11-15 = true
+          [
+            set ComparisonCountDownSecondaryF11-15 (ComparisonCountDownSecondaryF11-15 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            set ContinuousPoorYearNumberSecondaryF11-15 (ContinuousPoorYearNumberSecondaryF11-15 + 1)
+            SystemsReaction_SecondaryCanalF11-15              
+          ]
+        ]        
+      ]
+      
+;;there are farmer11-16      
+      if [pcolor] of patch 38 3 = red + 2 and [pcolor] of patch 38 7 = red + 2 and [pcolor] of patch 38 5 = red + 2
+      [       
+        ;;there are farmer11, 12, 13, 14, 15, 16: UP-F11,2 Middle-F13,14 Down-15,16
+        set UpstreamF11-12HarvestFieldsList (list NumberofHarvestFieldsF11 NumberofHarvestFieldsF12)
+        set UpstreamF11-12BarleyYieldList (list BarleyYieldPerYearF11 BarleyYieldPerYearF12) 
+        set MiddlestreamF13-14HarvestFieldsList (list NumberofHarvestFieldsF13 NumberofHarvestFieldsF14)
+        set MiddlestreamF13-14BarleyYieldList (list BarleyYieldPerYearF13 BarleyYieldPerYearF14)                       
+        set DownstreamF15-16HarvestFieldsList (list NumberofHarvestFieldsF15 NumberofHarvestFieldsF16)
+        set DownstreamF15-16BarleyYieldList (list BarleyYieldPerYearF15 BarleyYieldPerYearF16)                         
+        ifelse CompareOnceAYearF11-16 = true              
+        [
+          if pxcor < 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              ;;farmers have the same number of harvested fieds
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if NumberofHarvestFieldsF13 = NumberofHarvestFieldsF14
+                  [
+                    if NumberofHarvestFieldsF14 = NumberofHarvestFieldsF15
+                    [
+                      if NumberofHarvestFieldsF15 = NumberofHarvestFieldsF16
+                      [
+                        if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                        [
+                          if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                          [
+                            if BarleyYieldPerYearF13 = BarleyYieldPerYearF14
+                            [
+                              if BarleyYieldPerYearF14 = BarleyYieldPerYearF15
+                              [
+                                if BarleyYieldPerYearF15 = BarleyYieldPerYearF16
+                                [
+                                  set CompareOnceAYearF11-16 true
+                                  set ContinuousPoorYearNumberSecondaryF11-16 0
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]        
+                        if one-of UpstreamF11-12BarleyYieldList > one-of MiddlestreamF13-14BarleyYieldList or one-of UpstreamF11-12BarleyYieldList > one-of DownstreamF15-16BarleyYieldList or one-of MiddlestreamF13-14BarleyYieldList > one-of DownstreamF15-16BarleyYieldList
+                        [
+                          set CompareOnceAYearF11-16 false
+                          set CompareEveryTwoYearsSecondaryF11-16 true                            ;; the procedure of comparing the harvest every two years
+                          set ContinuousPoorYearNumberSecondaryF11-16 (ContinuousPoorYearNumberSecondaryF11-16 + 1)                                        ;; record the number of times when poor year appears
+                        ] 
+                      ]
+                    ]
+                  ]
+                ]
+              ]             
+            ]            
+          ]
+          if pxcor > 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if NumberofHarvestFieldsF13 = NumberofHarvestFieldsF14
+                  [
+                    if NumberofHarvestFieldsF14 = NumberofHarvestFieldsF15
+                    [
+                      if NumberofHarvestFieldsF15 = NumberofHarvestFieldsF16
+                      [
+                        if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                        [
+                          if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                          [
+                            if BarleyYieldPerYearF13 = BarleyYieldPerYearF14
+                            [
+                              if BarleyYieldPerYearF14 = BarleyYieldPerYearF15
+                              [
+                                if BarleyYieldPerYearF15 = BarleyYieldPerYearF16
+                                [
+                                  set CompareOnceAYearF11-16 true
+                                  set ContinuousPoorYearNumberSecondaryF11-16 0
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                        if one-of UpstreamF11-12BarleyYieldList > one-of MiddlestreamF13-14BarleyYieldList or one-of UpstreamF11-12BarleyYieldList > one-of DownstreamF15-16BarleyYieldList or one-of MiddlestreamF13-14BarleyYieldList > one-of DownstreamF15-16BarleyYieldList
+                        [
+                          set CompareOnceAYearF11-16 false
+                          set CompareEveryTwoYearsSecondaryF11-16 true                            ;; the procedure of comparing the harvest every two years
+                          set ContinuousPoorYearNumberSecondaryF11-16 (ContinuousPoorYearNumberSecondaryF11-16 + 1)                                        ;; record the number of times when poor year appears
+                        ] 
+                      ]
+                    ]
+                  ]
+                ]
+              ]               
+            ]            
+          ]
+          ;;farmers have the different number of harvested fieds
+          if one-of UpstreamF11-12HarvestFieldsList > one-of MiddlestreamF13-14HarvestFieldsList or one-of UpstreamF11-12HarvestFieldsList > one-of DownstreamF15-16HarvestFieldsList or one-of MiddlestreamF13-14HarvestFieldsList > one-of DownstreamF15-16HarvestFieldsList
+          [
+            set CompareOnceAYearF11-16 false
+            set CompareEveryTwoYearsSecondaryF11-16 true                            ;; the procedure of comparing the harvest every two years
+            set ContinuousPoorYearNumberSecondaryF11-16 (ContinuousPoorYearNumberSecondaryF11-16 + 1)                                        ;; record the number of times when poor year appears
+          ]           
+        ]
+        [
+          if CompareEveryTwoYearsSecondaryF11-16 = true
+          [
+            set ComparisonCountDownSecondaryF11-16 (ComparisonCountDownSecondaryF11-16 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            SystemsReaction_SecondaryCanalF11-16
+          ]      
+        ]
+        if ComparisonCountDownSecondaryF11-16 = 0
+        [
+          set ComparisonCountDownSecondaryF11-16 (ComparisonTime + 1)
+          if pxcor < 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor - 1) pycor) = true or ([ReadyForBarley] of patch (pxcor - 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if NumberofHarvestFieldsF13 = NumberofHarvestFieldsF14
+                  [
+                    if NumberofHarvestFieldsF14 = NumberofHarvestFieldsF15
+                    [
+                      if NumberofHarvestFieldsF15 = NumberofHarvestFieldsF16
+                      [
+                        if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                        [
+                          if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                          [
+                            if BarleyYieldPerYearF13 = BarleyYieldPerYearF14
+                            [
+                              if BarleyYieldPerYearF14 = BarleyYieldPerYearF15
+                              [
+                                if BarleyYieldPerYearF15 = BarleyYieldPerYearF16
+                                [
+                                  set CompareOnceAYearF11-16 true
+                                  set ContinuousPoorYearNumberSecondaryF11-16 0
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                        if one-of UpstreamF11-12BarleyYieldList > one-of MiddlestreamF13-14BarleyYieldList or one-of UpstreamF11-12BarleyYieldList > one-of DownstreamF15-16BarleyYieldList or one-of MiddlestreamF13-14BarleyYieldList > one-of DownstreamF15-16BarleyYieldList
+                        [
+                          set CompareOnceAYearF11-16 false
+                          set CompareEveryTwoYearsSecondaryF11-16 true                            ;; the procedure of comparing the harvest every two years
+                        ] 
+                      ]
+                    ]
+                  ]
+                ]
+              ]             
+            ]
+          ]
+          if pxcor > 38
+          [
+            if ([ReadyForBarley] of patch pxcor (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor + 1)) = true or ([ReadyForBarley] of patch (pxcor + 1) pycor) = true or ([ReadyForBarley] of patch (pxcor + 1) (pycor - 1)) = true or ([ReadyForBarley] of patch pxcor (pycor - 1)) = true
+            [
+              if NumberofHarvestFieldsF11 = NumberofHarvestFieldsF12
+              [
+                if NumberofHarvestFieldsF12 = NumberofHarvestFieldsF13
+                [
+                  if NumberofHarvestFieldsF13 = NumberofHarvestFieldsF14
+                  [
+                    if NumberofHarvestFieldsF14 = NumberofHarvestFieldsF15
+                    [
+                      if NumberofHarvestFieldsF15 = NumberofHarvestFieldsF16
+                      [
+                        if BarleyYieldPerYearF11 = BarleyYieldPerYearF12
+                        [
+                          if BarleyYieldPerYearF12 = BarleyYieldPerYearF13
+                          [
+                            if BarleyYieldPerYearF13 = BarleyYieldPerYearF14
+                            [
+                              if BarleyYieldPerYearF14 = BarleyYieldPerYearF15
+                              [
+                                if BarleyYieldPerYearF15 = BarleyYieldPerYearF16
+                                [
+                                  set CompareOnceAYearF11-16 true
+                                  set ContinuousPoorYearNumberSecondaryF11-16 0
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                        if one-of UpstreamF11-12BarleyYieldList > one-of MiddlestreamF13-14BarleyYieldList or one-of UpstreamF11-12BarleyYieldList > one-of DownstreamF15-16BarleyYieldList or one-of MiddlestreamF13-14BarleyYieldList > one-of DownstreamF15-16BarleyYieldList
+                        [
+                          set CompareOnceAYearF11-16 false
+                          set CompareEveryTwoYearsSecondaryF11-16 true                            ;; the procedure of comparing the harvest every two years
+                        ] 
+                      ]
+                    ]
+                  ]
+                ]
+              ]                
+            ]            
+          ]
+          ;;farmers have the different number of harvested fieds
+          if one-of UpstreamF11-12HarvestFieldsList > one-of MiddlestreamF13-14HarvestFieldsList or one-of UpstreamF11-12HarvestFieldsList > one-of DownstreamF15-16HarvestFieldsList or one-of MiddlestreamF13-14HarvestFieldsList > one-of DownstreamF15-16HarvestFieldsList
+          [
+            set CompareOnceAYearF11-16 false
+            set CompareEveryTwoYearsSecondaryF11-16 true                                        
+          ]           
+          if CompareEveryTwoYearsSecondaryF11-16 = true
+          [
+            set ComparisonCountDownSecondaryF11-16 (ComparisonCountDownSecondaryF11-16 - 1)   ;; count down for the next comparison, 1,2,3,4,..,n year
+            set ContinuousPoorYearNumberSecondaryF11-16 (ContinuousPoorYearNumberSecondaryF11-16 + 1)
+            SystemsReaction_SecondaryCanalF11-16              
+          ]
+        ]        
+      ]                      
+    ]
+  ]  
+end
+
+to SystemsReaction_SecondaryCanalF11-14
+  if any? neighbors with [pcolor = red + 2]
+  [
+    ask neighbors with [pcolor = red + 2]
+    [
+      set ReadyforGCDecision_SecondaryCanalF11-14 true      
+    ]   
+  ]  
+end
+
+to SystemsReaction_SecondaryCanalF11-15
+  if any? neighbors with [pcolor = red + 2]
+  [
+    ask neighbors with [pcolor = red + 2]
+    [
+      set ReadyforGCDecision_SecondaryCanalF11-15 true
+    ]
+  ]   
+end
+
+to SystemsReaction_SecondaryCanalF11-16
+  if any? neighbors with [pcolor = red + 2]
+  [
+    ask neighbors with [pcolor = red + 2]
+    [
+      set ReadyforGCDecision_SecondaryCanalF11-16 true
+    ]
+  ]   
+end
+
+to FarmersExpansionEvaluation_2ndPrimaryCanalF17-19
+  ask patches with [LandType = 3]                                              ;; ask storage patch  
+  [
+    ;;good harvest expansion
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;there are F11-16 and expand to F17-19
+    if [pcolor] of patch 38 3 = red + 2 
+    [
+      if F11-16WithGoodHarvestYearsProcedure_1year? = False
+      [
+;;the 1st year      
+        if NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 4 and NumberofHarvestFieldsF14 >= 4 and NumberofHarvestFieldsF15 >= 3 and NumberofHarvestFieldsF16 >= 3
+        [
+          set F11-16WithGoodHarvestYearsProcedure_1year? True
+        ]
+      ]
+;; the 2nd year
+      if F11-16WithGoodHarvestYearsProcedure_1year? = True
+      [
+        set F11-16WithGoodHarvestYears 1
+        set F11-16CountDownExpansion_1year (F11-16CountDownExpansion_1year - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-16CountDownExpansion_1year = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 4 and NumberofHarvestFieldsF14 >= 4 and NumberofHarvestFieldsF15 >= 3
+          [
+            set F11-16WithGoodHarvestYearsProcedure_2years? True
+          ]
+          [
+            set F11-16WithGoodHarvestYearsProcedure_1year? False
+            if F11-16WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+          ] 
+        ]
+      ]
+;; the 3rd year
+      if F11-16WithGoodHarvestYearsProcedure_2years? = True
+      [
+        set F11-16WithGoodHarvestYears 2
+        set F11-16CountDownExpansion_2years (F11-16CountDownExpansion_2years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-16CountDownExpansion_2years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 4 and NumberofHarvestFieldsF14 >= 4 and NumberofHarvestFieldsF15 >= 3 and NumberofHarvestFieldsF16 >= 3
+          [
+            set F11-16WithGoodHarvestYearsProcedure_3years? True
+          ]
+          [
+            set F11-16WithGoodHarvestYearsProcedure_1year? False
+            if F11-16WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-16WithGoodHarvestYearsProcedure_2years? False
+            if F11-16WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+          ]        
+        ]      
+      ] 
+;; the 4th year
+      if F11-16WithGoodHarvestYearsProcedure_3years? = True
+      [
+        set F11-16WithGoodHarvestYears 3
+        set F11-16CountDownExpansion_3years (F11-16CountDownExpansion_3years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-16CountDownExpansion_3years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 4 and NumberofHarvestFieldsF14 >= 4 and NumberofHarvestFieldsF15 >= 3 and NumberofHarvestFieldsF16 >= 3
+          [
+            set F11-16WithGoodHarvestYearsProcedure_4years? True
+          ]
+          [
+            set F11-16WithGoodHarvestYearsProcedure_1year? False
+            if F11-16WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-16WithGoodHarvestYearsProcedure_2years? False
+            if F11-16WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-16WithGoodHarvestYearsProcedure_3years? False
+            if F11-16WithGoodHarvestYearsProcedure_3years? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]          
+          ]        
+        ]      
+      ] 
+;;the 5th year
+      if F11-16WithGoodHarvestYearsProcedure_4years? = True
+      [
+        set F11-16WithGoodHarvestYears 4
+        set F11-16CountDownExpansion_4years (F11-16CountDownExpansion_4years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-16CountDownExpansion_4years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 4 and NumberofHarvestFieldsF14 >= 4 and NumberofHarvestFieldsF15 >= 3 and NumberofHarvestFieldsF16 >= 3
+          [
+            set F11-16WithGoodHarvestYearsProcedure_5years? True
+          ]  
+          [
+            set F11-16WithGoodHarvestYearsProcedure_1year? False
+            if F11-16WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-16WithGoodHarvestYearsProcedure_2years? False
+            if F11-16WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-16WithGoodHarvestYearsProcedure_3years? False
+            if F11-16WithGoodHarvestYearsProcedure_3years? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+            ] 
+            set F11-16WithGoodHarvestYearsProcedure_4years? False
+            if F11-16WithGoodHarvestYearsProcedure_4years? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]          
+          ]        
+        ]      
+      ]
+;;the 6th year
+      if F11-16WithGoodHarvestYearsProcedure_5years? = True
+      [
+        set F11-16WithGoodHarvestYears 5
+        set F11-16CountDownExpansion_5years (F11-16CountDownExpansion_5years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+        if F11-16CountDownExpansion_5years = 0
+        [
+          ifelse NumberofHarvestFieldsF11 = 5 and NumberofHarvestFieldsF12 = 5 and NumberofHarvestFieldsF13 >= 4 and NumberofHarvestFieldsF14 >= 4 and NumberofHarvestFieldsF15 >= 3 and NumberofHarvestFieldsF16 >= 3
+          [
+            set F11-16WithGoodHarvestYearsProcedure_6years? True
+          ]
+          [
+            set F11-16WithGoodHarvestYearsProcedure_1year? False
+            if F11-16WithGoodHarvestYearsProcedure_1year? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+            ]
+            set F11-16WithGoodHarvestYearsProcedure_2years? False
+            if F11-16WithGoodHarvestYearsProcedure_2years? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-16WithGoodHarvestYearsProcedure_3years? False
+            if F11-16WithGoodHarvestYearsProcedure_3years? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+            ] 
+            set F11-16WithGoodHarvestYearsProcedure_4years? False
+            if F11-16WithGoodHarvestYearsProcedure_4years? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]
+            set F11-16WithGoodHarvestYearsProcedure_5years? False
+            if F11-16WithGoodHarvestYearsProcedure_5years? = False
+            [
+              set F11-16WithGoodHarvestYears 0
+              set F11-16CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)            
+            ]            
+          ]        
+        ]      
+      ]
+      if F11-16WithGoodHarvestYears = 5
+      [
+        PrimaryCanal_GoodExpansionF17-19
+        set F11-16WithGoodHarvestYearsProcedure_5years? False
+      ]
+      if F11-16WithGoodHarvestYearsProcedure_5years? = False
+      [
+        set F11-16WithGoodHarvestYears 0
+      ]     
+    ]
+    
+      ;;poor harvest expansion
+      ;;there are F11-13 with poor harvest and expand to F17-19 (using the same expansion fields setting as good harvest expansion)
+    if Year > F11FirstWithLand + 5
+    [
+      if [pcolor] of patch 38 9 = red + 2 and [pcolor] of patch 38 7 != red + 2 
+      [
+        if F11-13WithpoorHarvestYearsProcedure_1year? = False
+        [
+          ;;the 1st year      
+          if NumberofHarvestFieldsF11 < 3 and NumberofHarvestFieldsF12 < 3 and NumberofHarvestFieldsF13 < 3
+          [
+            set F11-13WithpoorHarvestYearsProcedure_1year? True
+          ]
+        ]
+        ;; the 2nd year
+        if F11-13WithpoorHarvestYearsProcedure_1year? = True
+        [
+          set F11-13WithPoorHarvestYears 1
+          set F11-13CountDownExpansion_1year (F11-13CountDownExpansion_1year - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+          if F11-13CountDownExpansion_1year = 0
+          [
+            ifelse NumberofHarvestFieldsF11 < 3 and NumberofHarvestFieldsF12 < 3 and NumberofHarvestFieldsF13 < 3
+            [
+              set F11-13WithpoorHarvestYearsProcedure_2years? True
+            ]
+            [
+              set F11-13WithpoorHarvestYearsProcedure_1year? False
+              if F11-13WithpoorHarvestYearsProcedure_1year? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+              ]
+            ] 
+          ]
+        ]
+        ;; the 3rd year
+        if F11-13WithpoorHarvestYearsProcedure_2years? = True
+        [
+          set F11-13WithPoorHarvestYears 2
+          set F11-13CountDownExpansion_2years (F11-13CountDownExpansion_2years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+          if F11-13CountDownExpansion_2years = 0
+          [
+            ifelse NumberofHarvestFieldsF11 < 3 and NumberofHarvestFieldsF12 < 3 and NumberofHarvestFieldsF13 < 3
+            [
+              set F11-13WithpoorHarvestYearsProcedure_3years? True
+            ]
+             [
+              set F11-13WithpoorHarvestYearsProcedure_1year? False
+              if F11-13WithpoorHarvestYearsProcedure_1year? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+              ]
+              set F11-13WithpoorHarvestYearsProcedure_2years? False
+              if F11-13WithpoorHarvestYearsProcedure_2years? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+              ]
+            ]        
+          ]      
+        ] 
+        ;; the 4th year
+        if F11-13WithpoorHarvestYearsProcedure_3years? = True
+         [
+          set F11-13WithPoorHarvestYears 3
+          set F11-13CountDownExpansion_3years (F11-13CountDownExpansion_3years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+          if F11-13CountDownExpansion_3years = 0
+          [
+            ifelse NumberofHarvestFieldsF11 < 3 and NumberofHarvestFieldsF12 < 3 and NumberofHarvestFieldsF13 < 3
+            [
+              set F11-13WithpoorHarvestYearsProcedure_4years? True
+            ]
+            [
+              set F11-13WithpoorHarvestYearsProcedure_1year? False
+              if F11-13WithpoorHarvestYearsProcedure_1year? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+              ]
+              set F11-13WithpoorHarvestYearsProcedure_2years? False
+              if F11-13WithpoorHarvestYearsProcedure_2years? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+              ]
+              set F11-13WithpoorHarvestYearsProcedure_3years? False
+              if F11-13WithpoorHarvestYearsProcedure_3years? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+              ]          
+            ]        
+          ]      
+        ] 
+        ;;the 5th year
+        if F11-13WithpoorHarvestYearsProcedure_4years? = True
+        [
+          set F11-13WithPoorHarvestYears 4
+          set F11-13CountDownExpansion_4years (F11-13CountDownExpansion_4years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+          if F11-13CountDownExpansion_4years = 0
+          [
+            ifelse NumberofHarvestFieldsF11 < 3 and NumberofHarvestFieldsF12 < 3 and NumberofHarvestFieldsF13 < 3
+            [
+              set F11-13WithpoorHarvestYearsProcedure_5years? True
+            ]  
+            [
+              set F11-13WithpoorHarvestYearsProcedure_1year? False
+              if F11-13WithpoorHarvestYearsProcedure_1year? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+              ]
+              set F11-13WithpoorHarvestYearsProcedure_2years? False
+              if F11-13WithpoorHarvestYearsProcedure_2years? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+              ]
+              set F11-13WithpoorHarvestYearsProcedure_3years? False
+              if F11-13WithpoorHarvestYearsProcedure_3years? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+              ] 
+              set F11-13WithpoorHarvestYearsProcedure_4years? False
+              if F11-13WithpoorHarvestYearsProcedure_4years? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)            
+              ]          
+            ]        
+          ]      
+        ]
+        ;;the 6th year
+        if F11-13WithpoorHarvestYearsProcedure_5years? = True
+        [
+          set F11-13WithPoorHarvestYears 5
+          set F11-13CountDownExpansion_5years (F11-13CountDownExpansion_5years - 1)                                  ;; CountDownExpansion1 is 365, and it decreases till 0 and the ohter comparison between farmers happens
+          if F11-13CountDownExpansion_5years = 0
+          [
+            ifelse NumberofHarvestFieldsF11 < 3 and NumberofHarvestFieldsF12 < 3 and NumberofHarvestFieldsF13 < 3 
+            [
+              set F11-13WithpoorHarvestYearsProcedure_6years? True
+            ]
+            [
+              set F11-13WithpoorHarvestYearsProcedure_1year? False
+              if F11-13WithpoorHarvestYearsProcedure_1year? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+              ]
+              set F11-13WithpoorHarvestYearsProcedure_2years? False
+              if F11-13WithpoorHarvestYearsProcedure_2years? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)            
+              ]
+              set F11-13WithpoorHarvestYearsProcedure_3years? False
+              if F11-13WithpoorHarvestYearsProcedure_3years? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)            
+              ] 
+              set F11-13WithpoorHarvestYearsProcedure_4years? False
+              if F11-13WithpoorHarvestYearsProcedure_4years? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)            
+              ]
+              set F11-13WithpoorHarvestYearsProcedure_5years? False
+              if F11-13WithpoorHarvestYearsProcedure_5years? = False
+              [
+                set F11-13WithPoorHarvestYears 0
+                set F11-13CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)            
+              ]            
+            ]        
+          ]      
+        ]
+        if F11-13WithPoorHarvestYears = 5
+        [
+          PrimaryCanal_PoorExpansionF17-19
+          set F11-13WithpoorHarvestYearsProcedure_5years? False
+        ]
+        if F11-13WithpoorHarvestYearsProcedure_5years? = False
+        [
+          set F11-13WithPoorHarvestYears 0
+        ]     
+      ] 
+    ]
+  ]  
+end
+
+
+to PrimaryCanal_GoodExpansionF17-19
+;;setup three new farmers, F17, F18, 19
+  ;;Storage
+  ask patch 22 18;F17
+  [
+    set LandType 3                                                          
+    set pcolor grey
+    set CompareOnceAYearF17-19 true                                ;; the procedure of comparing the harvest every year
+    set CompareEveryTwoYearsF17-19 false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownF17-19 ComparisonTime
+    set F17-19WithGoodHarvestYearsProcedure_1year? False
+    set F17-19WithGoodHarvestYearsProcedure_2years? False
+    set F17-19WithGoodHarvestYearsProcedure_3years? False
+    set F17-19WithGoodHarvestYearsProcedure_4years? False
+    set F17-19WithGoodHarvestYearsProcedure_5years? False
+    set F17-19WithGoodHarvestYearsProcedure_6years? False
+    set F17-19CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)
+  ]
+  ask patch 20 16;F18
+  [
+    set LandType 3                                                          
+    set pcolor grey
+    set CompareOnceAYearF17-19 true                                ;; the procedure of comparing the harvest every year
+    set CompareEveryTwoYearsF17-19 false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownF17-19 ComparisonTime
+    set F17-19WithGoodHarvestYearsProcedure_1year? False
+    set F17-19WithGoodHarvestYearsProcedure_2years? False
+    set F17-19WithGoodHarvestYearsProcedure_3years? False
+    set F17-19WithGoodHarvestYearsProcedure_4years? False
+    set F17-19WithGoodHarvestYearsProcedure_5years? False
+    set F17-19WithGoodHarvestYearsProcedure_6years? False
+    set F17-19CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)
+  ]
+  ask patch 18 18;F19
+  [
+    set LandType 3                                                          
+    set pcolor grey
+    set CompareOnceAYearF17-19 true                                ;; the procedure of comparing the harvest every year
+    set CompareEveryTwoYearsF17-19 false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownF17-19 ComparisonTime
+    set F17-19WithGoodHarvestYearsProcedure_1year? False
+    set F17-19WithGoodHarvestYearsProcedure_2years? False
+    set F17-19WithGoodHarvestYearsProcedure_3years? False
+    set F17-19WithGoodHarvestYearsProcedure_4years? False
+    set F17-19WithGoodHarvestYearsProcedure_5years? False
+    set F17-19WithGoodHarvestYearsProcedure_6years? False
+    set F17-19CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)
+  ]
+;;setup 2nd primary canal, according to the location of gate and canal patch 
+  ask patch 24 17                                                           ;; canal patch or the head gate patch
+  [
+    set LandType -3                                                        
+    set pcolor blue
+  ]
+  ask patch 23 17
+  [
+    set LandType -3                                                         ;;canal patch
+    set pcolor blue
+  ]
+  ask patch 22 17
+  [
+    set LandType -1                                                         ;; gate patch 
+    set pcolor red
+    set ReadyforGCDecisionF17-19 false
+  ]
+  ask patch 21 17
+  [
+    set LandType -3                                                         ;; canal patch
+    set pcolor blue
+  ]
+  ask patch 20 17
+  [
+    set LandType -1                                                         ;; gate patch 
+    set pcolor red
+    set ReadyforGCDecisionF17-19 false
+  ]
+  ask patch 19 17
+  [
+    set LandType -3                                                         ;; canal patch
+    set pcolor blue
+  ]
+  ask patch 18 17
+  [
+    set LandType -1                                                         ;; gate patch 
+    set pcolor red
+    set ReadyforGCDecisionF17-19 false
+  ]
+  ask patch 17 17
+  [
+    set LandType -3                                                         ;; canal patch
+    set pcolor blue
+  ]
+  ask patch 16 17
+  [
+    set LandType -3                                                         ;; canal patch
+    set pcolor blue
+  ]
+  ask patch 15 17
+  [
+    set LandType 5                                                        ;; setup edge of the world patch, without function
+    set pcolor black
+  ]
+;;setup farmlands
+  ;F17
+  ask patch 23 18
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 23 19
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 22 19
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 21 19
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 21 18
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ;F18
+  ask patch 21 16
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 21 15
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 20 15
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 19 15
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 19 16
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ;F19
+  ask patch 19 18
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 19 19
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 18 19 
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 17 19
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 17 18
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+
+;  if [pcolor] of patch 24 17 = blue
+;  [
+;    set ContinuouslySameHarvestYear 0
+;  ]  
+end
+
+to PrimaryCanal_PoorExpansionF17-19
+  ;;for F11-13 (F8-10)
+  ;;setup storage patch
+  ask patch 37 13
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask StorageVolumes-here [die]
+  ]
+  ask patch 39 11
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask StorageVolumes-here [die]
+  ]
+  ask patch 37 9
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask StorageVolumes-here [die]
+  ]
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;setup secondary canal;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ask patch 38 16
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 38 15
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 38 14
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 38 13
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 38 12
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 38 11
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 38 10
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 38 9
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 38 8
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 38 7
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 38 6
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+;;setup farmlands
+  ask patch 37 14
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 36 14
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 36 13
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 36 12
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 37 12
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 39 12
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 40 12
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 40 11
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 40 10
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 39 10
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 37 10
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 36 10
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 36 9
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 36 8
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+  ask patch 37 8
+  [
+    set LandType 4
+    set pcolor green + 2
+    ask IrrigationVolumes-here [die]
+  ]
+
+  ;; for F17-19 (F8-10)
+  ;; storage patch 
+  ask patch 22 18
+  [
+    set LandType 3                                                          ;; setup storage patch
+    set pcolor grey
+    set CompareOnceAYear true                                ;; the procedure of comparing the harvest every year
+    set CompareEveryTwoYearsSecondary false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondary ComparisonTime
+    set F17-19WithGoodHarvestYearsProcedure_1year? False
+    set F17-19WithGoodHarvestYearsProcedure_2years? False
+    set F17-19WithGoodHarvestYearsProcedure_3years? False
+    set F17-19WithGoodHarvestYearsProcedure_4years? False
+    set F17-19WithGoodHarvestYearsProcedure_5years? False
+    set F17-19WithGoodHarvestYearsProcedure_6years? False
+    set F17-19WithPoorHarvestYearsProcedure_1year? False
+    set F17-19WithPoorHarvestYearsProcedure_2years? False
+    set F17-19WithPoorHarvestYearsProcedure_3years? False
+    set F17-19WithPoorHarvestYearsProcedure_4years? False
+    set F17-19WithPoorHarvestYearsProcedure_5years? False
+    set F17-19WithPoorHarvestYearsProcedure_6years? False    
+    set F17-19CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)
+  ]
+  ask patch 20 16
+  [
+    set LandType 3                                                          ;; setup storage patch
+    set pcolor grey
+    set CompareOnceAYear true                                ;; the procedure of comparing the harvest every year
+    set CompareEveryTwoYearsSecondary false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondary ComparisonTime
+    set F17-19WithGoodHarvestYearsProcedure_1year? False
+    set F17-19WithGoodHarvestYearsProcedure_2years? False
+    set F17-19WithGoodHarvestYearsProcedure_3years? False
+    set F17-19WithGoodHarvestYearsProcedure_4years? False
+    set F17-19WithGoodHarvestYearsProcedure_5years? False
+    set F11-13WithGoodHarvestYearsProcedure_6years? False 
+    set F17-19WithPoorHarvestYearsProcedure_1year? False
+    set F17-19WithPoorHarvestYearsProcedure_2years? False
+    set F17-19WithPoorHarvestYearsProcedure_3years? False
+    set F17-19WithPoorHarvestYearsProcedure_4years? False
+    set F17-19WithPoorHarvestYearsProcedure_5years? False
+    set F17-19WithPoorHarvestYearsProcedure_6years? False     
+    set F11-13CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-13CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-13CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-13CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F11-13CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)
+  ]
+  ask patch 18 18
+  [
+    set LandType 3                                                          ;; setup storage patch
+    set pcolor grey
+    set CompareOnceAYear true                                ;; the procedure of comparing the harvest every year
+    set CompareEveryTwoYearsSecondary false                  ;; the procedure of comparing the harvest every two years along the secondary canal
+    set ComparisonCountDownSecondary ComparisonTime
+    set F17-19WithGoodHarvestYearsProcedure_1year? False
+    set F17-19WithGoodHarvestYearsProcedure_2years? False
+    set F17-19WithGoodHarvestYearsProcedure_3years? False
+    set F17-19WithGoodHarvestYearsProcedure_4years? False
+    set F17-19WithGoodHarvestYearsProcedure_5years? False
+    set F17-19WithGoodHarvestYearsProcedure_6years? False
+    set F17-19WithPoorHarvestYearsProcedure_1year? False
+    set F17-19WithPoorHarvestYearsProcedure_2years? False
+    set F17-19WithPoorHarvestYearsProcedure_3years? False
+    set F17-19WithPoorHarvestYearsProcedure_4years? False
+    set F17-19WithPoorHarvestYearsProcedure_5years? False
+    set F17-19WithPoorHarvestYearsProcedure_6years? False     
+    set F17-19CountDownExpansion_1year (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_2years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_3years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_4years (ComparisonCountDownForFarmersExpansion + 1)
+    set F17-19CountDownExpansion_5years (ComparisonCountDownForFarmersExpansion + 1)
+  ]
+;;setup 2nd primary canal, according to the location of gate and canal patch 
+  ask patch 24 17                                                           ;; canal patch or the head gate patch
+  [
+    set LandType -3                                                        
+    set pcolor blue
+  ]
+  ask patch 23 17
+  [
+    set LandType -3                                                         ;;canal patch
+    set pcolor blue
+  ]
+  ask patch 22 17
+  [
+    set LandType -1                                                         ;; gate patch 
+    set pcolor red
+    set ReadyforGCDecisionF17-19 false
+  ]
+  ask patch 21 17
+  [
+    set LandType -3                                                         ;; canal patch
+    set pcolor blue
+  ]
+  ask patch 20 17
+  [
+    set LandType -1                                                         ;; gate patch 
+    set pcolor red
+    set ReadyforGCDecisionF17-19 false
+  ]
+  ask patch 19 17
+  [
+    set LandType -3                                                         ;; canal patch
+    set pcolor blue
+  ]
+  ask patch 18 17
+  [
+    set LandType -1                                                         ;; gate patch 
+    set pcolor red
+    set ReadyforGCDecisionF17-19 false
+  ]
+  ask patch 17 17
+  [
+    set LandType -3                                                         ;; canal patch
+    set pcolor blue
+  ]
+  ask patch 16 17
+  [
+    set LandType -3                                                         ;; canal patch
+    set pcolor blue
+  ]
+  ask patch 15 17
+  [
+    set LandType 5                                                        ;; setup edge of the world patch, without function
+    set pcolor black
+  ]
+;;setup farmlands
+  ;F17
+  ask patch 23 18
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 23 19
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 22 19
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 21 19
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 21 18
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ;F18
+  ask patch 21 16
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 21 15
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 20 15
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 19 15
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 19 16
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ;F19
+  ask patch 19 18
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 19 19
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 18 19 
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 17 19
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]
+  ask patch 17 18
+  [
+    set LandType 1                                                         ;; setup farmland patch
+    set pcolor brown
+  ]  
+end

@@ -1,0 +1,979 @@
+to GateCapacity
+
+end
+
+to GateCapacity_F1-10                                                          ;; set the capacity of head gate and farmer's gate along the primary canal F1-10
+  ask patches with [pcolor = red]                                                      ;; gates at the right side of the river
+  [
+    if pxcor > 25
+    [
+      ifelse ReadyforGCDecision_PrimaryCanal = false
+      [
+        ifelse pxcor = 26                                                                ;; head gate
+        [
+          ifelse QHeadGateLimit? = false
+          [
+            ifelse ticks > 50
+            [
+              set QHeadGateMax (([IrrigationDemand] of patch (pxcor + 1) (pycor + 1)) + ([IrrigationDemand] of patch (pxcor + 1) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 2) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 3) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 3) (pycor + 1))
+                            + ([IrrigationDemand] of patch (pxcor + 3) (pycor - 1)) + ([IrrigationDemand] of patch (pxcor + 3) (pycor - 2)) + ([IrrigationDemand] of patch (pxcor + 4) (pycor - 2)) + ([IrrigationDemand] of patch (pxcor + 5) (pycor - 2)) + ([IrrigationDemand] of patch (pxcor + 5) (pycor - 1))
+                            + ([IrrigationDemand] of patch (pxcor + 5) (pycor + 1)) + ([IrrigationDemand] of patch (pxcor + 5) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 6) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 7) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 7) (pycor + 1))
+                            + ([IrrigationDemand] of patch (pxcor + 7) (pycor - 1)) + ([IrrigationDemand] of patch (pxcor + 7) (pycor - 2)) + ([IrrigationDemand] of patch (pxcor + 8) (pycor - 2)) + ([IrrigationDemand] of patch (pxcor + 9) (pycor - 2)) + ([IrrigationDemand] of patch (pxcor + 9) (pycor - 1))
+                            + ([IrrigationDemand] of patch (pxcor + 9) (pycor + 1)) + ([IrrigationDemand] of patch (pxcor + 9) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 10) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 11) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 11) (pycor + 1))
+                            + ([IrrigationDemand] of patch (pxcor + 14) (pycor + 1)) + ([IrrigationDemand] of patch (pxcor + 14) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 15) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 16) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 16) (pycor + 1))
+                            + ([IrrigationDemand] of patch (pxcor + 16) (pycor - 1)) + ([IrrigationDemand] of patch (pxcor + 16) (pycor - 2)) + ([IrrigationDemand] of patch (pxcor + 17) (pycor - 2)) + ([IrrigationDemand] of patch (pxcor + 18) (pycor - 2)) + ([IrrigationDemand] of patch (pxcor + 18) (pycor - 1))
+                            + ([IrrigationDemand] of patch (pxcor + 18) (pycor + 1)) + ([IrrigationDemand] of patch (pxcor + 18) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 19) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 20) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 20) (pycor + 1))
+                            + ([IrrigationDemand] of patch (pxcor + 20) (pycor - 1)) + ([IrrigationDemand] of patch (pxcor + 20) (pycor - 2)) + ([IrrigationDemand] of patch (pxcor + 21) (pycor - 2)) + ([IrrigationDemand] of patch (pxcor + 22) (pycor - 2)) + ([IrrigationDemand] of patch (pxcor + 22) (pycor - 1))
+                            + ([IrrigationDemand] of patch (pxcor + 22) (pycor + 1)) + ([IrrigationDemand] of patch (pxcor + 22) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 23) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 24) (pycor + 2)) + ([IrrigationDemand] of patch (pxcor + 24) (pycor + 1)))   ;; if the head gate without limitation, set the gate capacity is the sum of irrigation wanter used per fields used
+            ]
+            [
+              set QHeadGateMax QHeadGateMaxFixed
+            ]
+          ]
+          [
+            set QHeadGateMax QHeadGateMaxFixed                                                      ;; if the head gate capacity is limited,set the capacity is QhgateMaxFixed
+          ]
+        ]
+        [
+          ifelse QgateLimit? = false                                                        ;; farmers' gates
+          [
+            ifelse ticks > 50
+            [
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;for gates along the primary canal;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+              if pxcor = 28 and pycor = 17
+              [
+                set QGateMax ([IrrigationDemand] of patch (pxcor - 1) (pycor + 1) + [IrrigationDemand] of patch (pxcor - 1) (pycor + 2) + [IrrigationDemand] of patch pxcor (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 1))                     ;; if the gate without limitation, set gate capacity is the irrigation water used per field
+              ]
+              if pxcor = 32 and pycor = 17
+              [
+                set QGateMax ([IrrigationDemand] of patch (pxcor - 1) (pycor + 1) + [IrrigationDemand] of patch (pxcor - 1) (pycor + 2) + [IrrigationDemand] of patch pxcor (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 1))                     ;; if the gate without limitation, set gate capacity is the irrigation water used per field
+              ]
+              if pxcor = 36 and pycor = 17
+              [
+                set QGateMax ([IrrigationDemand] of patch (pxcor - 1) (pycor + 1) + [IrrigationDemand] of patch (pxcor - 1) (pycor + 2) + [IrrigationDemand] of patch pxcor (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 1))                     ;; if the gate without limitation, set gate capacity is the irrigation water used per field
+              ]
+              if pxcor = 41 and pycor = 17
+              [
+                set QGateMax ([IrrigationDemand] of patch (pxcor - 1) (pycor + 1) + [IrrigationDemand] of patch (pxcor - 1) (pycor + 2) + [IrrigationDemand] of patch pxcor (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 1))                     ;; if the gate without limitation, set gate capacity is the irrigation water used per field
+              ]
+              if pxcor = 45 and pycor = 17
+              [
+                set QGateMax ([IrrigationDemand] of patch (pxcor - 1) (pycor + 1) + [IrrigationDemand] of patch (pxcor - 1) (pycor + 2) + [IrrigationDemand] of patch pxcor (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 1))                     ;; if the gate without limitation, set gate capacity is the irrigation water used per field
+              ]
+              if pxcor = 49 and pycor = 17
+              [
+                set QGateMax ([IrrigationDemand] of patch (pxcor - 1) (pycor + 1) + [IrrigationDemand] of patch (pxcor - 1) (pycor + 2) + [IrrigationDemand] of patch pxcor (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 1))                     ;; if the gate without limitation, set gate capacity is the irrigation water used per field
+              ]
+              if pxcor = 30 and pycor = 17
+              [
+                set QGateMax ([IrrigationDemand] of patch (pxcor - 1) (pycor + 1) + [IrrigationDemand] of patch (pxcor - 1) (pycor + 2) + [IrrigationDemand] of patch pxcor (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 1))                     ;; if the gate without limitation, set gate capacity is the irrigation water used per field
+              ]
+              if pxcor = 34 and pycor = 17
+              [
+                set QGateMax ([IrrigationDemand] of patch (pxcor - 1) (pycor + 1) + [IrrigationDemand] of patch (pxcor - 1) (pycor + 2) + [IrrigationDemand] of patch pxcor (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 1))                     ;; if the gate without limitation, set gate capacity is the irrigation water used per field
+              ]
+              if pxcor = 43 and pycor = 17
+              [
+                set QGateMax ([IrrigationDemand] of patch (pxcor - 1) (pycor + 1) + [IrrigationDemand] of patch (pxcor - 1) (pycor + 2) + [IrrigationDemand] of patch pxcor (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor + 1))                     ;; if the gate without limitation, set gate capacity is the irrigation water used per field
+              ]
+              if pxcor = 47 and pycor = 17
+              [
+                set QGateMax ([IrrigationDemand] of patch (pxcor - 1) (pycor - 1) + [IrrigationDemand] of patch (pxcor - 1) (pycor - 2) +[IrrigationDemand] of patch pxcor (pycor - 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor - 2) + [IrrigationDemand] of patch (pxcor + 1) (pycor - 1))                     ;; if the gate without limitation, set gate capacity is the irrigation water used per field
+              ]
+
+          ]
+          [
+            set QGateMax QGateMaxFixed
+          ]
+        ]
+        [
+          set QGateMax QGateMaxFixed                                                                                                                       ;; if the gate capacity is limited, set the capacity is QgateMaxFixed
+        ]
+      ]
+    ]
+    [                                                                                                         ;; if poor harvest situation,decrease upstream and middle stream gates
+      ifelse QGateMaxFixed > 30
+      [
+        if pxcor = 28 and pycor = 17;; Farmer1
+        [
+          if [ComparisonCountDownPrimary] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownPrimary] of patch pxcor (pycor + 1) < ComparisonTime
+          [
+            ifelse QGateMaxFixed - ([ContinuousPoorYearNumberPrimary] of patch pxcor (pycor + 1) + 1) * 10 >= 30
+            [
+              set QGateMax (QGateMaxFixed - ([ContinuousPoorYearNumberPrimary] of patch pxcor (pycor + 1) + 1) * 10)
+            ]
+            [
+              set QGateMax 30
+            ]
+          ]
+        ]
+        if pxcor = 30 and pycor = 17 ;; Farmer2
+        [
+          if [ComparisonCountDownPrimary] of patch pxcor (pycor - 1) > 0 and [ComparisonCountDownPrimary] of patch pxcor (pycor - 1) < ComparisonTime
+          [
+            ifelse QGateMaxFixed - ([ContinuousPoorYearNumberPrimary] of patch pxcor (pycor - 1) + 1) * 10 >= 30
+            [
+              set QGateMax (QGateMaxFixed - ([ContinuousPoorYearNumberPrimary] of patch pxcor (pycor - 1) + 1) * 10)
+            ]
+            [
+              set QGateMax 30
+            ]
+          ]
+        ]
+        if pxcor = 32 and pycor = 17 ;; Farmer3
+        [
+          if [ComparisonCountDownPrimary] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownPrimary] of patch pxcor (pycor + 1) < ComparisonTime
+          [
+            ifelse QGateMaxFixed - ([ContinuousPoorYearNumberPrimary] of patch pxcor (pycor + 1) + 1) * 10 >= 30
+            [
+              set QGateMax (QGateMaxFixed - ([ContinuousPoorYearNumberPrimary] of patch pxcor (pycor + 1) + 1) * 10)
+            ]
+            [
+              set QGateMax 30
+            ]
+          ]
+        ]
+        if pxcor = 34 and pycor = 17 ;; Farmer4
+        [
+          if [ComparisonCountDownPrimary] of patch pxcor (pycor - 1) > 0 and [ComparisonCountDownPrimary] of patch pxcor (pycor - 1) < ComparisonTime
+          [
+            ifelse QGateMaxFixed - [ContinuousPoorYearNumberPrimary] of patch pxcor (pycor - 1) * 10 >= 30
+            [
+              set QGateMax (QGateMaxFixed - [ContinuousPoorYearNumberPrimary] of patch pxcor (pycor - 1) * 10)
+            ]
+            [
+              set QGateMax 30
+            ]
+          ]
+        ]
+        if pxcor = 36 and pycor = 17 ;; Farmer5
+        [
+          if [ComparisonCountDownPrimary] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownPrimary] of patch pxcor (pycor + 1) < ComparisonTime
+          [
+            ifelse QGateMaxFixed - [ContinuousPoorYearNumberPrimary] of patch pxcor (pycor + 1) * 10 >= 30
+            [
+              set QGateMax (QGateMaxFixed - [ContinuousPoorYearNumberPrimary] of patch pxcor (pycor + 1) * 10)
+            ]
+            [
+              set QGateMax 30
+            ]
+          ]
+        ]
+        if pxcor = 41 and pycor = 17 ;; Farmer6
+        [
+          if [ComparisonCountDownPrimary] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownPrimary] of patch pxcor (pycor + 1) < ComparisonTime
+          [
+            ifelse QGateMaxFixed - [ContinuousPoorYearNumberPrimary] of patch pxcor (pycor + 1) * 10 >= 30
+            [
+              set QGateMax (QGateMaxFixed - [ContinuousPoorYearNumberPrimary] of patch pxcor (pycor + 1) * 10)
+            ]
+            [
+              set QGateMax 30
+            ]
+          ]
+        ]
+        if pxcor = 43 and pycor = 17 ;; Farmer7
+        [
+          if [ComparisonCountDownPrimary] of patch pxcor (pycor - 1) > 0 and [ComparisonCountDownPrimary] of patch pxcor (pycor - 1) < ComparisonTime
+          [
+            ifelse QGateMaxFixed - [ContinuousPoorYearNumberPrimary] of patch pxcor (pycor - 1) * 10 >= 30
+            [
+              set QGateMax (QGateMaxFixed - [ContinuousPoorYearNumberPrimary] of patch pxcor (pycor - 1) * 10)
+            ]
+            [
+              set QGateMax 30
+            ]
+          ]
+        ]
+        if pxcor = 45 and pycor = 17 ;; Farmer8
+        [
+          if [ComparisonCountDownPrimary] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownPrimary] of patch pxcor (pycor + 1) < ComparisonTime
+          [
+            set QGateMax QGateMaxFixed
+          ]
+        ]
+        if pxcor = 47 and pycor = 17 ;; Farmer9
+        [
+          if [ComparisonCountDownPrimary] of patch pxcor (pycor - 1) > 0 and [ComparisonCountDownPrimary] of patch pxcor (pycor - 1) < ComparisonTime
+          [
+              set QGateMax QGateMaxFixed
+          ]
+        ]
+        if pxcor = 49 and pycor = 17 ;; Farmer10
+        [
+          if [ComparisonCountDownPrimary] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownPrimary] of patch pxcor (pycor + 1) < ComparisonTime
+          [
+              set QGateMax QGateMaxFixed
+          ]
+        ]
+      ]
+      [
+        set QGateMax QGateMaxFixed
+      ]
+    ]
+  ]
+]  
+end
+
+to GateCapacity_F11-13                                                         ;; set the capacity of farmer's gate along the secondary canal F11-13
+  ask patches with [pcolor = red + 2]                                                      ;; gates at the right side of the river
+  [
+    if pycor < 15
+    [
+      ;; if there are farmer 11, 12, 13
+      if [pcolor] of patch 38 9 = red + 2 and [pcolor] of patch 38 7 != red + 2
+      [
+        ifelse ReadyforGCDecision_SecondaryCanal = false
+        [
+          if QgateLimit? = true
+          [
+            set QGateMax QGateMaxFixed
+          ]
+        ]
+        [
+          ifelse QGateMaxFixed > 30
+          [
+            if pxcor = 38 and pycor = 13 ;; Farmer11
+            [
+              if [ComparisonCountDownSecondary] of patch (pxcor - 1) pycor > 0 and [ComparisonCountDownSecondary] of patch (pxcor - 1) pycor < ComparisonTime
+              [
+                ifelse QGateMaxFixed - ([ContinuousPoorYearNumberSecondary] of patch (pxcor - 1) pycor + 1) * 10 >= 30
+                [
+                  set QGateMax (QGateMaxFixed - ([ContinuousPoorYearNumberSecondary] of patch (pxcor - 1) pycor + 1) * 10)
+                ]
+                [
+                  set QGateMax 30
+                ]                
+              ]
+              set GCF11_F13 QGateMax                                         ;; record the GC of F11 to use as the initial GC of F11 when there is F14
+            ]
+            if pxcor = 38 and pycor = 11 ;; Farmer12
+            [
+              if [ComparisonCountDownSecondary] of patch (pxcor + 1) pycor > 0 and [ComparisonCountDownSecondary] of patch (pxcor + 1) pycor < ComparisonTime
+              [
+                ifelse QGateMaxFixed - [ContinuousPoorYearNumberSecondary] of patch (pxcor + 1) pycor * 10 >= 30
+                [
+                  set QGateMax (QGateMaxFixed - [ContinuousPoorYearNumberSecondary] of patch (pxcor + 1) pycor * 10)
+                ]
+                [
+                  set QGateMax 30
+                ]              
+              ]
+              set GCF12_F13 QGateMax                                         ;; record the GC of F12 to use as the initial GC of F12 when there is F14                
+            ]
+            if pxcor = 38 and pycor = 9 ;; Farmer13
+            [
+              if [ComparisonCountDownSecondary] of patch (pxcor - 1) pycor > 0 and [ComparisonCountDownSecondary] of patch (pxcor - 1) pycor < ComparisonTime
+              [
+                set QGateMax QGateMaxFixed
+              ]
+              set GCF13_F13 QGateMax                                         ;; record the GC of F13 to use as the initial GC of F13 when there is F14              
+            ]
+          ]
+          [
+            set QGateMax QGateMaxFixed
+          ]
+        ]
+      ]
+    ]
+  ]  
+end
+
+to GateCapacity_F11-14                                                         ;; set the capacity of farmer's gate along the secondary canal F11-14
+  ask patches with [pcolor = red + 2]                                                      ;; gates at the right side of the river
+  [
+    if pycor < 15
+    [
+      ;; if there are farmer 11, 12, 13, 14
+      if [pcolor] of patch 38 7 = red + 2 and [pcolor] of patch 38 5 != red + 2
+      [   
+        ifelse ReadyforGCDecision_SecondaryCanalF11-14 = false
+        [
+          if QgateLimit? = true
+          [
+            if pxcor = 38 and pycor = 13
+            [
+              set QGateMax GCF11_F13
+            ]
+            if pxcor = 38 and pycor = 11
+            [
+              set QGateMax GCF12_F13              
+            ]
+            if pxcor = 38 and pycor = 9
+            [
+              set QGateMax GCF13_F13              
+            ]                         
+          ]
+        ]    
+        [
+          if pxcor = 38 and pycor = 13 ;; Farmer11-up
+          [             
+            if [ComparisonCountDownSecondaryF11-14] of patch (pxcor - 1) pycor > 0 and [ComparisonCountDownSecondaryF11-14] of patch (pxcor - 1) pycor < ComparisonTime
+            [               
+              ifelse GCF11_F13 - ([ContinuousPoorYearNumberSecondaryF11-14] of patch (pxcor - 1) pycor + 1) * 10 >= 30
+              [
+                set QGateMax (GCF11_F13 - ([ContinuousPoorYearNumberSecondaryF11-14] of patch (pxcor - 1) pycor + 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]                
+            ]
+            set GCF11_F14 QGateMax                                         ;; record the GC of F11 to use as the initial GC of F11 when there is F15
+          ]
+          if pxcor = 38 and pycor = 11 ;; Farmer12-middle
+          [
+            if [ComparisonCountDownSecondaryF11-14] of patch (pxcor + 1) pycor > 0 and [ComparisonCountDownSecondaryF11-14] of patch (pxcor + 1) pycor < ComparisonTime
+            [               
+              ifelse GCF12_F13 - [ContinuousPoorYearNumberSecondaryF11-14] of patch (pxcor + 1) pycor * 10 >= 30
+              [
+                set QGateMax (GCF12_F13 - [ContinuousPoorYearNumberSecondaryF11-14] of patch (pxcor + 1) pycor * 10)
+              ]
+              [
+                set QGateMax 30
+              ]                
+            ]
+            set GCF12_F14 QGateMax                                         ;; record the GC of F12 to use as the initial GC of F11 when there is F15
+          ]           
+          if pxcor = 38 and pycor = 9 ;; Farmer13-middle
+          [
+            if [ComparisonCountDownSecondaryF11-14] of patch (pxcor - 1) pycor > 0 and [ComparisonCountDownSecondaryF11-14] of patch (pxcor - 1) pycor < ComparisonTime
+            [                
+              ifelse GCF13_F13 - [ContinuousPoorYearNumberSecondaryF11-14] of patch (pxcor - 1) pycor * 10 >= 30
+              [
+                set QGateMax (GCF13_F13 - [ContinuousPoorYearNumberSecondaryF11-14] of patch (pxcor - 1) pycor * 10)
+              ]
+              [
+                set QGateMax 30
+              ]                
+            ]
+            set GCF13_F14 QGateMax                                         ;; record the GC of F13 to use as the initial GC of F13 when there is F15
+          ]
+          
+          ifelse QGateMaxFixed > 30
+          [           
+            if pxcor = 38 and pycor = 7 ;; Farmer14-down
+            [
+              if [ComparisonCountDownSecondaryF11-14] of patch (pxcor + 1) pycor > 0 and [ComparisonCountDownSecondaryF11-14] of patch (pxcor + 1) pycor < ComparisonTime
+              [
+                set QGateMax QGateMaxFixed
+              ]
+              set GCF14_F14 QGateMax                                         ;; record the GC of F14 to use as the initial GC of F14 when there is F15
+            ]
+          ]
+          [
+            set QGateMax QGateMaxFixed
+          ]
+        ]                       
+      ]      
+    ]
+  ]  
+end  
+
+to GateCapacity_F11-15                                                         ;; set the capacity of farmer's gate along the secondary canal F11-15
+  ask patches with [pcolor = red + 2]                                                      ;; gates at the right side of the river
+  [
+    if pycor < 15
+    [
+      ;; if there are farmer 11, 12, 13, 14, 15
+      if [pcolor] of patch 38 5 = red + 2 and [pcolor] of patch 38 3 != red + 2
+      [
+        ifelse ReadyforGCDecision_SecondaryCanalF11-15 = false
+        [
+          if QgateLimit? = true
+          [
+            if pxcor = 38 and pycor = 13
+            [
+              set QGateMax GCF11_F14
+            ]
+            if pxcor = 38 and pycor = 11
+            [
+              set QGateMax GCF12_F14              
+            ]
+            if pxcor = 38 and pycor = 9
+            [
+              set QGateMax GCF13_F14              
+            ] 
+            if pxcor = 38 and pycor = 7
+            [
+              set QGateMax GCF14_F14              
+            ]
+          ]
+        ]
+        [
+          if pxcor = 38 and pycor = 13 ;; Farmer11-up
+          [
+            if [ComparisonCountDownSecondaryF11-15] of patch (pxcor - 1) pycor > 0 and [ComparisonCountDownSecondaryF11-15] of patch (pxcor - 1) pycor < ComparisonTime
+            [
+              ifelse GCF11_F14 - ([ContinuousPoorYearNumberSecondaryF11-15] of patch (pxcor - 1) pycor + 1) * 10 >= 30
+              [
+                set QGateMax (GCF11_F14 - ([ContinuousPoorYearNumberSecondaryF11-15] of patch (pxcor - 1) pycor + 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]
+            ]
+            set GCF11_F15 QGateMax                                         ;; record the GC of F11 to use as the initial GC of F11 when there is F16
+          ]
+          if pxcor = 38 and pycor = 11 ;; Farmer12-middle
+          [
+            if [ComparisonCountDownSecondaryF11-15] of patch (pxcor + 1) pycor > 0 and [ComparisonCountDownSecondaryF11-15] of patch (pxcor + 1) pycor < ComparisonTime
+            [
+              ifelse GCF12_F14 - [ContinuousPoorYearNumberSecondaryF11-15] of patch (pxcor + 1) pycor * 10 >= 30
+              [
+                set QGateMax (GCF12_F14 - [ContinuousPoorYearNumberSecondaryF11-15] of patch (pxcor + 1) pycor * 10)
+              ]
+              [
+                set QGateMax 30
+              ]
+            ]
+            set GCF12_F15 QGateMax                                         ;; record the GC of F12 to use as the initial GC of F13 when there is F16
+          ]
+          if pxcor = 38 and pycor = 9 ;; Farmer13-middle
+          [
+            if [ComparisonCountDownSecondaryF11-15] of patch (pxcor - 1) pycor > 0 and [ComparisonCountDownSecondaryF11-15] of patch (pxcor - 1) pycor < ComparisonTime
+            [
+              ifelse GCF13_F14 - [ContinuousPoorYearNumberSecondaryF11-15] of patch (pxcor - 1) pycor * 10 >= 30
+              [
+                set QGateMax (GCF13_F14 - [ContinuousPoorYearNumberSecondaryF11-15] of patch (pxcor - 1) pycor * 10)
+              ]
+              [
+                set QGateMax 30
+              ]
+            ]
+            set GCF13_F15 QGateMax                                         ;; record the GC of F13 to use as the initial GC of F13 when there is F16
+          ]
+          if pxcor = 38 and pycor = 7 ;; Farmer14-middle
+          [
+            if [ComparisonCountDownSecondaryF11-15] of patch (pxcor + 1) pycor > 0 and [ComparisonCountDownSecondaryF11-15] of patch (pxcor + 1) pycor < ComparisonTime
+            [
+              ifelse GCF14_F14 - [ContinuousPoorYearNumberSecondaryF11-15] of patch (pxcor + 1) pycor * 10 >= 30
+              [
+                set QGateMax (GCF14_F14 - [ContinuousPoorYearNumberSecondaryF11-15] of patch (pxcor + 1) pycor * 10)
+              ]
+              [
+                set QGateMax 30
+              ]
+            ]
+            set GCF14_F15 QGateMax                                         ;; record the GC of F14 to use as the initial GC of F14 when there is F16
+          ]
+          ifelse QGateMaxFixed > 30
+          [            
+            if pxcor = 38 and pycor = 5 ;; Farmer15-down
+            [
+              if [ComparisonCountDownSecondaryF11-15] of patch (pxcor - 1) pycor > 0 and [ComparisonCountDownSecondaryF11-15] of patch (pxcor - 1) pycor < ComparisonTime
+              [
+                set QGateMax QGateMaxFixed
+              ]
+              set GCF15_F15 QGateMax                                         ;; record the GC of F15 to use as the initial GC of F15 when there is F16
+            ]
+          ]
+          [
+            set QGateMax QGateMaxFixed
+          ]                           
+        ]
+      ]      
+    ]
+  ]    
+end
+
+to GateCapacity_F11-16                                                         ;; set the capacity of farmer's gate along the secondary canal F11-16
+  ask patches with [pcolor = red + 2]                                                      ;; gates at the right side of the river
+  [
+    if pycor < 15
+    [
+      ;; if there are farmer 11, 12, 13, 14, 15, 16
+      if [pcolor] of patch 38 3 = red + 2
+      [
+        ifelse ReadyforGCDecision_SecondaryCanalF11-16 = false
+        [
+          if QgateLimit? = true
+          [
+            if pxcor = 38 and pycor = 13
+            [
+              set QGateMax GCF11_F15
+            ]
+            if pxcor = 38 and pycor = 11
+            [
+              set QGateMax GCF12_F15              
+            ]
+            if pxcor = 38 and pycor = 9
+            [
+              set QGateMax GCF13_F15             
+            ] 
+            if pxcor = 38 and pycor = 7
+            [
+              set QGateMax GCF14_F15             
+            ]
+            if pxcor = 38 and pycor = 5
+            [
+              set QGateMax GCF15_F15             
+            ]           
+          ]
+        ]
+        [
+          if pxcor = 38 and pycor = 13 ;; Farmer11-up
+          [
+            if [ComparisonCountDownSecondaryF11-16] of patch (pxcor - 1) pycor > 0 and [ComparisonCountDownSecondaryF11-16] of patch (pxcor - 1) pycor < ComparisonTime
+            [
+              ifelse GCF11_F15 - ([ContinuousPoorYearNumberSecondaryF11-16] of patch (pxcor - 1) pycor + 1) * 10 >= 30
+              [
+                set QGateMax (GCF11_F15 - ([ContinuousPoorYearNumberSecondaryF11-16] of patch (pxcor - 1) pycor + 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]
+            ]
+          ]
+          if pxcor = 38 and pycor = 11 ;; Farmer12-up
+          [
+            if [ComparisonCountDownSecondaryF11-16] of patch (pxcor + 1) pycor > 0 and [ComparisonCountDownSecondaryF11-16] of patch (pxcor + 1) pycor < ComparisonTime
+            [
+              ifelse GCF12_F15 - ([ContinuousPoorYearNumberSecondaryF11-16] of patch (pxcor + 1) pycor + 1) * 10 >= 30
+              [
+                set QGateMax (GCF12_F15 - ([ContinuousPoorYearNumberSecondaryF11-16] of patch (pxcor + 1) pycor + 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]
+            ]
+          ]
+          if pxcor = 38 and pycor = 9 ;; Farmer13-middle
+          [
+            if [ComparisonCountDownSecondaryF11-16] of patch (pxcor - 1) pycor > 0 and [ComparisonCountDownSecondaryF11-16] of patch (pxcor - 1) pycor < ComparisonTime
+            [
+              ifelse GCF13_F15 - [ContinuousPoorYearNumberSecondaryF11-16] of patch (pxcor - 1) pycor * 10 >= 30
+              [
+                set QGateMax (GCF13_F15 - [ContinuousPoorYearNumberSecondaryF11-16] of patch (pxcor - 1) pycor * 10)
+              ]
+              [
+                set QGateMax 30
+              ]
+            ]
+          ]
+          if pxcor = 38 and pycor = 7 ;; Farmer14-middle
+          [
+            if [ComparisonCountDownSecondaryF11-16] of patch (pxcor + 1) pycor > 0 and [ComparisonCountDownSecondaryF11-16] of patch (pxcor + 1) pycor < ComparisonTime
+            [
+              ifelse GCF14_F15 - [ContinuousPoorYearNumberSecondaryF11-16] of patch (pxcor + 1) pycor * 10 >= 30
+              [
+                set QGateMax (GCF14_F15 - [ContinuousPoorYearNumberSecondaryF11-16] of patch (pxcor + 1) pycor * 10)
+              ]
+              [
+                set QGateMax 30
+              ]
+            ]
+          ]
+          ifelse QGateMaxFixed > 30
+          [          
+            if pxcor = 38 and pycor = 5 ;; Farmer15-down
+            [
+              if [ComparisonCountDownSecondaryF11-16] of patch (pxcor - 1) pycor > 0 and [ComparisonCountDownSecondaryF11-16] of patch (pxcor - 1) pycor < ComparisonTime
+              [
+                set QGateMax QGateMaxFixed
+              ]
+            ]
+            if pxcor = 38 and pycor = 3 ;; Farmer16-down
+            [
+              if [ComparisonCountDownSecondaryF11-16] of patch (pxcor + 1) pycor > 0 and [ComparisonCountDownSecondaryF11-16] of patch (pxcor + 1) pycor < ComparisonTime
+              [
+                set QGateMax QGateMaxFixed
+              ]
+            ]
+          ]
+          [
+            set QGateMax QGateMaxFixed
+          ]
+        ]
+      ]      
+    ]
+  ]    
+end
+
+to GateCapacity_F17-19                                                         ;; set the capacity of farmer's gate along the 2nd Primary Canal F17-19
+  ask patches with [pcolor = red]                                                      ;; gates at the right side of the river
+  [
+    if pxcor < 25
+    [
+      ;; if there are farmer 17, 18, 19
+      if [pcolor] of patch 18 17 = red and [pcolor] of patch 16 17 != red
+      [
+        ifelse ReadyforGCDecisionF17-19 = false
+        [
+          if QgateLimit? = true
+          [
+            if pxcor = 22 and pycor = 17 ;; Farmer17
+            [
+              set QGateMax QGateMaxFixed
+              set GCF17_F19 QGateMax
+            ]
+            if pxcor = 20 and pycor = 17 ;; Farmer18
+            [
+              set QGateMax QGateMaxFixed
+              set GCF18_F19 QGateMax
+            ]
+            if pxcor = 18 and pycor = 17 ;; Farmer19
+            [
+              set QGateMax QGateMaxFixed
+              set GCF19_F19 QGateMax
+            ]            
+          ]
+        ]
+        [
+          ifelse QGateMaxFixed > 30 
+          [
+            if pxcor = 22 and pycor = 17 ;; Farmer17
+            [
+              if [ComparisonCountDownF17-19] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownF17-19] of patch pxcor (pycor + 1) < ComparisonTime
+              [
+                ifelse QGateMaxFixed - ([ContinuousPoorYearNumberF17-19] of patch pxcor (pycor + 1) + 1) * 10 >= 30
+                [
+                  set QGateMax (QGateMaxFixed - ([ContinuousPoorYearNumberF17-19] of patch pxcor (pycor + 1) + 1) * 10)
+                ]
+                [
+                  set QGateMax 30
+                ]                
+              ]
+              set GCF17_F19 QGateMax                                         ;; record the GC of F17 to use as the initial GC of F17 when there is F20
+            ]
+            if pxcor = 20 and pycor = 17 ;; Farmer18
+            [
+              if [ComparisonCountDownF17-19] of patch pxcor (pycor - 1) > 0 and [ComparisonCountDownF17-19] of patch pxcor (pycor - 1) < ComparisonTime
+              [
+                ifelse QGateMaxFixed - [ContinuousPoorYearNumberF17-19] of patch pxcor (pycor - 1) * 10 >= 30
+                [
+                  set QGateMax (QGateMaxFixed - [ContinuousPoorYearNumberF17-19] of patch pxcor (pycor - 1) * 10)
+                ]
+                [
+                  set QGateMax 30
+                ]              
+              ]
+              set GCF18_F19 QGateMax                                         ;; record the GC of F18 to use as the initial GC of F18 when there is F20                
+            ]
+            if pxcor = 18 and pycor = 17 ;; Farmer19
+            [
+              if [ComparisonCountDownF17-19] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownF17-19] of patch pxcor (pycor + 1) < ComparisonTime
+              [
+                set QGateMax QGateMaxFixed
+              ]
+              set GCF19_F19 QGateMax                                         ;; record the GC of F19 to use as the initial GC of F19 when there is F20              
+            ]
+          ]
+          [
+            set QGateMax QGateMaxFixed
+          ]
+        ]
+      ]
+    ]
+  ]  
+end
+
+to GateCapacity_F17-20                                                         ;; set the capacity of farmer's gate along the 2nd Primary canal F1
+  ask patches with [pcolor = red]                                                      ;; gates at the right side of the river
+  [
+    if pxcor < 25
+    [
+      ;; if there are F17-20
+      if [pcolor] of patch 16 17 = red and [pcolor] of patch 14 17 != red
+      [   
+        ifelse ReadyforGCDecisionF17-20 = false
+        [
+          if QgateLimit? = true
+          [
+            if pxcor = 22 and pycor = 17
+            [
+              set QGateMax GCF17_F19
+            ]
+            if pxcor = 20 and pycor = 17
+            [
+              set QGateMax GCF18_F19             
+            ]
+            if pxcor = 18 and pycor = 17
+            [
+              set QGateMax GCF19_F19              
+            ]                         
+          ]
+        ]    
+        [
+          if pxcor = 22 and pycor = 17 ;; Farmer17-up
+          [             
+            if [ComparisonCountDownF17-20] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownF17-20] of patch pxcor (pycor + 1) < ComparisonTime
+            [               
+              ifelse GCF17_F19 - ([ContinuousPoorYearNumberF17-20] of patch pxcor (pycor + 1) + 1) * 10 >= 30
+              [
+                set QGateMax (GCF17_F19 - ([ContinuousPoorYearNumberF17-20] of patch pxcor (pycor + 1) + 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]                
+            ]
+            set GCF17_F20 QGateMax                                         ;; record the GC of F17 to use as the initial GC of F17 when there is F21
+          ]
+          if pxcor = 20 and pycor = 17 ;; Farmer18-middle
+          [
+            if [ComparisonCountDownF17-20] of patch pxcor (pycor - 1) > 0 and [ComparisonCountDownF17-20] of patch pxcor (pycor - 1) < ComparisonTime
+            [               
+              ifelse GCF18_F19 - [ContinuousPoorYearNumberF17-20] of patch pxcor (pycor - 1) * 10 >= 30
+              [
+                set QGateMax (GCF18_F19 - [ContinuousPoorYearNumberF17-20] of patch pxcor (pycor - 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]                
+            ]
+            set GCF18_F20 QGateMax                                         ;; record the GC of F18 to use as the initial GC of F18 when there is F21
+          ]           
+          if pxcor = 18 and pycor = 17 ;; Farmer19-middle
+          [
+            if [ComparisonCountDownF17-20] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownF17-20] of patch pxcor (pycor + 1) < ComparisonTime
+            [                
+              ifelse GCF19_F19 - [ContinuousPoorYearNumberF17-20] of patch pxcor (pycor + 1) * 10 >= 30
+              [
+                set QGateMax (GCF19_F19 - [ContinuousPoorYearNumberF17-20] of patch pxcor (pycor + 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]                
+            ]
+            set GCF19_F20 QGateMax                                          ;; record the GC of F19 to use as the initial GC of F19 when there is F21
+          ]
+          
+          ifelse QGateMaxFixed > 30
+          [           
+            if pxcor = 16 and pycor = 17 ;; Farmer20-down
+            [
+              if [ComparisonCountDownF17-20] of patch pxcor (pycor - 1) > 0 and [ComparisonCountDownF17-20] of patch pxcor (pycor - 1) < ComparisonTime
+              [
+                set QGateMax QGateMaxFixed
+              ]
+              set GCF20_F20 QGateMax                                         ;; record the GC of F20 to use as the initial GC of F20 when there is F21
+            ]
+          ]
+          [
+            set QGateMax QGateMaxFixed
+          ]
+        ]                       
+      ]      
+    ]
+  ]  
+end
+
+to GateCapacity_F17-21
+  ask patches with [pcolor = red]                                                      ;; gates at the right side of the river
+  [
+    if pxcor < 25
+    [
+      ;; if there are F17-21
+      if [pcolor] of patch 14 17 = red and [pcolor] of patch 12 17 != red
+      [   
+        ifelse ReadyforGCDecisionF17-21 = false
+        [
+          if QgateLimit? = true
+          [
+            if pxcor = 22 and pycor = 17
+            [
+              set QGateMax GCF17_F20
+            ]
+            if pxcor = 20 and pycor = 17
+            [
+              set QGateMax GCF18_F20             
+            ]
+            if pxcor = 18 and pycor = 17
+            [
+              set QGateMax GCF19_F20              
+            ]
+            if pxcor = 16 and pycor = 17
+            [
+              set QGateMax GCF20_F20              
+            ]            
+          ]
+        ]    
+        [
+          if pxcor = 22 and pycor = 17 ;; Farmer17-up
+          [             
+            if [ComparisonCountDownF17-21] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownF17-21] of patch pxcor (pycor + 1) < ComparisonTime
+            [               
+              ifelse GCF17_F20 - ([ContinuousPoorYearNumberF17-21] of patch pxcor (pycor + 1) + 1) * 10 >= 30
+              [
+                set QGateMax (GCF17_F20 - ([ContinuousPoorYearNumberF17-21] of patch pxcor (pycor + 1) + 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]                
+            ]
+            set GCF17_F21 QGateMax                                         ;; record the GC of F17 to use as the initial GC of F17 when there is F22
+          ]
+          if pxcor = 20 and pycor = 17 ;; Farmer18-middle
+          [
+            if [ComparisonCountDownF17-21] of patch pxcor (pycor - 1) > 0 and [ComparisonCountDownF17-21] of patch pxcor (pycor - 1) < ComparisonTime
+            [               
+              ifelse GCF18_F20 - [ContinuousPoorYearNumberF17-21] of patch pxcor (pycor - 1) * 10 >= 30
+              [
+                set QGateMax (GCF18_F20 - [ContinuousPoorYearNumberF17-21] of patch pxcor (pycor - 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]                
+            ]
+            set GCF18_F21 QGateMax                                         ;; record the GC of F18 to use as the initial GC of F18 when there is F22
+          ]           
+          if pxcor = 18 and pycor = 17 ;; Farmer19-middle
+          [
+            if [ComparisonCountDownF17-21] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownF17-21] of patch pxcor (pycor + 1) < ComparisonTime
+            [                
+              ifelse GCF19_F20 - [ContinuousPoorYearNumberF17-21] of patch pxcor (pycor + 1) * 10 >= 30
+              [
+                set QGateMax (GCF19_F20 - [ContinuousPoorYearNumberF17-21] of patch pxcor (pycor + 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]                
+            ]
+            set GCF19_F21 QGateMax                                          ;; record the GC of F19 to use as the initial GC of F19 when there is F22
+          ]
+          if pxcor = 16 and pycor = 17 ;; Farmer20-middle
+          [
+            if [ComparisonCountDownF17-21] of patch pxcor (pycor - 1) > 0 and [ComparisonCountDownF17-21] of patch pxcor (pycor - 1) < ComparisonTime
+            [               
+              ifelse GCF20_F20 - [ContinuousPoorYearNumberF17-21] of patch pxcor (pycor - 1) * 10 >= 30
+              [
+                set QGateMax (GCF20_F20 - [ContinuousPoorYearNumberF17-21] of patch pxcor (pycor - 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]                
+            ]
+            set GCF20_F21 QGateMax                                         ;; record the GC of F20 to use as the initial GC of F18 when there is F22
+          ]          
+          
+          ifelse QGateMaxFixed > 30
+          [           
+            if pxcor = 14 and pycor = 17 ;; Farmer21-down
+            [
+              if [ComparisonCountDownF17-21] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownF17-21] of patch pxcor (pycor + 1) < ComparisonTime
+              [
+                set QGateMax QGateMaxFixed
+              ]
+              set GCF21_F21 QGateMax                                         ;; record the GC of F21 to use as the initial GC of F20 when there is F22
+            ]
+          ]
+          [
+            set QGateMax QGateMaxFixed
+          ]
+        ]                       
+      ]      
+    ]
+  ]  
+end
+
+to GateCapacity_F17-22
+  ask patches with [pcolor = red]                                                      ;; gates at the right side of the river
+  [
+    if pxcor < 25
+    [
+      ;; if there are farmer 17, 18, 19, 20, 21, 22
+      if [pcolor] of patch 12 17 = red
+      [
+        ifelse ReadyforGCDecisionF17-22 = false
+        [
+          if QgateLimit? = true
+          [
+            if pxcor = 22 and pycor = 17
+            [
+              set QGateMax GCF17_F21
+            ]
+            if pxcor = 20 and pycor = 17
+            [
+              set QGateMax GCF18_F21             
+            ]
+            if pxcor = 18 and pycor = 17
+            [
+              set QGateMax GCF19_F21            
+            ] 
+            if pxcor = 16 and pycor = 17
+            [
+              set QGateMax GCF20_F21            
+            ]
+            if pxcor = 14 and pycor = 17
+            [
+              set QGateMax GCF21_F21             
+            ]           
+          ]
+        ]
+        [
+          if pxcor = 22 and pycor = 17 ;; Farmer17-up
+          [
+            if [ComparisonCountDownF17-22] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownF17-22] of patch pxcor (pycor + 1) < ComparisonTime
+            [
+              ifelse GCF17_F21 - ([ContinuousPoorYearNumberF17-22] of patch pxcor (pycor + 1) + 1) * 10 >= 30
+              [
+                set QGateMax (GCF17_F21 - ([ContinuousPoorYearNumberF17-22] of patch pxcor (pycor + 1) + 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]
+            ]
+          ]
+          if pxcor = 20 and pycor = 17 ;; Farmer18-up
+          [
+            if [ComparisonCountDownF17-22] of patch pxcor (pycor - 1) > 0 and [ComparisonCountDownF17-22] of patch pxcor (pycor - 1) < ComparisonTime
+            [
+              ifelse GCF18_F21 - ([ContinuousPoorYearNumberF17-22] of patch pxcor (pycor - 1) + 1) * 10 >= 30
+              [
+                set QGateMax (GCF18_F21 - ([ContinuousPoorYearNumberF17-22] of patch pxcor (pycor - 1) + 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]
+            ]
+          ]
+          if pxcor = 18 and pycor = 17 ;; Farmer19-middle
+          [
+            if [ComparisonCountDownF17-22] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownF17-22] of patch pxcor (pycor + 1) < ComparisonTime
+            [
+              ifelse GCF19_F21 - [ContinuousPoorYearNumberF17-22] of patch pxcor (pycor + 1) * 10 >= 30
+              [
+                set QGateMax (GCF19_F21 - [ContinuousPoorYearNumberF17-22] of patch pxcor (pycor + 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]
+            ]
+          ]
+          if pxcor = 16 and pycor = 17 ;; Farmer20-middle
+          [
+            if [ComparisonCountDownF17-22] of patch pxcor (pycor - 1) > 0 and [ComparisonCountDownF17-22] of patch pxcor (pycor - 1) < ComparisonTime
+            [
+              ifelse GCF20_F21 - [ContinuousPoorYearNumberF17-22] of patch pxcor (pycor - 1) * 10 >= 30
+              [
+                set QGateMax (GCF20_F21 - [ContinuousPoorYearNumberF17-22] of patch pxcor (pycor - 1) * 10)
+              ]
+              [
+                set QGateMax 30
+              ]
+            ]
+          ]
+          ifelse QGateMaxFixed > 30
+          [          
+            if pxcor = 14 and pycor = 17 ;; Farmer21-down
+            [
+              if [ComparisonCountDownF17-22] of patch pxcor (pycor + 1) > 0 and [ComparisonCountDownF17-22] of patch pxcor (pycor + 1) < ComparisonTime
+              [
+                set QGateMax QGateMaxFixed
+              ]
+            ]
+            if pxcor = 12 and pycor = 17 ;; Farmer22-down
+            [
+              if [ComparisonCountDownF17-22] of patch pxcor (pycor - 1) > 0 and [ComparisonCountDownF17-22] of patch pxcor (pycor - 1) < ComparisonTime
+              [
+                set QGateMax QGateMaxFixed
+              ]
+            ]
+          ]
+          [
+            set QGateMax QGateMaxFixed
+          ]
+        ]
+      ]      
+    ]
+  ]      
+end
