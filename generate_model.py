@@ -12,8 +12,8 @@ environment = jinja2.Environment(
 
 # define variables
 # output-related variables
-output_folder= "./output"
-output_filename = f"{output_folder}/experiments.xml"
+experiment_name = "experiments_1"  # output folder
+output_filename = f"{experiment_name}/experiments.xml"
 
 # model variables
 Qin_average_first = 333
@@ -23,15 +23,15 @@ Qin_average_last = 999
 # render the templates
 template = environment.get_template("experiments.xml.jinja")
 content = template.render(
-    experiment_name="hello_experiment",
+    experiment_name=experiment_name,
     Qin_average_first=Qin_average_first,
     Qin_average_step=Qin_average_step,
     Qin_average_last=Qin_average_last
 )
 
 # check if output folder exists otherwise, create it
-if not os.path.exists(output_folder):
-    os.mkdir(output_folder)
+if not os.path.exists(experiment_name):
+    os.mkdir(experiment_name)
 
 # save the rendered files
 with open(output_filename, mode="w", encoding="utf-8") as model_file:
