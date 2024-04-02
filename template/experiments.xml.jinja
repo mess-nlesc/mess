@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE experiments SYSTEM "behaviorspace.dtd">
 <experiments>
-  <experiment name="experiment1" repetitions="1" runMetricsEveryStep="true">
+  <experiment name="{{ experiment_name }}" repetitions="1" runMetricsEveryStep="true">
     <setup>setup</setup>
     <go>go</go>
     <exitCondition>ticks = 18250</exitCondition>
@@ -103,7 +103,7 @@
     <metric>[QGateMax] of patch 38 13</metric>
     <metric>[QGateMax] of patch 38 11</metric>
     <metric>[QGateMax] of patch 38 9</metric>
-    <steppedValueSet variable="Qin_average" first="40" step="10" last="200"/>
+    <steppedValueSet variable="Qin_average" first="{{Qin_average_first}}" step="{{Qin_average_step}}" last="{{Qin_average_last}}"/>
     <enumeratedValueSet variable="Qin_randomizer">
       <value value="0"/>
     </enumeratedValueSet>
