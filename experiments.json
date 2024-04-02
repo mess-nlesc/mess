@@ -8,12 +8,6 @@
                     "first": 40,
                     "step": 10,
                     "last": 200
-                },
-                {
-                    "variable": "Another_variable",
-                    "first": 50,
-                    "step": 5,
-                    "last": 100
                 }
             ],
             "Qin_randomizer":[0,1,2]

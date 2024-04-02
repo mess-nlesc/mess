@@ -9,10 +9,10 @@ source venv/bin/activate
 python -m pip install kunefe
 ```
 ## Usage
-
+We will use  `jinja2` template engine to create the experiments. 
 Suppose your experiments are specified in `experiments.xml` file. To prepare the experiments for running on HPC, you need to create a template file with extension `.jinja` in which you define the variables that will be replaced by the actual values of the experiments (`.json`). 
 
-For example, your `experiments.xml` could be:
+For example, if your `experiments.xml` is:
 
 ```xml
 <experiment name="Experiment_1" repetitions="1" runMetricsEveryStep="true">
@@ -47,15 +47,15 @@ If we have `steppedValueSet` and `enumeratedValueSet` variable in the `experimen
 ```
 
 ```json
-"stepped_values": [
-                {
-                    "variable": "Qin_average",
-                    "first": 40,
-                    "step": 10,
-                    "last": 200
-                }
-            ],
-            "Qin_randomizer":[0,1,2]
+"stepped_values": 
+[{
+  "variable": "Qin_average",
+  "first": 40,
+  "step": 10,
+  "last": 200
+  }
+],
+"Qin_randomizer":[0,1,2]
 ```
 
 

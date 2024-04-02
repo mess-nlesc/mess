@@ -103,14 +103,14 @@
     <metric>[QGateMax] of patch 38 13</metric>
     <metric>[QGateMax] of patch 38 11</metric>
     <metric>[QGateMax] of patch 38 9</metric>
-    {% for variable, first, step, last in stepped_values %}
+    {# {% for variable, first, step, last in stepped_values %}
     <steppedValueSet variable="{{ Qin_average }}" first="{{ first }}" step="{{ step }}" last="{{ last }}" />
-    {% endfor %}
-    {# <steppedValueSet variable="Qin_average" first="40" step="10" last="200" /> #}
-    <enumeratedValueSet variable="{{ Qin_randomizer }}">
-      <value value="{{ value }}" />
-    {# <enumeratedValueSet variable="Qin_randomizer">
-      <value value="0" /> #}
+    {% endfor %} #}
+    <steppedValueSet variable="Qin_average" first="40" step="10" last="200" />
+    {# <enumeratedValueSet variable="{{ Qin_randomizer }}"> #}
+      {# <value value="{{ value }}" /> #}
+    <enumeratedValueSet variable="Qin_randomizer">
+      <value value="0" />
     </enumeratedValueSet>
     <enumeratedValueSet variable="RandomSeed">
       <value value="&quot;290449&quot;" />
