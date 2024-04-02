@@ -6,11 +6,11 @@ Run NetLogo code on HPC using kunefe
 ```bash
 python -m venv venv
 source venv/bin/activate
-python -m pip install kunefe
+python generate_model.py
 ```
 ## Usage
-We will use  `jinja2` template engine to create the experiments. 
-Suppose your experiments are specified in `experiments.xml` file. To prepare the experiments for running on HPC, you need to create a template file with extension `.jinja` in which you define the variables that will be replaced by the actual values of the experiments (`.json`). 
+We will use  `jinja2` template engine to create the experiments.
+Suppose your experiments are specified in `experiments.xml` file. To prepare the experiments for running on HPC, you need to create a template file with extension `.jinja` in which you define the variables that will be replaced by the actual values of the experiments (`.json`).
 
 For example, if your `experiments.xml` is:
 
@@ -34,7 +34,7 @@ With the data file:
 If we have `steppedValueSet` and `enumeratedValueSet` variable in the `experiments.xml`  the corresponding template and data file will be as follows:
 
 ```xml
-<steppedValueSet variable="Qin_average" first="40" step="10" last="200" /> 
+<steppedValueSet variable="Qin_average" first="40" step="10" last="200" />
 <enumeratedValueSet variable="Qin_randomizer"> <value value="0" />
 ```
 
@@ -47,7 +47,7 @@ If we have `steppedValueSet` and `enumeratedValueSet` variable in the `experimen
 ```
 
 ```json
-"stepped_values": 
+"stepped_values":
 [{
   "variable": "Qin_average",
   "first": 40,
