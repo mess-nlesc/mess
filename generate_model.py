@@ -16,9 +16,13 @@ experiment_name = "experiments_1"  # output folder
 output_filename = f"{experiment_name}/experiments.xml"
 
 # model variables
-Qin_average_first = 333
-Qin_average_step = 666
-Qin_average_last = 999
+Qin_average_first = 111  # default: 40
+Qin_average_step = 222  # default: 10
+Qin_average_last = 333  # default: 200
+
+ComparisonTime_first = 444  # default: 730
+ComparisonTime_step = 555  # default: 365
+ComparisonTime_last = 666  # default: 1825
 
 # render the templates
 template = environment.get_template("experiments.xml.jinja")
@@ -26,7 +30,10 @@ content = template.render(
     experiment_name=experiment_name,
     Qin_average_first=Qin_average_first,
     Qin_average_step=Qin_average_step,
-    Qin_average_last=Qin_average_last
+    Qin_average_last=Qin_average_last,
+    ComparisonTime_first=ComparisonTime_first,
+    ComparisonTime_step=ComparisonTime_step,
+    ComparisonTime_last=ComparisonTime_last,
 )
 
 # check if output folder exists otherwise, create it
