@@ -16,13 +16,19 @@ experiment_name = "experiments_1"  # output folder
 output_filename = f"{experiment_name}/experiments.xml"
 
 # model variables
+
+# Qin_average variable
 Qin_average_first = 111  # default: 40
 Qin_average_step = 222  # default: 10
 Qin_average_last = 333  # default: 200
 
+# ComparisonTime variable
 ComparisonTime_first = 444  # default: 730
 ComparisonTime_step = 555  # default: 365
 ComparisonTime_last = 666  # default: 1825
+
+# QGateMaxFixed variable
+QGateMaxFixed_value = 777  # default: 30
 
 # render the templates
 template = environment.get_template("experiments.xml.jinja")
@@ -34,6 +40,7 @@ content = template.render(
     ComparisonTime_first=ComparisonTime_first,
     ComparisonTime_step=ComparisonTime_step,
     ComparisonTime_last=ComparisonTime_last,
+    QGateMaxFixed_value=QGateMaxFixed_value
 )
 
 # check if output folder exists otherwise, create it
