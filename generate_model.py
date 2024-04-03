@@ -3,17 +3,18 @@
 import json
 import pathlib
 import os
+from uuid import uuid4
 import jinja2
 from pydantic import ValidationError
-from model import ModelParameters
+from model import ParametersModel
 from helpers import combine_variables
 
 # output-related variables
-experiment_count = 0
+experiment_count = 0  # current number of combinations
 template_folder_name = "templates"  # output folder
-output_folder = "experiment"  # output folder
+output_folder_base = "experiment"  # output folder
 
-# load templates
+# load the templates
 parent_dir = os.path.dirname(__file__)
 templates_folder = os.path.join(parent_dir, template_folder_name)
 environment = jinja2.Environment(
@@ -21,33 +22,38 @@ environment = jinja2.Environment(
 )
 
 # read the variables for rendering
-with open("model_variables.json", mode="r", encoding="utf-8") as variables_entry:
-    model_variables = json.load(variables_entry)
+with open("model_variables.json", mode="r", encoding="utf-8") as variables_input:
+    model_variables = json.load(variables_input)
 
 # create a pydantic model
-model_parameter_list = ModelParameters(variables=model_variables)
+model_parameter_list = ParametersModel(variables=model_variables)
 
 # validate the model
 try:
-    ModelParameters.model_validate(model_parameter_list)
+    ParametersModel.model_validate(model_parameter_list)
 except ValidationError as e:
     print(e)
 
 # print(model_parameter_list.model_json_schema())  # show the schema
-print(model_parameter_list.model_dump_json())  # show the parsed values
+print(f"parsed variables: {model_parameter_list.model_dump_json()}\n")  # show the parsed values
 
 # loop over the variable combinations and render all the files
 for parameter_grid_item in combine_variables(model_parameter_list.variables):
+    # define experiment name
+    experiment_name = f"{output_folder_base}_{experiment_count}"
+
+    # for each parameter combination create a new id
+    parameter_grid_item['config_id'] = str(uuid4())
+
     # show the parameter combination
     print(f"experiment:{experiment_count}  parameters:{parameter_grid_item}")
 
     # check if output(experiment) folder exists otherwise, create it
-    experiment_path = f"{output_folder}_{experiment_count}"
-    if not os.path.exists(experiment_path):
-        os.mkdir(experiment_path)
+    if not os.path.exists(experiment_name):
+        os.mkdir(experiment_name)
 
     # save the parameters to a file
-    with open(f"{experiment_path}/parameters.json",  mode="w", encoding="utf-8") as parameters_file:
+    with open(f"{experiment_name}/parameters.json",  mode="w", encoding="utf-8") as parameters_file:
         json.dump(parameter_grid_item, parameters_file)
 
     # Iterate template directory to render all the template files
@@ -56,7 +62,7 @@ for parameter_grid_item in combine_variables(model_parameter_list.variables):
         if os.path.isfile(os.path.join(template_folder_name, _file)):
             # define the path for output file
             save_as_name = pathlib.Path(_file).stem  # file name to save the rendered content
-            output_path = f"{experiment_path}/{save_as_name}"  # path for the rendered file
+            output_path = f"{experiment_name}/{save_as_name}"  # path for the rendered file
 
             # get the template file to be rendered
             template = environment.get_template(_file)
