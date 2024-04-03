@@ -4,6 +4,7 @@ import json
 import pathlib
 import os
 import jinja2
+from pydantic import ValidationError
 from model import ModelParameters
 from helpers import combine_variables
 
@@ -11,7 +12,6 @@ from helpers import combine_variables
 experiment_count = 0
 template_folder_name = "templates"  # output folder
 output_folder = "experiment"  # output folder
-
 
 # load templates
 parent_dir = os.path.dirname(__file__)
@@ -33,13 +33,12 @@ try:
 except ValidationError as e:
     print(e)
 
+# print(model_parameter_list.model_json_schema())  # show the schema
+print(model_parameter_list.model_dump_json())  # show the parsed values
 
-# print(model_parameter_list.model_json_schema())
-print(model_parameter_list.model_dump_json())
-
-
+# loop over the variable combinations and render all the files
 for parameter_grid_item in combine_variables(model_parameter_list.variables):
-    # show the parameters
+    # show the parameter combination
     print(f"experiment:{experiment_count}  parameters:{parameter_grid_item}")
 
     # check if output(experiment) folder exists otherwise, create it
@@ -55,15 +54,14 @@ for parameter_grid_item in combine_variables(model_parameter_list.variables):
     for _file in os.listdir(template_folder_name):
         # check if current file_path is a file
         if os.path.isfile(os.path.join(template_folder_name, _file)):
-
+            # define the path for output file
             save_as_name = pathlib.Path(_file).stem  # file name to save the rendered content
             output_path = f"{experiment_path}/{save_as_name}"  # path for the rendered file
-            # print(f"    template file: {_file}")
-            # print(f"    output file: {output_path}")
 
+            # get the template file to be rendered
             template = environment.get_template(_file)
 
-            # render the templates
+            # render the template using the parameter combination
             content = template.render(
                 parameter_grid_item
             )

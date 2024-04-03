@@ -1,7 +1,7 @@
 """A Pydantic model to store variables"""
 
 from typing import Dict, List
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel
 
 
 class ModelParameters(BaseModel):
