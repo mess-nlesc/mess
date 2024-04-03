@@ -45,6 +45,9 @@ for parameter_grid_item in combine_variables(model_parameter_list.variables):
     # for each parameter combination create a new id
     parameter_grid_item['config_id'] = str(uuid4())
 
+    # add a specific variable for the NetLogo code
+    parameter_grid_item['experiment_name'] = experiment_name
+
     # show the parameter combination
     print(f"experiment:{experiment_count}  parameters:{parameter_grid_item}")
 
