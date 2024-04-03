@@ -81,7 +81,8 @@ python generate_model.py
 The output for the example in this documentation will be:
 
 ```shell
-{"variables":{"Qin_average_step":[20,30]}}
-experiment:0  parameters:{'Qin_average_step': 20}
-experiment:1  parameters:{'Qin_average_step': 30}
+parsed variables: {"variables":{"Qin_average_step":[20,30]}}
+
+experiment:0  parameters:{'Qin_average_step': 20, 'config_id': '17b74c98-6ed3-4d01-8d05-d00fa77cfe57', 'experiment_name': 'experiment_0'}
+experiment:1  parameters:{'Qin_average_step': 30, 'config_id': 'dbea87fe-d6b1-421c-b622-e3d3e12698ac', 'experiment_name': 'experiment_1'}
 ```
