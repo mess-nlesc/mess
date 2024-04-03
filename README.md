@@ -28,7 +28,7 @@ In this example we converted the hard-coded value of `10` into a variable called
 
 ### Step 2: Define the variables
 
-Now we have a variable called `Qin_average_step` in our example file (`experiments.xml`) and we want to generate different versions of it. In each version we we will replace `Qin_average_step` with a value we want.
+Now we have a variable called `Qin_average_step` in our example file (`experiments.xml.jinja`) and we want to generate a new file by rendering it with jinja. During the rendering, the `Qin_average_step` variable will be replaced by different values each time to generate a file.
 
 The values which the jinja templates will be rendered for can be defined in `variables.json`.
 
