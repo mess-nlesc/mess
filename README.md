@@ -41,7 +41,7 @@ For example:
 
 ```
 
-Here, we want our `Qin_average_step` to be replaced by two different values `20` and `30`. As a result, two new files will be generated which contain the lines below.
+Here, we want our `Qin_average_step` to be replaced by two different values `20` and `30`. As a result, two new files will be made each containing one of the lines below.
 
 The first `experiments.xml` will contain:
 ```xml
