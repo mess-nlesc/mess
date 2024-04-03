@@ -59,14 +59,20 @@ In order to generate these files, we will need to follow one more step and run t
 
 Once the variables are defined in the templates and the `model_variables.json` file, you can generate a new code by running the commands below.
 
-Create a new virtual environment
+Create a new virtual environment:
 
 ```shell
 python -m venv venv
 source ./venv/bin/activate
 ```
 
-Generate the codes from the templates
+Install the required dependencies:
+
+```shell
+python -m pip install -r requirements.txt
+```
+
+Generate the codes from the templates:
 
 ```shell
 python generate_model.py
