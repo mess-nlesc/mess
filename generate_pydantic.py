@@ -15,18 +15,18 @@ class ModelParameters(BaseModel):
     variables: Dict[str, List[int]]
 
 
+# output-related variables
+experiment_count = 0
+template_folder_name = "templates"  # output folder
+output_folder = "experiment"  # output folder
+
+
 # load templates
 parent_dir = os.path.dirname(__file__)
-templates_folder = os.path.join(parent_dir, "template")
+templates_folder = os.path.join(parent_dir, template_folder_name)
 environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(templates_folder)
 )
-
-
-# output-related variables
-experiment_count = 0
-output_folder = "experiment"  # output folder
-
 
 # read the variables for rendering
 with open("model_variables.json", mode="r", encoding="utf-8") as variables_entry:
@@ -72,9 +72,9 @@ for parameter_grid_item in combine_variables(model_parameter_list.variables):
         json.dump(parameter_grid_item, parameters_file)
 
     # Iterate template directory to render all the template files
-    for _file in os.listdir("template"):
+    for _file in os.listdir(template_folder_name):
         # check if current file_path is a file
-        if os.path.isfile(os.path.join("template", _file)):
+        if os.path.isfile(os.path.join(template_folder_name, _file)):
 
             save_as_name = pathlib.Path(_file).stem  # file name to save the rendered content
             output_path = f"{experiment_path}/{save_as_name}"  # path for the rendered file
