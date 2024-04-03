@@ -2,7 +2,7 @@
 
 This code generates NetLogo codes for a user-defined grid of variables.
 
-For example, if your code has hard-coded values of `value_1`, `value_2`, `value_3`, this code can generate a grid of values and render the templated-code using these values to generate a new code.
+For example, if your existing code or model has hard-coded values of `value_1`, `value_2`, `value_3`, this Python code can generate combinations of values and generate a new code using these values.
 
 ## Usage
 
