@@ -1,52 +1,90 @@
 """Uses the model template to generate a model"""
 
+import json
+from itertools import product
+import pathlib
 import os
+from typing import Dict, List
 import jinja2
+from pydantic import BaseModel, ValidationError
+
+
+class ModelParameters(BaseModel):
+    """_summary_
+    """
+    variables: Dict[str, List[int]]
+
+
+# output-related variables
+experiment_count = 0
+template_folder_name = "templates"  # output folder
+output_folder = "experiment"  # output folder
+
 
 # load templates
 parent_dir = os.path.dirname(__file__)
-templates_folder = os.path.join(parent_dir, "template")
+templates_folder = os.path.join(parent_dir, template_folder_name)
 environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(templates_folder)
 )
 
-# define variables
-# output-related variables
-experiment_name = "experiments_1"  # output folder
-output_filename = f"{experiment_name}/experiments.xml"
+# read the variables for rendering
+with open("model_variables.json", mode="r", encoding="utf-8") as variables_entry:
+    model_variables = json.load(variables_entry)
 
-# model variables
+# create a pydantic model
+model_parameter_list = ModelParameters(variables=model_variables)
 
-# Qin_average variable
-Qin_average_first = 111  # default: 40
-Qin_average_step = 222  # default: 10
-Qin_average_last = 333  # default: 200
+# validate the model
+try:
+    ModelParameters.model_validate(model_parameter_list)
+except ValidationError as e:
+    print(e)
 
-# ComparisonTime variable
-ComparisonTime_first = 444  # default: 730
-ComparisonTime_step = 555  # default: 365
-ComparisonTime_last = 666  # default: 1825
 
-# QGateMaxFixed variable
-QGateMaxFixed_value = 777  # default: 30
+# print(model_parameter_list.model_json_schema())
+print(model_parameter_list.model_dump_json())
 
-# render the templates
-template = environment.get_template("experiments.xml.jinja")
-content = template.render(
-    experiment_name=experiment_name,
-    Qin_average_first=Qin_average_first,
-    Qin_average_step=Qin_average_step,
-    Qin_average_last=Qin_average_last,
-    ComparisonTime_first=ComparisonTime_first,
-    ComparisonTime_step=ComparisonTime_step,
-    ComparisonTime_last=ComparisonTime_last,
-    QGateMaxFixed_value=QGateMaxFixed_value
-)
 
-# check if output folder exists otherwise, create it
-if not os.path.exists(experiment_name):
-    os.mkdir(experiment_name)
+def combine_variables(input_dictionary):
+    """_summary_
+    """
+    for dict_product in product(*input_dictionary.values()):
+        yield dict(zip(input_dictionary.keys(), dict_product))
 
-# save the rendered files
-with open(output_filename, mode="w", encoding="utf-8") as model_file:
-    model_file.write(content)
+
+for parameter_grid_item in combine_variables(model_parameter_list.variables):
+    # show the parameters
+    print(f"experiment:{experiment_count}  parameters:{parameter_grid_item}")
+
+    # check if output(experiment) folder exists otherwise, create it
+    experiment_path = f"{output_folder}_{experiment_count}"
+    if not os.path.exists(experiment_path):
+        os.mkdir(experiment_path)
+
+    # save the parameters to a file
+    with open(f"{experiment_path}/parameters.json",  mode="w", encoding="utf-8") as parameters_file:
+        json.dump(parameter_grid_item, parameters_file)
+
+    # Iterate template directory to render all the template files
+    for _file in os.listdir(template_folder_name):
+        # check if current file_path is a file
+        if os.path.isfile(os.path.join(template_folder_name, _file)):
+
+            save_as_name = pathlib.Path(_file).stem  # file name to save the rendered content
+            output_path = f"{experiment_path}/{save_as_name}"  # path for the rendered file
+            # print(f"    template file: {_file}")
+            # print(f"    output file: {output_path}")
+
+            template = environment.get_template(_file)
+
+            # render the templates
+            content = template.render(
+                parameter_grid_item
+            )
+
+            # save the rendered content
+            with open(output_path, mode="w", encoding="utf-8") as model_file:
+                model_file.write(content)
+
+    experiment_count += 1
