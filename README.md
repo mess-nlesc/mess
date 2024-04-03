@@ -59,6 +59,6 @@ Once the variables are defined in the templates and the `model_variables.json` f
 
 ```bash
 python -m venv venv
-source venv/bin/activate
+source ./venv/bin/activate
 python generate_model.py
 ```
