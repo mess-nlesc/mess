@@ -1,19 +1,11 @@
 """Uses the model template to generate a model"""
 
 import json
-from itertools import product
 import pathlib
 import os
-from typing import Dict, List
 import jinja2
-from pydantic import BaseModel, ValidationError
-
-
-class ModelParameters(BaseModel):
-    """_summary_
-    """
-    variables: Dict[str, List[int]]
-
+from model import ModelParameters
+from helpers import combine_variables
 
 # output-related variables
 experiment_count = 0
@@ -44,13 +36,6 @@ except ValidationError as e:
 
 # print(model_parameter_list.model_json_schema())
 print(model_parameter_list.model_dump_json())
-
-
-def combine_variables(input_dictionary):
-    """_summary_
-    """
-    for dict_product in product(*input_dictionary.values()):
-        yield dict(zip(input_dictionary.keys(), dict_product))
 
 
 for parameter_grid_item in combine_variables(model_parameter_list.variables):
