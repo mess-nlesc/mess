@@ -10,7 +10,7 @@ We will use  `jinja` template engine to create a NetLogo code with combination o
 
 ### Step 1: Update the templates
 
-Suppose you want to turn a hard-coded value specified in a file into a variable and generate copies of the NetLogo code with a different values of this variable. For this we will need to update the template file to define the variables that will be replaced by the actual values of the experiments.
+Suppose you want to turn a hard-coded value specified in a file into a variable and generate copies of the NetLogo code with a different values of this variable. For this we will need to update the file to define the variables that will be replaced by the actual values of the experiments. Lets call this file a template file and add an extention `jinja` to it. 
 
 For example, suppose you want to update a line of an xml file (`experiments.xml`) below:
 
