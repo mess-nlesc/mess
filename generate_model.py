@@ -22,7 +22,7 @@ environment = jinja2.Environment(
 )
 
 # read the variables for rendering
-with open("model_variables.json", mode="r", encoding="utf-8") as variables_input:
+with open("variables.json", mode="r", encoding="utf-8") as variables_input:
     model_variables = json.load(variables_input)
 
 # create a pydantic model

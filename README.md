@@ -30,7 +30,7 @@ In this example we converted the hard-coded value of `10` into a variable called
 
 Now we have a variable called `Qin_average_step` in our example file (`experiments.xml`) and we want to generate different versions of it. In each version we we will replace `Qin_average_step` with a value we want.
 
-The values which the jinja templates will be rendered for can be defined in `model_variables.json`.
+The values which the jinja templates will be rendered for can be defined in `variables.json`.
 
 For example:
 
@@ -57,7 +57,7 @@ In order to generate these files, we will need to follow one more step and run t
 
 ### Step 3: Generate the experiments
 
-Once the variables are defined in the templates and the `model_variables.json` file, you can generate a new code by running the commands below.
+Once the variables are defined in the templates and the `variables.json` file, you can generate a new code by running the commands below.
 
 Create a new virtual environment:
 
