@@ -59,8 +59,23 @@ In order to generate these files, we will need to follow one more step and run t
 
 Once the variables are defined in the templates and the `model_variables.json` file, you can generate a new code by running the commands below.
 
-```bash
+Create a new virtual environment
+
+```shell
 python -m venv venv
 source ./venv/bin/activate
+```
+
+Generate the codes from the templates
+
+```shell
 python generate_model.py
+```
+
+The output for the example in this documentation will be:
+
+```shell
+{"variables":{"Qin_average_step":[20,30]}}
+experiment:0  parameters:{'Qin_average_step': 20}
+experiment:1  parameters:{'Qin_average_step': 30}
 ```
