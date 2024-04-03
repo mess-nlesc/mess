@@ -1,13 +1,5 @@
-[
-    {
-        "files": [
-            "experiments.xml.jinja",
-            "main.nlogo.jinja"
-        ],
-        "variables": {
-            "Qin_average_step": [10, 20],
-            "ComparisonTime_step": [1095, 1460, 1825],
-            "single": [333]
-        }
-    }
-]
+{
+    "Qin_average_step": [10, 20],
+    "ComparisonTime_step": [1095, 1460, 1825],
+    "single": [333]
+}
