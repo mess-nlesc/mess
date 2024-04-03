@@ -1,5 +1,6 @@
 # project specific
 *.sif
+experiment_*
 
 *.py[cod]
 *.egg-info
