@@ -18,7 +18,7 @@ For example, suppose you want to update a line of an xml file (`experiments.xml`
 <steppedValueSet variable="Qin_average" first="30" step="10" last="200"/>
 ```
 
-Corresponding `jinja2` template file (`experiments.xml.jinja`) in the `templates` folder will be:
+Corresponding `jinja` template file (`experiments.xml.jinja`) in the `templates` folder will be:
 
 ```jinja
 <steppedValueSet variable="Qin_average" first="30" step="{{Qin_average_step}}" last="200"/>
